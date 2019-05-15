@@ -86,8 +86,6 @@ class _MyCalcPageState extends State<MyCalcPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-      ),
       body: new Container(
         
         child: new Column(children: <Widget>[
