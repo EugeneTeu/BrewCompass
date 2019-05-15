@@ -1,4 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import './caculator.dart';
+import './Homepage.dart';
+import './thirdPage.dart';
+import './fourthPage.dart';
 
 void main() => runApp(MyApp());
 
@@ -8,7 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.blueGrey,
       ),
       home: MyHomePage(title: 'Coffee App'),
     );
@@ -24,13 +29,15 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  int _selectedPage = 0;
+  final _pageOptions = [
+    HomePage(),
+    ThirdPage(),
+    MyCalcPage(),
+    FourthPage(),
+    
+  ];
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,33 +45,45 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              "Testing Skeleton"
-            ),
-          ],
-        ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        items: const<BottomNavigationBarItem>[
-          BottomNavigationBarItem(
+      body: _pageOptions[_selectedPage],
+     bottomNavigationBar: new Theme(
+              data: Theme.of(context).copyWith(
+                  // sets the background color of the `BottomNavigationBar`
+                  canvasColor: Colors.blueGrey,
+                  // sets the active color of the `BottomNavigationBar` if `Brightness` is light
+                  textTheme: Theme
+                      .of(context)
+                      .textTheme
+                      .copyWith(caption: new TextStyle(color: Colors.yellow))),
+              child: BottomNavigationBar(
+                currentIndex: _selectedPage,
+                onTap: (int index) {
+                  setState(() {
+                    _selectedPage = index;
+                  });
+                },
+               type: BottomNavigationBarType.shifting,
+               items: const <BottomNavigationBarItem>[
+                  BottomNavigationBarItem(
                   icon: Icon(Icons.home),
                   title: Text('Home'),
+              ),
+                  BottomNavigationBarItem(
+                  icon: Icon(Icons.receipt),
+                  title: Text('recipes'),
+              ),
+                  BottomNavigationBarItem(
+                  icon: Icon(Icons.watch),
+                  title: Text('caculator'),
+              ),
+               BottomNavigationBarItem(
+                  icon: Icon(Icons.people),
+                  title: Text('Me'),
+              )
+          ]
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.watch),
-            title: Text("timer"),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.people),
-            title: Text("Profile"),
-          )
-        ]
-        ),
+           ),
+           
     );
   }
 }
