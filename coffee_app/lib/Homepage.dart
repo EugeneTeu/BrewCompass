@@ -12,7 +12,7 @@ class HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(10.0),
-      child: Text("Test home"),
+      child: Text("Test home", style: new TextStyle(fontSize: 50.0),),
     );
   }
 

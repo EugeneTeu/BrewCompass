@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import './caculator.dart';
 import './Homepage.dart';
-import './thirdPage.dart';
+import './RecipePage.dart';
 import './fourthPage.dart';
 
 void main() => runApp(MyApp());
@@ -32,7 +32,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int _selectedPage = 0;
   final _pageOptions = [
     HomePage(),
-    ThirdPage(),
+    RecipePage(),
     MyCalcPage(),
     FourthPage(),
     
