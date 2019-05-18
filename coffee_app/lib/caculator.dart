@@ -26,7 +26,7 @@ class _MyCalcPageState extends State<MyCalcPage> {
 
   _buttonPressed(String num){
 
-    if (num == "CLEAR") {
+    if (num == "C") {
 
       _output ="0";
       num1 = 0.0;
@@ -66,7 +66,7 @@ class _MyCalcPageState extends State<MyCalcPage> {
     }
 
     setState( () {
-      output = double.parse(_output).toStringAsFixed(3);
+      output = double.parse(_output).toStringAsFixed(2);
     }
     );
     
@@ -87,9 +87,7 @@ class _MyCalcPageState extends State<MyCalcPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("tools", style: _calcFont,),
-      ),
+    
       body: new Container(
         
         child: new Column(children: <Widget>[
