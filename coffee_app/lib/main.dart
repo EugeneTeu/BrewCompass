@@ -4,6 +4,7 @@ import './caculator.dart';
 import './Homepage.dart';
 import './RecipePage.dart';
 import './fourthPage.dart';
+import './toolsPage.dart';
 
 void main() => runApp(MyApp());
 
@@ -31,6 +32,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _selectedPage = 0;
   final _pageOptions = [
+    TabbedPage(),
     HomePage(),
     RecipePage(),
     MyCalcPage(),

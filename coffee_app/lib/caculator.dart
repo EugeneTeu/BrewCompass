@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
 
 
 class MyCalcPage extends StatefulWidget {
@@ -11,8 +14,8 @@ class MyCalcPage extends StatefulWidget {
 }
 
 class _MyCalcPageState extends State<MyCalcPage> {
-  final TextStyle _calcFont = new TextStyle(fontWeight: FontWeight.bold);
-  final TextStyle _ansFont = new TextStyle(fontWeight: FontWeight.bold, fontSize: 40.0);
+  final TextStyle _calcFont = new TextStyle(fontWeight: FontWeight.w300, fontSize: 25.0);
+  final TextStyle _ansFont = new TextStyle(fontWeight: FontWeight.w300, fontSize: 40.0);
 
   String output = "0";
   String _output ="0";
@@ -70,38 +73,40 @@ class _MyCalcPageState extends State<MyCalcPage> {
   }
 
   Widget _buildButton(String i) {
-    return new Expanded(
-              child: new OutlineButton(
+    return new RaisedButton(
                   child : Text(i,
                   style: _calcFont,),
                   onPressed: () =>  _buttonPressed(i)
                   ,
-                  color: Colors.blue,
+                  color: Colors.grey[400],
+                  shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30) ) ,
                   
-                  
-                ),
-              );
+                );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("tools", style: _calcFont,),
+      ),
       body: new Container(
         
         child: new Column(children: <Widget>[
-          new Container(
-            alignment: Alignment.centerRight,
-            child: Text(
-              output, style: _ansFont,
-              )
-          ),
 
-          new Expanded(
-            child: new Divider()
-            ,),
-          
-          
+          new Container(
+           constraints: BoxConstraints.expand(
+                  height: Theme.of(context).textTheme.display1.fontSize * 1.5 + 100.0, 
+                  ),
+                  alignment: Alignment.center,
+                  color: Colors.white,
+                  child: Text(
+                    output, style: _calcFont,
+                    textAlign: TextAlign.right,
+                  ),
+          ),
           new Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               _buildButton("7"),
               _buildButton("8"),
@@ -112,6 +117,7 @@ class _MyCalcPageState extends State<MyCalcPage> {
           ),
 
           new Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               _buildButton("4"),
               _buildButton("5"),
@@ -121,6 +127,7 @@ class _MyCalcPageState extends State<MyCalcPage> {
             ],
           ),
           new Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               _buildButton("1"),
               _buildButton("2"),
@@ -129,6 +136,7 @@ class _MyCalcPageState extends State<MyCalcPage> {
             ],
           ),
           new Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               _buildButton("."),
               _buildButton("0"),
@@ -137,12 +145,14 @@ class _MyCalcPageState extends State<MyCalcPage> {
             ],
           ),
            new Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              _buildButton("CLEAR"),
+              _buildButton("C"),
               _buildButton("=")
             ],
           ),
           ]),
+          
       )
     );
   }
