@@ -1,9 +1,10 @@
+import 'package:coffee_app/profile_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import './caculator.dart';
 import './Homepage.dart';
 import './RecipePage.dart';
-import './fourthPage.dart';
+import './test_page.dart';
 import './tabbedPage.dart';
 
 void main() => runApp(MyApp());
@@ -32,10 +33,10 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _selectedPage = 0;
   final _pageOptions = [
-    TabbedPage(),
+    TestPage(),
     RecipePage(),
     TabbedPage(),
-    FourthPage(),
+    Profile(),
   ];
 
   @override
