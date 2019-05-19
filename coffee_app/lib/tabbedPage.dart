@@ -1,6 +1,7 @@
 import 'package:coffee_app/caculator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 class TabbedPage extends StatefulWidget {
   const TabbedPage({ Key key }) : super(key: key);
@@ -31,11 +32,17 @@ final List<Tab> myTabs = <Tab>[
             child: Scaffold(
               appBar: new PreferredSize(
                 preferredSize: toolBar.preferredSize,
-                child: new Card(
-                  elevation: 5.0,
-                  color: Theme.of(context).primaryColor,
-                  child: toolBar,
-                  )),
+
+                child: new Container(
+                  padding: EdgeInsets.all(0.0),
+                  child: new Card(
+                    shape: new ContinuousRectangleBorder(borderRadius: new BorderRadius.horizontal()),
+                    margin: EdgeInsets.all(0.0),
+                    elevation: 50.0,
+                    color: Theme.of(context).primaryColor,
+                    child: toolBar,
+                    ),
+                )),
 
                 body: TabBarView(
                   children: <Widget>[
