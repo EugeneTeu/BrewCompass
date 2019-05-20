@@ -19,6 +19,12 @@ final List<Tab> myTabs = <Tab>[
 
   //wrapping tabs into a tabBar
   final TabBar toolBar = new TabBar(
+    unselectedLabelColor: Colors.black,
+    indicator: UnderlineTabIndicator(
+      borderSide: BorderSide(color: Colors.blueGrey, width: 5.0),
+      insets: EdgeInsets.fromLTRB(0.0, 40.0, 0.0, 0.0)
+    ),
+    indicatorColor: Colors.blueGrey,
     tabs: <Tab>[
       new Tab(text: 'Caculator'),
       new Tab(text: 'StopWatch'),

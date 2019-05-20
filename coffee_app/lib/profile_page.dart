@@ -21,7 +21,7 @@ class _Profile extends State<Profile> {
         preferredSize: Size.fromHeight(50.0),
         child: new Container(
           alignment: Alignment.center ,
-          color: Colors.grey,
+          color: Theme.of(context).primaryColor,
           child: new Text("*Username*" , style: new TextStyle(color: Colors.white
           ),),
       ),
