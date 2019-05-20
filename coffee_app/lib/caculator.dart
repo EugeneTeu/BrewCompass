@@ -15,8 +15,7 @@ class MyCalcPage extends StatefulWidget {
 class _MyCalcPageState extends State<MyCalcPage> {
   final TextStyle _calcFont =
       new TextStyle(fontWeight: FontWeight.w300, fontSize: 25.0);
-  final TextStyle _ansFont =
-      new TextStyle(fontWeight: FontWeight.w300, fontSize: 40.0);
+ 
 
   String output = "0";
   String _output = "0";
@@ -76,7 +75,7 @@ class _MyCalcPageState extends State<MyCalcPage> {
       onPressed: () => _buttonPressed(i),
       color: Colors.grey[400],
       shape: new RoundedRectangleBorder(
-          borderRadius: new BorderRadius.circular(30)),
+          borderRadius: new BorderRadius.circular(20)),
     );
   }
 
@@ -132,9 +131,19 @@ class _MyCalcPageState extends State<MyCalcPage> {
             _buildButton("+"),
           ],
         ),
-        new Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[_buildButton("C"), _buildButton("=")],
+        new Container(
+          padding: EdgeInsets.fromLTRB(10, 0.0, 10, 0.0),
+                  child: new Row(
+            
+            children: <Widget>[
+            
+              new Expanded(
+                flex: 3,
+                child: _buildButton("C")),
+
+              new Expanded(
+                child: _buildButton("="))],
+          ),
         ),
       ]),
     ));
