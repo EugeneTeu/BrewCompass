@@ -1,13 +1,17 @@
 import 'package:coffee_app/profile_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import './caculator.dart';
-import './Homepage.dart';
+import 'package:flutter/services.dart';
 import './RecipePage.dart';
 import './test_page.dart';
 import './tabbedPage.dart';
 
-void main() => runApp(MyApp());
+void main() {
+   SystemChrome.setPreferredOrientations(
+    [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  
+  return runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -15,7 +19,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blueGrey,
+        accentColor: Colors.blueGrey[200],
+        primaryColor: Colors.brown[200],
+        brightness: Brightness.light,
       ),
       home: MyHomePage(title: 'Coffee App'),
     );
@@ -50,14 +56,18 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: _pageOptions[_selectedPage],
       bottomNavigationBar: new Theme(
+        isMaterialAppTheme: true,
         data: Theme.of(context).copyWith(
             // sets the background color of the `BottomNavigationBar`
-            canvasColor: Colors.blueGrey,
-            // sets the active color of the `BottomNavigationBar` if `Brightness` is light
-            textTheme: Theme.of(context)
-                .textTheme
-                .copyWith(caption: new TextStyle(color: Colors.yellow))),
+            canvasColor: Colors.brown[200],  
+        ),
         child: BottomNavigationBar(
+            selectedItemColor: Colors.white,
+            selectedFontSize: 17.0,
+            unselectedItemColor: Colors.black,
+            unselectedFontSize: 12.0,
+            iconSize: 23.0,
+            showUnselectedLabels: true,
             currentIndex: _selectedPage,
             onTap: (int index) {
               setState(() {
@@ -67,11 +77,11 @@ class _MyHomePageState extends State<MyHomePage> {
             type: BottomNavigationBarType.shifting,
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                title: Text('Home'),
+                icon: Icon(Icons.home, ),
+                title: Text('Home', ),
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.description, ),
+                icon: Icon(Icons.description ),
                 title: Text('Recipes'),
               ),
               BottomNavigationBarItem(
