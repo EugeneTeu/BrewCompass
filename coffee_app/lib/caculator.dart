@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'styles.dart';
 
 class MyCalcPage extends StatefulWidget {
   MyCalcPage({Key key, this.title}) : super(key: key);
@@ -13,9 +14,8 @@ class MyCalcPage extends StatefulWidget {
 }
 
 class _MyCalcPageState extends State<MyCalcPage> {
-  final TextStyle _calcFont =
-      new TextStyle(fontWeight: FontWeight.w300, fontSize: 25.0);
- 
+  final TextStyle  textStyle = const TextStyle(fontSize: 90.0, fontFamily: "Bebas Neue");
+  final TextStyle _calcFont = Styles.calcFont;
 
   String output = "0";
   String _output = "0";
@@ -90,11 +90,11 @@ class _MyCalcPageState extends State<MyCalcPage> {
           color: Colors.white,
           child: Text(
             output,
-            style: _calcFont,
+            style: textStyle,
             textAlign: TextAlign.right,
           ),
         ),
-        new Container(height: 85.0,),
+        new Container(height: 30.0,),
         new Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[

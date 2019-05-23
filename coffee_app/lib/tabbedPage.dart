@@ -1,4 +1,5 @@
 import 'package:coffee_app/caculator.dart';
+import 'package:coffee_app/stopwatch.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -53,7 +54,7 @@ final List<Tab> myTabs = <Tab>[
                 body: TabBarView(
                   children: <Widget>[
                     new MyCalcPage(),
-                    new Text("Test1"),
+                    new MyStopWatch(),
                   ]
                 ),
               ), 

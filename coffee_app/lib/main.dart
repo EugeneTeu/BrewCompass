@@ -5,12 +5,21 @@ import 'package:flutter/services.dart';
 import './RecipePage.dart';
 import './test_page.dart';
 import './tabbedPage.dart';
+import 'splashScreen.dart';
 
 void main() {
    SystemChrome.setPreferredOrientations(
     [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   
-  return runApp(MyApp());
+  return runApp(
+    new MaterialApp(
+      home: new SplashScreen(),
+      routes: <String, WidgetBuilder>{
+        '/HomeScreen' : (BuildContext context) => new MyApp(),
+      }
+      )
+    
+  );
 }
 
 class MyApp extends StatelessWidget {
