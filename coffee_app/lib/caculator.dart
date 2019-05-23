@@ -14,7 +14,8 @@ class MyCalcPage extends StatefulWidget {
 }
 
 class _MyCalcPageState extends State<MyCalcPage> {
-  final TextStyle  textStyle = const TextStyle(fontSize: 90.0, fontFamily: "Bebas Neue");
+  final TextStyle textStyle =
+      const TextStyle(fontSize: 90.0, fontFamily: "Bebas Neue");
   final TextStyle _calcFont = Styles.calcFont;
 
   String output = "0";
@@ -83,9 +84,11 @@ class _MyCalcPageState extends State<MyCalcPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: new Container(
-      child: new Column(children: <Widget>[
+      child: new Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
         new Container(
-          padding: EdgeInsets.all(150.0),
+          padding: EdgeInsets.all(150),
           alignment: Alignment.center,
           color: Colors.white,
           child: Text(
@@ -94,55 +97,58 @@ class _MyCalcPageState extends State<MyCalcPage> {
             textAlign: TextAlign.right,
           ),
         ),
-        new Container(height: 30.0,),
-        new Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            _buildButton("7"),
-            _buildButton("8"),
-            _buildButton("9"),
-            _buildButton("/"),
-          ],
-        ),
-        new Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            _buildButton("4"),
-            _buildButton("5"),
-            _buildButton("6"),
-            _buildButton("X"),
-          ],
-        ),
-        new Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            _buildButton("1"),
-            _buildButton("2"),
-            _buildButton("3"),
-            _buildButton("-"),
-          ],
-        ),
-        new Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            _buildButton("."),
-            _buildButton("0"),
-            _buildButton("00"),
-            _buildButton("+"),
-          ],
-        ),
-        new Container(
-          padding: EdgeInsets.fromLTRB(10, 0.0, 10, 0.0),
-                  child: new Row(
-            
+        Expanded(
+          child: new Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
             children: <Widget>[
-            
-              new Expanded(
-                flex: 3,
-                child: _buildButton("C")),
-
-              new Expanded(
-                child: _buildButton("="))],
+              new Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  _buildButton("7"),
+                  _buildButton("8"),
+                  _buildButton("9"),
+                  _buildButton("/"),
+                ],
+              ),
+              new Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  _buildButton("4"),
+                  _buildButton("5"),
+                  _buildButton("6"),
+                  _buildButton("X"),
+                ],
+              ),
+              new Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  _buildButton("1"),
+                  _buildButton("2"),
+                  _buildButton("3"),
+                  _buildButton("-"),
+                ],
+              ),
+              new Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  _buildButton("."),
+                  _buildButton("0"),
+                  _buildButton("00"),
+                  _buildButton("+"),
+                ],
+              ),
+              new Container(
+                padding: EdgeInsets.fromLTRB(10, 0.0, 10, 0.0),
+                child: new Row(
+                  children: <Widget>[
+                    new Expanded(flex: 3, child: _buildButton("C")),
+                    new Expanded(child: _buildButton("="))
+                  ],
+                ),
+              )
+            ],
           ),
         ),
       ]),
