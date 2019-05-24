@@ -54,6 +54,8 @@ class TimerPageState extends State<TimerPage> {
   Widget buildFloatingButton(String text, VoidCallback callback) {
     TextStyle roundTextStyle = const TextStyle(fontSize: 16.0, color: Colors.black);
     return new RaisedButton(
+      shape: new RoundedRectangleBorder(
+          borderRadius: new BorderRadius.circular(20)),
       color: Colors.grey[400],
       child: new Text(text, style: roundTextStyle),
       onPressed: callback);
