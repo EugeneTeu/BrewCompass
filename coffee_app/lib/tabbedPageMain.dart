@@ -1,18 +1,19 @@
 import 'package:coffee_app/caculator.dart';
+import 'package:coffee_app/page.dart';
 import 'package:coffee_app/stopwatch.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-class TabbedPage extends StatefulWidget {
-  const TabbedPage({ Key key }) : super(key: key);
+class TabbedPageMain extends StatefulWidget {
+  const TabbedPageMain({ Key key }) : super(key: key);
   @override
-  TabbedPageState createState () => TabbedPageState();
+  TabbedPageMainState createState () => TabbedPageMainState();
 }
 
-class TabbedPageState extends State<TabbedPage> with SingleTickerProviderStateMixin {
+class TabbedPageMainState extends State<TabbedPageMain> with SingleTickerProviderStateMixin {
 
- 
+
 
   //wrapping tabs into a tabBar
   final TabBar toolBar = new TabBar(
@@ -23,15 +24,16 @@ class TabbedPageState extends State<TabbedPage> with SingleTickerProviderStateMi
     ),
     indicatorColor: Colors.blueGrey,
     tabs: <Tab>[
-      new Tab(text: 'Caculator'),
-      new Tab(text: 'StopWatch'),
+      new Tab(text: 'Brew'),
+      new Tab(text: 'Journal'),
+      new Tab(text: "Your Gear")
     ]);
 
 
   @override
   Widget build(BuildContext context){
     return new DefaultTabController(
-            length: 2,
+            length: 3,
             child: Scaffold(
               appBar: new PreferredSize(
                 preferredSize: toolBar.preferredSize,
@@ -49,8 +51,10 @@ class TabbedPageState extends State<TabbedPage> with SingleTickerProviderStateMi
 
                 body: TabBarView(
                   children: <Widget>[
-                    new MyCalcPage(),
-                    new MyStopWatch(),
+                    new PageTest("brews"),
+                    new PageTest("journals"),
+                    new PageTest("grind gear")
+                   
                   ]
                 ),
               ), 

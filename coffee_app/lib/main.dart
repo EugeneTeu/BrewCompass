@@ -58,9 +58,10 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: new PreferredSize(
-        preferredSize: Size.fromHeight(32.0),
+        preferredSize: Size.fromHeight(20.0),
         child: AppBar(
-          title: Text(widget.title),
+          
+         
         ),
       ),
       body: _pageOptions[_selectedPage],
@@ -71,6 +72,7 @@ class _MyHomePageState extends State<MyHomePage> {
             canvasColor: Colors.brown[200],  
         ),
         child: BottomNavigationBar(
+            
             selectedItemColor: Colors.white,
             selectedFontSize: 17.0,
             unselectedItemColor: Colors.black,

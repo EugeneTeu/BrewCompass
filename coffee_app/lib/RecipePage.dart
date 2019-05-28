@@ -43,7 +43,7 @@ class RecipePageState extends State<RecipePage> {
       ),
       child: new Column(
         children: <Widget>[
-         _buildSearchBox(),
+      
           Expanded(
             child: _buildBody(),)
         ],
