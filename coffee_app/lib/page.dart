@@ -11,7 +11,8 @@ class PageTest extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     
-    return Scaffold(body: new Text(this.word),);
+    return Scaffold(
+      body: new Text(this.word),);
   }
 
 }

@@ -41,7 +41,7 @@ class TabbedPageState extends State<TabbedPage> with SingleTickerProviderStateMi
                   child: new Card(
                     shape: new ContinuousRectangleBorder(borderRadius: new BorderRadius.horizontal()),
                     margin: EdgeInsets.all(0.0),
-                    elevation: 50.0,
+                    elevation: 100.0,
                     color: Theme.of(context).primaryColor,
                     child: toolBar,
                     ),
