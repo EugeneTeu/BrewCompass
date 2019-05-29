@@ -60,8 +60,6 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: new PreferredSize(
         preferredSize: Size.fromHeight(20.0),
         child: AppBar(
-          
-         
         ),
       ),
       body: _pageOptions[_selectedPage],
@@ -74,11 +72,13 @@ class _MyHomePageState extends State<MyHomePage> {
         child: BottomNavigationBar(
             
             selectedItemColor: Colors.white,
-            selectedFontSize: 17.0,
+            selectedFontSize: 15.0,
             unselectedItemColor: Colors.black,
             unselectedFontSize: 12.0,
-            iconSize: 23.0,
-            showUnselectedLabels: true,
+            iconSize: 25.0,
+            
+            showUnselectedLabels: false,
+            showSelectedLabels: false,
             currentIndex: _selectedPage,
             onTap: (int index) {
               setState(() {

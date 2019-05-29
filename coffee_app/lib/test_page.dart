@@ -14,12 +14,20 @@ class TestPageState extends State<TestPage> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          SizedBox(height: 10.0,),
+          SizedBox(
+            height: 15.0,
+          ),
           Expanded(
             flex: 2,
             child: Container(
+              decoration: new BoxDecoration(
+                border: new Border.all(
+                  color: Colors.black45,
+                  style: BorderStyle.solid,
+                  width: 2.0,
+                )
+              ),
               padding: EdgeInsets.all(20.0),
-              color: Colors.grey[300],
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -29,21 +37,24 @@ class TestPageState extends State<TestPage> {
                     fit: BoxFit.fitHeight,
                   ),
                   new Text("Username"),
-                  new SizedBox(height: 10.0,width: 40.0,)
-                ],),
-              ),),
-          SizedBox(height:30.0),
+                  new SizedBox(
+                    height: 10.0,
+                    width: 40.0,
+                  )
+                ],
+              ),
+            ),
+          ),
+          SizedBox(height: 30.0,),
           Expanded(
             flex: 5,
             child: Container(
               color: Colors.white,
               child: new TabbedPageMain(),
-              ),)
+            ),
+          )
         ],
       ),
-        
-      
-    
-    ); 
+    );
   }
 }
