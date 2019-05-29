@@ -8,18 +8,13 @@ import './tabbedPage.dart';
 import 'splashScreen.dart';
 
 void main() {
-   SystemChrome.setPreferredOrientations(
-    [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-  
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+
   return runApp(
-    new MaterialApp(
-      home: new SplashScreen(),
-      routes: <String, WidgetBuilder>{
-        '/HomeScreen' : (BuildContext context) => new MyApp(),
-      }
-      )
-    
-  );
+      new MaterialApp(home: new SplashScreen(), routes: <String, WidgetBuilder>{
+    '/HomeScreen': (BuildContext context) => new MyApp(),
+  }));
 }
 
 class MyApp extends StatelessWidget {
@@ -46,6 +41,41 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final topBar = new AppBar(
+    title: Row(
+      children: <Widget>[
+        Expanded(
+          flex: 3,
+          child: SizedBox(
+            width: 10.0,
+          ),
+        ),
+        Expanded(
+          flex: 3,
+          child: SizedBox(
+            height: 40.0,
+            child: Image.asset(
+              'assets/coffeeCompass.png',
+              fit: BoxFit.fitHeight,
+            ),
+          ),
+        ),
+        Expanded(
+            flex: 6,
+            child: Text("BrewCompass",
+                style: TextStyle(fontStyle: FontStyle.italic))),
+        Expanded(
+          flex: 3,
+          child: SizedBox(
+            width: 10.0,
+          ),
+        ),
+      ],
+      
+    ),
+    actions: <Widget>[],
+  );
+
   int _selectedPage = 0;
   final _pageOptions = [
     TestPage(),
@@ -57,26 +87,20 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: new PreferredSize(
-        preferredSize: Size.fromHeight(20.0),
-        child: AppBar(
-        ),
-      ),
+      appBar: topBar,
       body: _pageOptions[_selectedPage],
       bottomNavigationBar: new Theme(
         isMaterialAppTheme: true,
         data: Theme.of(context).copyWith(
-            // sets the background color of the `BottomNavigationBar`
-            canvasColor: Colors.brown[200],  
+          // sets the background color of the `BottomNavigationBar`
+          canvasColor: Colors.brown[200],
         ),
         child: BottomNavigationBar(
-            
             selectedItemColor: Colors.white,
             selectedFontSize: 15.0,
             unselectedItemColor: Colors.black,
             unselectedFontSize: 12.0,
             iconSize: 25.0,
-            
             showUnselectedLabels: false,
             showSelectedLabels: false,
             currentIndex: _selectedPage,
@@ -88,11 +112,15 @@ class _MyHomePageState extends State<MyHomePage> {
             type: BottomNavigationBarType.shifting,
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
-                icon: Icon(Icons.home, ),
-                title: Text('Home', ),
+                icon: Icon(
+                  Icons.home,
+                ),
+                title: Text(
+                  'Home',
+                ),
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.description ),
+                icon: Icon(Icons.description),
                 title: Text('Recipes'),
               ),
               BottomNavigationBarItem(
