@@ -45,27 +45,17 @@ class _MyHomePageState extends State<MyHomePage> {
     title: Row(
       children: <Widget>[
         Expanded(
-          flex: 3,
+          flex: 6,
           child: SizedBox(
             width: 10.0,
           ),
         ),
         Expanded(
-          flex: 3,
-          child: SizedBox(
-            height: 40.0,
-            child: Image.asset(
-              'assets/coffeeCompass.png',
-              fit: BoxFit.fitHeight,
-            ),
-          ),
-        ),
-        Expanded(
-            flex: 6,
+            flex: 7,
             child: Text("BrewCompass",
                 style: TextStyle(fontStyle: FontStyle.italic))),
         Expanded(
-          flex: 3,
+          flex: 4,
           child: SizedBox(
             width: 10.0,
           ),
@@ -95,43 +85,46 @@ class _MyHomePageState extends State<MyHomePage> {
           // sets the background color of the `BottomNavigationBar`
           canvasColor: Colors.brown[200],
         ),
-        child: BottomNavigationBar(
-            selectedItemColor: Colors.white,
-            selectedFontSize: 15.0,
-            unselectedItemColor: Colors.black,
-            unselectedFontSize: 12.0,
-            iconSize: 25.0,
-            showUnselectedLabels: false,
-            showSelectedLabels: false,
-            currentIndex: _selectedPage,
-            onTap: (int index) {
-              setState(() {
-                _selectedPage = index;
-              });
-            },
-            type: BottomNavigationBarType.shifting,
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.home,
+        child: SizedBox(
+            height: 70.0,
+                  child: BottomNavigationBar(
+              selectedItemColor: Colors.white,
+              selectedFontSize: 10.0,
+              unselectedItemColor: Colors.black,
+              unselectedFontSize: 5.0,
+              iconSize: 17.0,
+              showUnselectedLabels: false,
+              showSelectedLabels: false,
+              currentIndex: _selectedPage,
+              onTap: (int index) {
+                setState(() {
+                  _selectedPage = index;
+                });
+              },
+              type: BottomNavigationBarType.shifting,
+              items: const <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.home,
+                  ),
+                  title: Text(
+                    'Home',
+                  ),
                 ),
-                title: Text(
-                  'Home',
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.description),
+                  title: Text('Recipes'),
                 ),
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.description),
-                title: Text('Recipes'),
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.build),
-                title: Text('Tools'),
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.people),
-                title: Text('My Profile'),
-              )
-            ]),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.build),
+                  title: Text('Tools'),
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.people),
+                  title: Text('My Profile'),
+                )
+              ]),
+        ),
       ),
     );
   }
