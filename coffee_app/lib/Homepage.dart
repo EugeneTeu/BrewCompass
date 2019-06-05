@@ -14,58 +14,53 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState(auth,onSignedOut);
+  _MyHomePageState createState() => _MyHomePageState(auth, onSignedOut);
 }
 
-
 class _MyHomePageState extends State<MyHomePage> {
+  _MyHomePageState(this._auth, this._onSignedOut);
+  final BaseAuth _auth;
+  final VoidCallback _onSignedOut;
 
-
-   _MyHomePageState(this._auth, this._onSignedOut);
-   final BaseAuth _auth;
-   final VoidCallback _onSignedOut;
-
-
-
-   void _signOut() async {
+  void _signOut() async {
     try {
       await _auth.signOut();
-     _onSignedOut();
+      _onSignedOut();
     } catch (e) {
       print(e);
     }
   }
 
-  Widget BuildTopBar(BuildContext context) => new AppBar(
-    title: Row(
-      children: <Widget>[
-        Expanded(
-          flex: 6,
-          child: SizedBox(
-            width: 10.0,
-          ),
+  Widget buildTopBar(BuildContext context) => new AppBar(
+        title: Row(
+          children: <Widget>[
+            Expanded(
+              flex: 6,
+              child: SizedBox(
+                width: 10.0,
+              ),
+            ),
+            Expanded(
+                flex: 7,
+                child: Text("BrewCompass",
+                    style: TextStyle(fontStyle: FontStyle.italic))),
+            Expanded(
+              flex: 4,
+              child: SizedBox(
+                width: 10.0,
+              ),
+            ),
+          ],
         ),
-        Expanded(
-            flex: 7,
-            child: Text("BrewCompass",
-                style: TextStyle(fontStyle: FontStyle.italic))),
-        Expanded(
-          flex: 4,
-          child: SizedBox(
-            width: 10.0,
-          ),
-        ),
-      ],
-    ),
-    actions: <Widget>[
-      new MaterialButton(
-        child: Text("logout"),
-        onPressed:  () { 
-          _signOut();
-        } ,
-      )
-    ],
-  );
+        actions: <Widget>[
+          new MaterialButton(
+            child: Text("logout"),
+            onPressed: () {
+              _signOut();
+            },
+          )
+        ],
+      );
 
   int _selectedPage = 0;
   final _pageOptions = [
@@ -78,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BuildTopBar(context),
+      appBar: buildTopBar(context),
       body: _pageOptions[_selectedPage],
       bottomNavigationBar: new Theme(
         isMaterialAppTheme: true,
