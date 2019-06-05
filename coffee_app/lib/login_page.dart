@@ -5,10 +5,9 @@ import 'auth.dart';
 import 'root.dart';
 import 'styles.dart';
 
-
 class LoginPage extends StatefulWidget {
   //need to pass in an instance of this abstract class BaseAuth
-  LoginPage( {this.auth, this.onSignedIn});
+  LoginPage({this.auth, this.onSignedIn});
   final BaseAuth auth;
   final VoidCallback onSignedIn;
 
@@ -46,13 +45,15 @@ class _LoginPageState extends State<LoginPage> {
     if (validateAndSave()) {
       try {
         if (_formType == FormType.login) {
-          String userId = await widget.auth.signInWithEmailAndPassword(_email, _password);
+          String userId =
+              await widget.auth.signInWithEmailAndPassword(_email, _password);
           print("signed in $userId");
         } else {
-          String userId = await widget.auth.createUserWithEmailAndPassword(_email,_password);
+          String userId = await widget.auth
+              .createUserWithEmailAndPassword(_email, _password);
           print("registered");
         }
-        widget.onSignedIn(); 
+        widget.onSignedIn();
       } catch (e) {
         print(e);
         print("error signing in");
@@ -60,8 +61,7 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-
-  //register user by switching form type 
+  //register user by switching form type
   void moveToRegister() {
     _formKey.currentState.reset();
     setState(() {
@@ -70,7 +70,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void moveToLogin() {
-  _formKey.currentState.reset();
+    _formKey.currentState.reset();
     setState(() {
       _formType = FormType.login;
     });
@@ -79,47 +79,47 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-     resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: false,
       body: Stack(
-        fit:StackFit.expand,
-              children: <Widget>[
-                Image( 
-                image: new AssetImage("assets/login_background.jpg"),
-                fit:BoxFit.fitHeight,
-                color:Colors.black54,
-                colorBlendMode: BlendMode.darken,
-                ),
-                Column(
-                  mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                     new Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                        alignment: Alignment.center,
-                        child: Text(
-                          "Welcome to BrewCompass",
-                          style: TextStyle(
-                              fontFamily: "sans-serif",
-                              fontSize: 25.0,
-                              color: Colors.white54,
-                              fontStyle: FontStyle.italic),
-                        ))
-                  ],
-                ),
-                    Container(
-          padding: EdgeInsets.all(40.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
+        fit: StackFit.expand,
+        children: <Widget>[
+          Image(
+            image: new AssetImage("assets/login_background.jpg"),
+            fit: BoxFit.fitHeight,
+            color: Colors.black87,
+            colorBlendMode: BlendMode.darken,
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              new Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                      alignment: Alignment.center,
+                      child: Text(
+                        "Welcome to BrewCompass",
+                        style: TextStyle(
+                            fontFamily: "sans-serif",
+                            fontSize: 25.0,
+                            color: Colors.white,
+                            fontStyle: FontStyle.italic),
+                      ))
+                ],
+              ),
+              Container(
+                padding: EdgeInsets.all(40.0),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: buildInputs() + buildSubmitButtons(),
-            ),
-          ),
-        ),
-                  ],
+                  ),
                 ),
-              ],
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -128,15 +128,17 @@ class _LoginPageState extends State<LoginPage> {
     return [
       TextFormField(
         style: Styles.loginText,
-        decoration: new InputDecoration(hintText: "Enter Email/Username",hintStyle: Styles.loginText),
-         keyboardType: TextInputType.text,
+        decoration: new InputDecoration(
+            hintText: "Enter Email/Username", hintStyle: Styles.loginText),
+        keyboardType: TextInputType.text,
         validator: (value) => value.isEmpty ? "email cant be empty" : null,
         onSaved: (value) => _email = value,
       ),
       TextFormField(
         style: Styles.loginText,
-         decoration: new InputDecoration(hintText: "Enter password", hintStyle: Styles.loginText),
-         keyboardType: TextInputType.text,
+        decoration: new InputDecoration(
+            hintText: "Enter password", hintStyle: Styles.loginText),
+        keyboardType: TextInputType.text,
         obscureText: true,
         validator: (value) => value.isEmpty ? "password cant be empty" : null,
         onSaved: (value) => _password = value,
@@ -147,13 +149,11 @@ class _LoginPageState extends State<LoginPage> {
   List<Widget> buildSubmitButtons() {
     if (_formType == FormType.login) {
       return [
-        
         MaterialButton(
           color: Colors.brown[400],
           child: Text("Login"),
           onPressed: () => validateAndSubmit(),
         ),
-        
         new MaterialButton(
           color: Colors.brown[400],
           child: Text("Create account"),
@@ -162,13 +162,11 @@ class _LoginPageState extends State<LoginPage> {
       ];
     } else {
       return [
-        
         MaterialButton(
           color: Colors.brown[400],
           child: Text("create an account"),
           onPressed: () => validateAndSubmit(),
         ),
-    
         new MaterialButton(
           color: Colors.brown[400],
           child: Text("Already registered?"),
