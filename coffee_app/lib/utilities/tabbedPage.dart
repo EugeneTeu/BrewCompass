@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
+import 'converter.dart';
+
 class TabbedPage extends StatefulWidget {
   const TabbedPage({ Key key }) : super(key: key);
   @override
@@ -20,34 +22,36 @@ class TabbedPageState extends State<TabbedPage> with SingleTickerProviderStateMi
     ),
     indicatorColor: Colors.blueGrey,
     tabs: <Tab>[
-      new Tab(text: 'Caculator'),
+      new Tab(text: 'Convertor'),
       new Tab(text: 'StopWatch'),
+      new Tab(text: 'Caculator'),
     ]);
 
 
   @override
   Widget build(BuildContext context){
     return new DefaultTabController(
-            length: 2,
+            length: 3,
             child: Scaffold(
               appBar: new PreferredSize(
                 preferredSize: toolBar.preferredSize,
-
                 child: new Container(
                   padding: EdgeInsets.all(0.0),
                   child: new Card(
                     shape: new ContinuousRectangleBorder(borderRadius: new BorderRadius.horizontal()),
                     margin: EdgeInsets.all(0.0),
                     elevation: 100.0,
-                    color: Theme.of(context).primaryColor,
+                    color: Colors.white70,
                     child: toolBar,
                     ),
                 )),
 
                 body: TabBarView(
                   children: <Widget>[
-                    new MyCalcPage(),
+                    new MyConverter(),
                     new MyStopWatch(),
+                    new MyCalcPage(),
+                    
                   ]
                 ),
               ), 

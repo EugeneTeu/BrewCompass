@@ -98,9 +98,9 @@ class _LoginPageState extends State<LoginPage> {
                   Container(
                       alignment: Alignment.center,
                       child: Text(
-                        "Welcome to BrewCompass",
+                        "BrewCompass",
                         style: TextStyle(
-                            fontFamily: "sans-serif",
+                            fontFamily: "Playfair",
                             fontSize: 25.0,
                             color: Colors.white,
                             fontStyle: FontStyle.italic),
@@ -134,6 +134,7 @@ class _LoginPageState extends State<LoginPage> {
         validator: (value) => value.isEmpty ? "email cant be empty" : null,
         onSaved: (value) => _email = value,
       ),
+      Divider(),
       TextFormField(
         style: Styles.loginText,
         decoration: new InputDecoration(
@@ -167,6 +168,8 @@ class _LoginPageState extends State<LoginPage> {
           child: Text("create an account"),
           onPressed: () => validateAndSubmit(),
         ),
+        Divider(),
+        Divider(),
         new MaterialButton(
           color: Colors.brown[400],
           child: Text("Already registered?"),

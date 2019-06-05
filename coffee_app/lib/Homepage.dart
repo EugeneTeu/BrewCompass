@@ -32,24 +32,13 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget buildTopBar(BuildContext context) => new AppBar(
+        backgroundColor: Colors.white,
         title: Row(
           children: <Widget>[
-            Expanded(
-              flex: 6,
-              child: SizedBox(
-                width: 10.0,
-              ),
-            ),
             Expanded(
                 flex: 7,
                 child: Text("BrewCompass",
                     style: TextStyle(fontStyle: FontStyle.italic))),
-            Expanded(
-              flex: 4,
-              child: SizedBox(
-                width: 10.0,
-              ),
-            ),
           ],
         ),
         actions: <Widget>[

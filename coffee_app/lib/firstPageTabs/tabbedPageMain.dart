@@ -39,7 +39,7 @@ class TabbedPageMainState extends State<TabbedPageMain>
                     borderRadius: new BorderRadius.horizontal()),
                 margin: EdgeInsets.all(0.0),
                 elevation: 50.0,
-                color: Theme.of(context).primaryColor,
+                color: Colors.white70,
                 child: toolBar,
               ),
             )),

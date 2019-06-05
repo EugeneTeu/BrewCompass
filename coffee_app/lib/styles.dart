@@ -10,7 +10,7 @@ abstract class Styles {
 
   static const TextStyle loginText = TextStyle(
     color: Colors.white,
-    
+    fontFamily: "Playfair",
   );
 
   static const TextStyle searchText = TextStyle(

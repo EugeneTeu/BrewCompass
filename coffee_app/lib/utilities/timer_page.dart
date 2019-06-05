@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
+import '../styles.dart';
+
 class ElapsedTime {
   final int hundreds;
   final int seconds;
@@ -52,7 +54,7 @@ class TimerPageState extends State<TimerPage> {
   }
 
   Widget buildFloatingButton(String text, VoidCallback callback) {
-    TextStyle roundTextStyle = const TextStyle(fontSize: 16.0, color: Colors.black);
+    TextStyle roundTextStyle = Styles.calcFont;
     return new RaisedButton(
       shape: new RoundedRectangleBorder(
           borderRadius: new BorderRadius.circular(20)),
