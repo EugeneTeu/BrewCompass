@@ -80,45 +80,12 @@ class _SplashScreenState extends State<SplashScreen> {
                       ))
                 ],
               ),
-              new Form(
-                child: new Theme(
-                  data: new ThemeData(
-                    brightness: Brightness.dark,
-                    primaryColor: Colors.white,
-                    primarySwatch: Colors.grey,
-                    accentColor: Colors.brown[400],
-                  ),
-                  child: Container(
-                    padding: const EdgeInsets.all(40),
-                    child: new Column(
-                      children: <Widget>[
-                        new TextFormField(
-                          decoration:
-                              new InputDecoration(hintText: "Enter Username"),
-                          keyboardType: TextInputType.emailAddress,
-                          obscureText: false,
-                        ),
-                        new TextFormField(
-                          decoration:
-                              new InputDecoration(hintText: "Enter password"),
-                          keyboardType: TextInputType.text,
-                          obscureText: true,
-                        ),
-                        new Padding(
-                          padding: EdgeInsets.fromLTRB(0, 20.0, 0, 0),
-                        ),
-                        new MaterialButton(
-                          color: Colors.brown[400],
-                          child: Text("Login"),
-                          onPressed: () {
-                            print("login!");
-                          },
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              )
+         
+               
+                 
+                  
+                
+              
             ],
           ),
         ],

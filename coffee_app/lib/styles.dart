@@ -3,9 +3,15 @@
 // found in the LICENSE file.
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 abstract class Styles {
+
+  static const TextStyle loginText = TextStyle(
+    color: Colors.white,
+    
+  );
 
   static const TextStyle searchText = TextStyle(
     color: Color.fromRGBO(0, 0, 0, 1),

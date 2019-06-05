@@ -27,6 +27,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  firebase_auth: ^0.11.1
 
 
 # For information on the generic Dart part of this file, see the
@@ -44,6 +45,8 @@ flutter:
   assets:
     - assets/Asset1.jpeg
     - assets/coffeeCompass.png
+    - assets/BrewCompass-icon-1.png
+    - assets/login_background.jpg
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

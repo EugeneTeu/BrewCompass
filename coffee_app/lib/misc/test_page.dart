@@ -1,6 +1,7 @@
-import 'package:coffee_app/tabbedPage.dart';
-import 'package:coffee_app/tabbedPageMain.dart';
+
 import 'package:flutter/material.dart';
+
+import '../firstPageTabs/tabbedPageMain.dart';
 
 class TestPage extends StatefulWidget {
   @override

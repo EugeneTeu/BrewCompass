@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'styles.dart';
+import '../styles.dart';
 
 class MyCalcPage extends StatefulWidget {
   MyCalcPage({Key key, this.title}) : super(key: key);
