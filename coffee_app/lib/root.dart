@@ -12,7 +12,6 @@ class RootPage extends StatefulWidget {
   final BaseAuth auth;
   @override
   State<StatefulWidget> createState() {
-    
     return RootPageState();
   }
 
@@ -67,7 +66,5 @@ class RootPageState extends State<RootPage> {
     else {
 
     }
-
   } 
-
 }
