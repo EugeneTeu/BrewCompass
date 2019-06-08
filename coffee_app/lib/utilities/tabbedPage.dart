@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
+import '../styles.dart';
 import 'converter.dart';
 
 class TabbedPage extends StatefulWidget {
@@ -15,6 +16,7 @@ class TabbedPage extends StatefulWidget {
 class TabbedPageState extends State<TabbedPage> with SingleTickerProviderStateMixin {
   //wrapping tabs into a tabBar
   final TabBar toolBar = new TabBar(
+    
     unselectedLabelColor: Colors.black38,
     indicator: UnderlineTabIndicator(
       borderSide: BorderSide(color: Colors.blueGrey, width: 2.0),
@@ -40,13 +42,14 @@ class TabbedPageState extends State<TabbedPage> with SingleTickerProviderStateMi
                   child: new Card(
                     shape: new ContinuousRectangleBorder(borderRadius: new BorderRadius.horizontal()),
                     margin: EdgeInsets.all(0.0),
-                    elevation: 100.0,
+                    elevation: 0.0,
                     color: Colors.white70,
                     child: toolBar,
                     ),
                 )),
 
                 body: TabBarView(
+                  physics: NeverScrollableScrollPhysics(),
                   children: <Widget>[
                     new MyConverter(),
                     new MyStopWatch(),

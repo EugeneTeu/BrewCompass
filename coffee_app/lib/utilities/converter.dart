@@ -40,7 +40,7 @@ class _MyConverter extends State<MyConverter> {
                   hintText: "Enter Weight Of Beans",
                   hintStyle: new TextStyle(fontSize: 15.0),
                 ),
-                keyboardType: TextInputType.number,
+                keyboardType: TextInputType.numberWithOptions(decimal: true),
                 validator: (value) => value.isEmpty ? "invalid number" : null,
                 onSaved: (value) => _inputBeanWeight = value ,
               ),
@@ -57,9 +57,9 @@ class _MyConverter extends State<MyConverter> {
                 focusNode: _focusNode,
                 style: Styles.calcFont,
                 decoration: new InputDecoration(
-                    hintText: "Enter Desired Water Ratio",
+                    hintText: "Enter Desired Water Ratio (1:_)",
                     hintStyle: new TextStyle(fontSize: 15.0)),
-                keyboardType: TextInputType.numberWithOptions(),
+                keyboardType: TextInputType.numberWithOptions(decimal: true),
                 validator: (value) => value.isEmpty ? "invalid number" : null,
                 onSaved: (value) => _inputRatio = value,
               ),
@@ -72,28 +72,54 @@ class _MyConverter extends State<MyConverter> {
                 },
               ),
             ),
-            MaterialButton(
-              child: Text(
-                "Caculate",
-                style: Styles.calcFont,
-              ),
-              color: Colors.grey,
-              elevation: 0.0,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5.0)),
-              onPressed: () {
-                final form = _formKey.currentState;
-                form.save();
+            // Calculate and Clear button
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                MaterialButton(
+                  elevation: 10.0,
+                  color: Colors.red,
+                  child: Text("Clear", style: Styles.calcFont,),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5.0)),
+                      onPressed: (){
+                        //clears input field and reset results field.
+                        setState(() {
+                          _controller.clear();
+                          _controllerTwo.clear();
+                          _ratio = 0.0;
+                          _beanWeight = 0.0;
+                          _water = 0.0;
+                          _inputBeanWeight ='';
+                          _inputRatio ='';
+                        });
+                      },
 
-                setState(() {
-                  _ratio = double.parse(_inputRatio);
-                  _water = double.parse(_inputBeanWeight) * double.parse(_inputRatio);
-                  _beanWeight = double.parse(_inputBeanWeight);
-                });
-              },
+                ),
+                                MaterialButton(
+                  child: Text(
+                    "Calculate",
+                    style: Styles.calcFont,
+                  ),
+                  color: Colors.grey,
+                  elevation: 10.0,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5.0)),
+                  onPressed: () {
+                    final form = _formKey.currentState;
+                    form.save();
+
+                    setState(() {
+                      _ratio = double.parse(_inputRatio);
+                      _water = double.parse(_inputBeanWeight) * double.parse(_inputRatio);
+                      _beanWeight = double.parse(_inputBeanWeight);
+                    });
+                  },
+                ),
+              ],
             ),
             ListTile(
-              title: Text("Ratio (1: )", style: Styles.calcFont),
+              title: Text("Ratio", style: Styles.calcFont),
               trailing: Text("$_ratio"),
             ),
             ListTile(

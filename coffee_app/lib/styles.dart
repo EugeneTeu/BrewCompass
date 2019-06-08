@@ -10,7 +10,7 @@ abstract class Styles {
 
   static const TextStyle loginText = TextStyle(
     color: Colors.white,
-    fontFamily: "Playfair",
+    fontFamily: "Montserrat",
   );
 
   static const TextStyle searchText = TextStyle(
@@ -28,8 +28,8 @@ abstract class Styles {
 
   static const TextStyle calcFont = TextStyle(
     fontWeight: FontWeight.w300,
-     fontSize: 25.0)
-     ;
+     fontSize: 23.0,
+     fontFamily: "Montserrat");
 
 
   static const Color productRowDivider = Color(0xFFD9D9D9);

@@ -93,14 +93,14 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               new Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
                   Container(
                       alignment: Alignment.center,
                       child: Text(
                         "BrewCompass",
                         style: TextStyle(
-                            fontFamily: "Playfair",
+                            fontFamily: "Montesarro",
                             fontSize: 25.0,
                             color: Colors.white,
                             fontStyle: FontStyle.italic),
@@ -124,6 +124,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+//build login form fields
   List<Widget> buildInputs() {
     return [
       TextFormField(
@@ -144,37 +145,52 @@ class _LoginPageState extends State<LoginPage> {
         validator: (value) => value.isEmpty ? "password cant be empty" : null,
         onSaved: (value) => _password = value,
       ),
+      Divider(),
     ];
   }
 
+//build buttons
   List<Widget> buildSubmitButtons() {
     if (_formType == FormType.login) {
       return [
-        MaterialButton(
-          color: Colors.brown[400],
-          child: Text("Login"),
-          onPressed: () => validateAndSubmit(),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(10.0),
+          child: MaterialButton(
+            color: Colors.brown[400],
+            child: Text("Login"),
+            onPressed: () => validateAndSubmit(),
+          ),
         ),
-        new MaterialButton(
-          color: Colors.brown[400],
-          child: Text("Create account"),
-          onPressed: () => moveToRegister(),
-        )
+        ClipRRect(
+          borderRadius: BorderRadius.circular(10.0),
+          child: new MaterialButton(
+            color: Colors.brown[400],
+            child: Text("Create account"),
+            onPressed: () => moveToRegister(),
+          ),
+        ),
+        Divider(),
       ];
     } else {
       return [
-        MaterialButton(
-          color: Colors.brown[400],
-          child: Text("create an account"),
-          onPressed: () => validateAndSubmit(),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(10.0),
+          child: MaterialButton(
+            color: Colors.brown[400],
+            child: Text("create an account"),
+            onPressed: () => validateAndSubmit(),
+          ),
+        ),
+  
+        ClipRRect(
+          borderRadius: BorderRadius.circular(10.0),
+          child: new MaterialButton(
+            color: Colors.brown[400],
+            child: Text("Already registered?"),
+            onPressed: () => moveToLogin(),
+          ),
         ),
         Divider(),
-        Divider(),
-        new MaterialButton(
-          color: Colors.brown[400],
-          child: Text("Already registered?"),
-          onPressed: () => moveToLogin(),
-        )
       ];
     }
   }

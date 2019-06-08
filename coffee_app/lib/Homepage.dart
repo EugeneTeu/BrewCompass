@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'auth.dart';
+import 'bottom_navy_bar.dart';
 import 'misc/RecipePage.dart';
 import 'misc/profile_page.dart';
 import 'misc/test_page.dart';
@@ -21,6 +22,8 @@ class _MyHomePageState extends State<MyHomePage> {
   _MyHomePageState(this._auth, this._onSignedOut);
   final BaseAuth _auth;
   final VoidCallback _onSignedOut;
+
+  PageController _pageController = new PageController();
 
   void _signOut() async {
     try {
@@ -63,14 +66,52 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: buildTopBar(context),
-      body: _pageOptions[_selectedPage],
-      bottomNavigationBar: new Theme(
+      body: PageView(
+          controller: _pageController,
+          children: <Widget>[_pageOptions[_selectedPage]]),
+      bottomNavigationBar: BottomNavyBar(
+          backgroundColor: Colors.brown[200],
+          selectedIndex: _selectedPage,
+          showElevation: true,
+          onItemSelected: (int index) => setState(() {
+                _selectedPage = index;
+                //_pageController.animateToPage(index, duration :Duration(milliseconds: 100), curve: Curves.elasticIn);
+              }),
+          items: <BottomNavyBarItem>[
+            BottomNavyBarItem(
+              icon: Icon(Icons.home,),
+              title: Text('Home',),
+              inactiveColor: Colors.white,
+            ),
+            BottomNavyBarItem(
+              icon: Icon(Icons.description),
+              title: Text('Recipes'),
+              inactiveColor: Colors.white,
+            ),
+            BottomNavyBarItem(
+              icon: Icon(Icons.build),
+              title: Text('Tools'),
+              inactiveColor: Colors.white,
+            ),
+            BottomNavyBarItem(
+              icon: Icon(Icons.people),
+              title: Text('My Profile'),
+              inactiveColor: Colors.white,
+            )
+          ]),
+    );
+  }
+}
+
+/*
+  bottomNavigationBar: new Theme(
         isMaterialAppTheme: true,
         data: Theme.of(context).copyWith(
           // sets the background color of the `BottomNavigationBar`
           canvasColor: Colors.brown[200],
         ),
         child: BottomNavigationBar(
+          
             selectedItemColor: Colors.white,
             selectedFontSize: 10.0,
             unselectedItemColor: Colors.black,
@@ -85,7 +126,7 @@ class _MyHomePageState extends State<MyHomePage> {
               });
             },
             type: BottomNavigationBarType.shifting,
-            items: const <BottomNavigationBarItem>[
+            items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                 icon: Icon(
                   Icons.home,
@@ -108,6 +149,4 @@ class _MyHomePageState extends State<MyHomePage> {
               )
             ]),
       ),
-    );
-  }
-}
+*/
