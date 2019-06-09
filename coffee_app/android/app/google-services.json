@@ -1,0 +1,83 @@
+{
+  "project_info": {
+    "project_number": "412516290199",
+    "firebase_url": "https://brewcompass-f0285.firebaseio.com",
+    "project_id": "brewcompass-f0285",
+    "storage_bucket": "brewcompass-f0285.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:412516290199:android:73356689bf70ec68",
+        "android_client_info": {
+          "package_name": "com.coffee_app123"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "412516290199-sop4g7ung08jsktk1mamnkbpcnovlkqa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC51B9kQ77ZmU9T-ZtHAy3CfkDG4K6eGIA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "412516290199-sop4g7ung08jsktk1mamnkbpcnovlkqa.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "412516290199-b2f2105b5ak218sb0ifn68dfm0o29ddt.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.BrewCompass"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:412516290199:android:5fa864cc380bed05",
+        "android_client_info": {
+          "package_name": "com.example.coffee_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "412516290199-sop4g7ung08jsktk1mamnkbpcnovlkqa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC51B9kQ77ZmU9T-ZtHAy3CfkDG4K6eGIA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "412516290199-sop4g7ung08jsktk1mamnkbpcnovlkqa.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "412516290199-b2f2105b5ak218sb0ifn68dfm0o29ddt.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.BrewCompass"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

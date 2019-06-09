@@ -35,7 +35,7 @@ class _Profile extends State<Profile> {
               ),
               SizedBox(height: 25.0),
               Text(
-                'Eugene Teu',
+                'Jia Da Teu',
                 style: TextStyle(
                     fontFamily: 'Montserrat',
                     fontSize: 20.0,
