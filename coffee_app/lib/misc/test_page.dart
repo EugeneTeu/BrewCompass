@@ -1,6 +1,9 @@
+import 'package:coffee_app/auth.dart';
 import 'package:flutter/material.dart';
 
 class TestPage extends StatefulWidget {
+  TestPage(this.auth);
+  final BaseAuth auth;
   @override
   State<StatefulWidget> createState() => TestPageState();
 }

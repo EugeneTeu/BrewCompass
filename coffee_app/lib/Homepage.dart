@@ -20,6 +20,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   _MyHomePageState(this._auth, this._onSignedOut);
+  
   final BaseAuth _auth;
   final VoidCallback _onSignedOut;
 
@@ -35,15 +36,10 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget buildTopBar(BuildContext context) => new AppBar(
+        centerTitle: true,
+        title: Text("BrewCompass",
+                    style: TextStyle(fontStyle: FontStyle.italic)),
         backgroundColor: Colors.white,
-        title: Row(
-          children: <Widget>[
-            Expanded(
-                flex: 7,
-                child: Text("BrewCompass",
-                    style: TextStyle(fontStyle: FontStyle.italic))),
-          ],
-        ),
         actions: <Widget>[
           new MaterialButton(
             child: Text("logout"),
@@ -55,11 +51,11 @@ class _MyHomePageState extends State<MyHomePage> {
       );
 
   int _selectedPage = 0;
-  final _pageOptions = [
-    TestPage(),
+  List<Widget> _buildPageOptions() => [
+    TestPage(_auth),
     RecipePage(),
     TabbedPage(),
-    Profile(),
+    Profile(_auth),
   ];
 
   @override
@@ -68,7 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: buildTopBar(context),
       body: PageView(
           controller: _pageController,
-          children: <Widget>[_pageOptions[_selectedPage]]),
+          children: <Widget>[_buildPageOptions()[_selectedPage]]),
       bottomNavigationBar: BottomNavyBar(
           backgroundColor: Colors.brown[200],
           selectedIndex: _selectedPage,

@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-import 'Recipe.dart';
+import 'package:coffee_app/auth.dart';
+import 'package:coffee_app/ProfilePageTabs/Recipe.dart';
+import 'journal_entry.dart';
 
 class Journal extends StatefulWidget {
   @override
@@ -19,6 +21,7 @@ class _JournalState extends State<Journal> {
   then we will pull the journals based on this user uid. 
   TODO: figure out how to access current instance of user based on account
   */
+  
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +33,7 @@ class _JournalState extends State<Journal> {
   //takes out the data from the stream
   Widget _buildJournal(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: Firestore.instance.collection("testList").snapshots(),
+      stream: Firestore.instance.collection("testRecipes").snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return LinearProgressIndicator();
@@ -63,11 +66,13 @@ class _JournalState extends State<Journal> {
         ),
         child: ListTile(
             title: Text("Bean: " + currentEntry.beanName),
-            subtitle: Text(currentEntry.date),
+            //subtitle: Text(currentEntry.date),
             trailing: IconButton(
               icon: Icon(Icons.edit),
               onPressed: () {
                 print("future edit button");
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => JournalEntry(currentEntry)));
               },
             )),
       ),

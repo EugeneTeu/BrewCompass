@@ -1,8 +1,12 @@
+import 'package:coffee_app/auth.dart';
 import 'package:coffee_app/profilePageTabs/tabbed_page_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+
 class Profile extends StatefulWidget {
+  Profile(this.auth);
+  final BaseAuth auth;
   @override
   State<StatefulWidget> createState() {
     return _Profile();
