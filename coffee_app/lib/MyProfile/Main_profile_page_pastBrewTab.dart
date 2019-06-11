@@ -1,20 +1,16 @@
-import 'package:coffee_app/ProfilePageTabs/page.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:flutter/cupertino.dart';
+import 'package:coffee_app/MyProfile/Main_profile_page_pastBrewTab_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:coffee_app/auth.dart';
 
-import 'Journal.dart';
 
-class TabbedPageProfile extends StatefulWidget {
-  const TabbedPageProfile({Key key}) : super(key: key);
+class PastBrewTab extends StatefulWidget {
+  const PastBrewTab({Key key}) : super(key: key);
   @override
-  TabbedPageProfileState createState() => TabbedPageProfileState();
+  PastBrewTabState createState() => PastBrewTabState();
 }
 
-class TabbedPageProfileState extends State<TabbedPageProfile>
+class PastBrewTabState extends State<PastBrewTab>
     with SingleTickerProviderStateMixin {
 
   //wrapping tabs into a tabBar
@@ -50,8 +46,8 @@ class TabbedPageProfileState extends State<TabbedPageProfile>
         body: TabBarView(
           physics: NeverScrollableScrollPhysics(),
           children: <Widget>[
-            new PageTest(""),
-          new Journal(),
+          new PastBrews(),
+          new PastBrews(),
         ]),
       ),
     );

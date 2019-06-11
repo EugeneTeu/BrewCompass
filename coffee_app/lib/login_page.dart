@@ -27,6 +27,7 @@ class _LoginPageState extends State<LoginPage> {
 
   String _email;
   String _password;
+  String _displayName;
   FormType _formType = FormType.login;
 
   bool validateAndSave() {
@@ -50,8 +51,8 @@ class _LoginPageState extends State<LoginPage> {
           print("signed in $userId");
         } else {
           String userId = await widget.auth
-              .createUserWithEmailAndPassword(_email, _password);
-          print("registered");
+              .createUserWithEmailAndPassword(_email, _password, _displayName);
+          print("registered $userId");
         }
         widget.onSignedIn();
       } catch (e) {
@@ -126,27 +127,60 @@ class _LoginPageState extends State<LoginPage> {
 
 //build login form fields
   List<Widget> buildInputs() {
-    return [
-      TextFormField(
-        style: Styles.loginText,
-        decoration: new InputDecoration(
-            hintText: "Enter Email/Username", hintStyle: Styles.loginText),
-        keyboardType: TextInputType.text,
-        validator: (value) => value.isEmpty ? "email cant be empty" : null,
-        onSaved: (value) => _email = value,
-      ),
-      Divider(),
-      TextFormField(
-        style: Styles.loginText,
-        decoration: new InputDecoration(
-            hintText: "Enter password", hintStyle: Styles.loginText),
-        keyboardType: TextInputType.text,
-        obscureText: true,
-        validator: (value) => value.isEmpty ? "password cant be empty" : null,
-        onSaved: (value) => _password = value,
-      ),
-      Divider(),
-    ];
+    if (_formType == FormType.login) {
+      return [
+        TextFormField(
+          style: Styles.loginText,
+          decoration: new InputDecoration(
+              hintText: "Enter Email/Username", hintStyle: Styles.loginText),
+          keyboardType: TextInputType.text,
+          validator: (value) => value.isEmpty ? "email cant be empty" : null,
+          onSaved: (value) => _email = value,
+        ),
+        Divider(),
+        TextFormField(
+          style: Styles.loginText,
+          decoration: new InputDecoration(
+              hintText: "Enter password", hintStyle: Styles.loginText),
+          keyboardType: TextInputType.text,
+          obscureText: true,
+          validator: (value) => value.isEmpty ? "password cant be empty" : null,
+          onSaved: (value) => _password = value,
+        ),
+        Divider(),
+      ];
+    } else if (_formType == FormType.register) {
+      return [
+        TextFormField(
+          style: Styles.loginText,
+          decoration: new InputDecoration(
+              hintText: "Enter DisplayName", hintStyle: Styles.loginText),
+          keyboardType: TextInputType.text,
+          validator: (value) => value.isEmpty ? "email cant be empty" : null,
+          onSaved: (value) => _displayName = value,
+        ),
+        Divider(),
+        TextFormField(
+          style: Styles.loginText,
+          decoration: new InputDecoration(
+              hintText: "Enter Email", hintStyle: Styles.loginText),
+          keyboardType: TextInputType.text,
+          validator: (value) => value.isEmpty ? "email cant be empty" : null,
+          onSaved: (value) => _email = value,
+        ),
+        Divider(),
+        TextFormField(
+          style: Styles.loginText,
+          decoration: new InputDecoration(
+              hintText: "Enter password", hintStyle: Styles.loginText),
+          keyboardType: TextInputType.text,
+          obscureText: true,
+          validator: (value) => value.isEmpty ? "password cant be empty" : null,
+          onSaved: (value) => _password = value,
+        ),
+        Divider(),
+      ];
+    } else {}
   }
 
 //build buttons
@@ -181,7 +215,6 @@ class _LoginPageState extends State<LoginPage> {
             onPressed: () => validateAndSubmit(),
           ),
         ),
-  
         ClipRRect(
           borderRadius: BorderRadius.circular(10.0),
           child: new MaterialButton(

@@ -7,6 +7,7 @@ class Recipe {
   String brewer;
   List steps;
   String tastingNotes;
+  String userId;
   final DocumentReference reference;
 
   Recipe.fromMap(Map<String, dynamic> map, {this.reference}) 
@@ -15,7 +16,8 @@ class Recipe {
     this.brewer = map['brewer'],
     this.beanName = map['beanName'],
     this.steps = map['steps'],
-    this.tastingNotes = map['tastingNotes'];
+    this.tastingNotes = map['tastingNotes'],
+    this.userId =map['userId'];
 
 
   Recipe.fromSnapshot(DocumentSnapshot snapshot) 

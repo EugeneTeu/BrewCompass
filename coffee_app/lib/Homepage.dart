@@ -1,11 +1,12 @@
+
+import 'package:coffee_app/MyProfile/Main_profile_page.dart';
+import 'package:coffee_app/misc/RecipePage.dart';
+import 'package:coffee_app/misc/test_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'auth.dart';
-import 'bottom_navy_bar.dart';
-import 'misc/RecipePage.dart';
-import 'misc/profile_page.dart';
-import 'misc/test_page.dart';
-import 'utilities/tabbedPage.dart';
+import 'package:coffee_app/Tools/tabbedPage.dart';
+import 'package:coffee_app/auth.dart';
+import 'package:coffee_app/bottom_navy_bar.dart';
+
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title, this.auth, this.onSignedOut})
@@ -34,7 +35,7 @@ class _MyHomePageState extends State<MyHomePage> {
       print(e);
     }
   }
-
+  //build the top bar here
   Widget buildTopBar(BuildContext context) => new AppBar(
         centerTitle: true,
         title: Text("BrewCompass",
@@ -50,7 +51,12 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       );
 
+  //intialize started page
   int _selectedPage = 0;
+  //get current user
+
+
+  //list of main tabs here
   List<Widget> _buildPageOptions() => [
     TestPage(_auth),
     RecipePage(),
@@ -58,47 +64,54 @@ class _MyHomePageState extends State<MyHomePage> {
     Profile(_auth),
   ];
 
+
+  //main "Frame" of the app 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildTopBar(context),
-      body: PageView(
-          controller: _pageController,
-          children: <Widget>[_buildPageOptions()[_selectedPage]]),
-      bottomNavigationBar: BottomNavyBar(
-          backgroundColor: Colors.brown[200],
-          selectedIndex: _selectedPage,
-          showElevation: true,
-          onItemSelected: (int index) => setState(() {
-                _selectedPage = index;
-                //_pageController.animateToPage(index, duration :Duration(milliseconds: 100), curve: Curves.elasticIn);
-              }),
-          items: <BottomNavyBarItem>[
-            BottomNavyBarItem(
-              icon: Icon(Icons.home,),
-              title: Text('Home',),
-              inactiveColor: Colors.white,
-            ),
-            BottomNavyBarItem(
-              icon: Icon(Icons.description),
-              title: Text('Recipes'),
-              inactiveColor: Colors.white,
-            ),
-            BottomNavyBarItem(
-              icon: Icon(Icons.build),
-              title: Text('Tools'),
-              inactiveColor: Colors.white,
-            ),
-            BottomNavyBarItem(
-              icon: Icon(Icons.people),
-              title: Text('My Profile'),
-              inactiveColor: Colors.white,
-            )
-          ]),
-    );
+        appBar: buildTopBar(context),
+        body: PageView(
+      controller: _pageController,
+      children: <Widget>[_buildPageOptions()[_selectedPage]]),
+        bottomNavigationBar: BottomNavyBar(
+      backgroundColor: Colors.brown[200],
+      selectedIndex: _selectedPage,
+      showElevation: true,
+      onItemSelected: (int index) => setState(() {
+            _selectedPage = index;
+            //_pageController.animateToPage(index, duration :Duration(milliseconds: 100), curve: Curves.elasticIn);
+          }),
+      items: <BottomNavyBarItem>[
+        BottomNavyBarItem(
+          icon: Icon(Icons.home,),
+          title: Text('Home',),
+          inactiveColor: Colors.white,
+        ),
+        BottomNavyBarItem(
+          icon: Icon(Icons.description),
+          title: Text('Recipes'),
+          inactiveColor: Colors.white,
+        ),
+        BottomNavyBarItem(
+          icon: Icon(Icons.build),
+          title: Text('Tools'),
+          inactiveColor: Colors.white,
+        ),
+        BottomNavyBarItem(
+          icon: Icon(Icons.people),
+          title: Text('My Profile'),
+          inactiveColor: Colors.white,
+        )
+      ]),
+      );
   }
 }
 
+
+
+
+
+//legacy code
 /*
   bottomNavigationBar: new Theme(
         isMaterialAppTheme: true,

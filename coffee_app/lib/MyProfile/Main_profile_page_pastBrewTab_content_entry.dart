@@ -1,4 +1,4 @@
-import 'package:coffee_app/ProfilePageTabs/Recipe.dart';
+import 'package:coffee_app/MyProfile/Recipe.dart';
 import 'package:flutter/material.dart';
 
 class JournalEntry extends StatelessWidget {

@@ -1,10 +1,8 @@
-import 'package:coffee_app/utilities/caculator.dart';
-import 'package:coffee_app/utilities/stopwatch.dart';
+import 'package:coffee_app/Tools/caculator.dart';
+import 'package:coffee_app/Tools/stopwatch.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-
-import '../styles.dart';
 import 'converter.dart';
 
 class TabbedPage extends StatefulWidget {
@@ -54,7 +52,6 @@ class TabbedPageState extends State<TabbedPage> with SingleTickerProviderStateMi
                     new MyConverter(),
                     new MyStopWatch(),
                     new MyCalcPage(),
-                    
                   ]
                 ),
               ), 

@@ -1,24 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:coffee_app/MyProfile/Main_profile_page_pastBrewTab_content_entry.dart';
+import 'package:coffee_app/MyProfile/Recipe.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:coffee_app/auth.dart';
-import 'package:coffee_app/ProfilePageTabs/Recipe.dart';
-import 'journal_entry.dart';
 
-class Journal extends StatefulWidget {
+
+class PastBrews extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return _JournalState();
+    return _PastBrewsState();
   }
 }
 
-class _JournalState extends State<Journal> {
+class _PastBrewsState extends State<PastBrews> {
   /*implement this using stream builder first. 
   to implement this via account version, we must find a way to access the 
   instance of the firebase user when i call this statelesswidget, prob 
   using future builder?
   Would be something like FutureBuilder( future: (where i await theuser id) 
-  then we will pull the journals based on this user uid. 
+  then we will pull the PastBrewss based on this user uid. 
   TODO: figure out how to access current instance of user based on account
   */
   
@@ -26,25 +27,25 @@ class _JournalState extends State<Journal> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _buildJournal(context),
+      body: _buildPastBrews(context),
     );
   }
 
   //takes out the data from the stream
-  Widget _buildJournal(BuildContext context) {
+  Widget _buildPastBrews(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
       stream: Firestore.instance.collection("testRecipes").snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return LinearProgressIndicator();
         }
-        return _buildJournalList(context, snapshot.data.documents);
+        return _buildPastBrewsList(context, snapshot.data.documents);
       },
     );
   }
 
   //returns the list view
-  Widget _buildJournalList(
+  Widget _buildPastBrewsList(
       BuildContext context, List<DocumentSnapshot> snapshot) {
     return ListView(
       padding: EdgeInsets.only(top: 10.0),

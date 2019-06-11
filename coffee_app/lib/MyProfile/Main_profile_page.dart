@@ -1,8 +1,9 @@
+import 'package:coffee_app/MyProfile/Main_profile_page_pastBrewTab.dart';
 import 'package:coffee_app/auth.dart';
-import 'package:coffee_app/profilePageTabs/tabbed_page_profile.dart';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-
 
 class Profile extends StatefulWidget {
   Profile(this.auth);
@@ -14,11 +15,50 @@ class Profile extends StatefulWidget {
 }
 
 class _Profile extends State<Profile> {
-  String name;
+  String name ="displayname";
   String title;
+
+
+/*code to get firebase User*/
+  Future<FirebaseUser> _fetchUser() async {
+    FirebaseUser user = await widget.auth.getUser();
+    return user;
+  }
+
+  /*input here, might not need this method */
+  void _user() async {
+    final uid = await _fetchUser();
+    setState(() {
+      name = uid.displayName;
+    });
+    //print(uid);
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: _fetchUser(),
+      builder: (BuildContext context, AsyncSnapshot<FirebaseUser> snapshot) {
+        if (snapshot.hasData) {
+          _user();
+          return _buildProfilePage(context);
+        } else {
+          return Scaffold(
+            body: LinearProgressIndicator(),
+          );
+        }
+      },
+    );
+  }
+
+
+
+
+ 
+  Widget _buildProfilePage(BuildContext context) {
+ 
     return Scaffold(
       body: Column(
         children: <Widget>[
@@ -39,7 +79,7 @@ class _Profile extends State<Profile> {
               ),
               SizedBox(height: 25.0),
               Text(
-                'Jia Da Teu',
+                name,
                 style: TextStyle(
                     fontFamily: 'Montserrat',
                     fontSize: 20.0,
@@ -94,11 +134,13 @@ class _Profile extends State<Profile> {
               ),
             ],
           ),
-          Expanded(child: TabbedPageProfile()),
+          Expanded(
+            child: PastBrewTab()),
         ],
       ),
     );
   }
+
 }
 
 /* 
