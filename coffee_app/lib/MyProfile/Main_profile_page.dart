@@ -15,26 +15,29 @@ class Profile extends StatefulWidget {
 }
 
 class _Profile extends State<Profile> {
-  String name ="displayname";
+  String name = "displayname";
   String title;
 
-
-/*code to get firebase User*/
+  //code to get firebase User
   Future<FirebaseUser> _fetchUser() async {
     FirebaseUser user = await widget.auth.getUser();
     return user;
   }
 
-  /*input here, might not need this method */
+  //input here, might not need this method 
   void _user() async {
     final uid = await _fetchUser();
     setState(() {
       name = uid.displayName;
     });
-    //print(uid);
   }
 
-
+  //call async method once instead of continually calling _user();
+  @override
+  void initState() {
+    super.initState();
+    _user();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +45,7 @@ class _Profile extends State<Profile> {
       future: _fetchUser(),
       builder: (BuildContext context, AsyncSnapshot<FirebaseUser> snapshot) {
         if (snapshot.hasData) {
-          _user();
+          //_user();
           return _buildProfilePage(context);
         } else {
           return Scaffold(
@@ -53,12 +56,7 @@ class _Profile extends State<Profile> {
     );
   }
 
-
-
-
- 
   Widget _buildProfilePage(BuildContext context) {
- 
     return Scaffold(
       body: Column(
         children: <Widget>[
@@ -134,13 +132,11 @@ class _Profile extends State<Profile> {
               ),
             ],
           ),
-          Expanded(
-            child: PastBrewTab()),
+          Expanded(child: PastBrewTab()),
         ],
       ),
     );
   }
-
 }
 
 /* 

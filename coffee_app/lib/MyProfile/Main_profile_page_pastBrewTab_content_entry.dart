@@ -2,7 +2,8 @@ import 'package:coffee_app/MyProfile/Recipe.dart';
 import 'package:flutter/material.dart';
 
 class JournalEntry extends StatelessWidget {
-  Recipe currentRecipe;
+  
+  final Recipe currentRecipe;
 
   JournalEntry(Recipe currentEntry) : this.currentRecipe = currentEntry;
 
