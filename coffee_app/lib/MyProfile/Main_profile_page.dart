@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coffee_app/MyProfile/Main_profile_page_pastBrewTab.dart';
 import 'package:coffee_app/auth.dart';
 
@@ -24,7 +25,7 @@ class _Profile extends State<Profile> {
     return user;
   }
 
-  //input here, might not need this method 
+  //input here, might not need this method
   void _user() async {
     final uid = await _fetchUser();
     setState(() {
@@ -135,57 +136,16 @@ class _Profile extends State<Profile> {
           Expanded(child: PastBrewTab()),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {
+          var dummyData = {'beanName': 'black', 'brewer': 'KW'};
+
+          Firestore.instance
+              .collection('testRecipes')
+              .add(dummyData);
+        },
+      ),
     );
   }
 }
-
-/* 
-@override
-  Widget build(BuildContext context) {
-    return new Scaffold(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          SizedBox(
-            height: 15.0,
-          ),
-          Expanded(
-            flex: 2,
-            child: Container(
-              decoration: new BoxDecoration(
-                border: new Border.all(
-                  color: Colors.black45,
-                  style: BorderStyle.solid,
-                  width: 2.0,
-                )
-              ),
-              padding: EdgeInsets.all(20.0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  new Image(
-                    image: AssetImage('assets/coffeeCompass.png'),
-                    fit: BoxFit.fitHeight,
-                  ),
-                  new Text("Username"),
-                  new SizedBox(
-                    height: 10.0,
-                    width: 40.0,
-                  )
-                ],
-              ),
-            ),
-          ),
-          SizedBox(height: 30.0,),
-          Expanded(
-            flex: 5,
-            child: Container(
-              color: Colors.white,
-              child: new TabbedPageMain(),
-            ),
-          )
-        ],
-      ),
-    );
-  }*/

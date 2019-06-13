@@ -17,7 +17,7 @@ class Recipe {
     this.beanName = map['beanName'],
     this.steps = map['steps'],
     this.tastingNotes = map['tastingNotes'],
-    this.userId =map['userId'];
+    this.userId = map['userId'];
 
 
   Recipe.fromSnapshot(DocumentSnapshot snapshot) 
