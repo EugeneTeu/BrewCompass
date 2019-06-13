@@ -12,7 +12,7 @@ class TestPage extends StatefulWidget {
 }
 
 class TestPageState extends State<TestPage> {
-  String temp = "";
+  String temp = "temp";
 
   //code to get firebase User
   Future<FirebaseUser> _fetchUser() async {
@@ -24,7 +24,10 @@ class TestPageState extends State<TestPage> {
   void _user() async {
     final uid = await _fetchUser();
     setState(() {
+      if (uid.displayName != null) {
       temp = uid.displayName;
+      } else {
+      }
     });
   }
 
@@ -57,7 +60,7 @@ class TestPageState extends State<TestPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            Text(temp),
+           Text(temp),
             MaterialButton(
               color: Theme.of(context).primaryColor,
               child: Text("Brewing Compass"),
