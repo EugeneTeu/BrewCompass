@@ -13,6 +13,11 @@ abstract class Styles {
     fontFamily: "Montserrat",
   );
 
+  static const TextStyle createEntryText = TextStyle(
+    color: Colors.black,
+    fontFamily: "Montserrat",
+  );
+
   static const TextStyle searchText = TextStyle(
     color: Color.fromRGBO(0, 0, 0, 1),
     fontSize: 14,

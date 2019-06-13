@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coffee_app/MyProfile/Main_profile_page_pastBrewTab.dart';
+import 'package:coffee_app/MyProfile/add_entry.dart';
 import 'package:coffee_app/auth.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -29,7 +30,9 @@ class _Profile extends State<Profile> {
   void _user() async {
     final uid = await _fetchUser();
     setState(() {
-      name = uid.displayName;
+      if (uid.displayName != null) {
+        name = uid.displayName;
+      } else {}
     });
   }
 
@@ -45,7 +48,7 @@ class _Profile extends State<Profile> {
     return FutureBuilder(
       future: _fetchUser(),
       builder: (BuildContext context, AsyncSnapshot<FirebaseUser> snapshot) {
-        if (snapshot.hasData) {
+        if (snapshot.hasData && name != null) {
           //_user();
           return _buildProfilePage(context);
         } else {
@@ -136,14 +139,16 @@ class _Profile extends State<Profile> {
           Expanded(child: PastBrewTab()),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
+      floatingActionButton: FloatingActionButton.extended(
+        icon: Icon(Icons.add),
+        label: Text("New Entry"),
         onPressed: () {
-          var dummyData = {'beanName': 'black', 'brewer': 'KW'};
-
-          Firestore.instance
-              .collection('testRecipes')
-              .add(dummyData);
+          //var dummyData = {'beanName': 'black', 'brewer': 'KW'};
+          //Firestore.instance.collection('testRecipes').add(dummyData);
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) => addNewEntry(widget.auth)));
         },
       ),
     );

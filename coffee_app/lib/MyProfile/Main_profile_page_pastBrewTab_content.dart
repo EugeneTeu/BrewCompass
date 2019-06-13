@@ -20,7 +20,6 @@ class _PastBrewsState extends State<PastBrews> {
   using future builder?
   Would be something like FutureBuilder( future: (where i await theuser id) 
   then we will pull the PastBrewss based on this user uid. 
-  TODO: figure out how to access current instance of user based on account
   */
   
 
@@ -45,21 +44,30 @@ class _PastBrewsState extends State<PastBrews> {
   }
 
   //returns the list view
-  Widget _buildPastBrewsList(
-      BuildContext context, List<DocumentSnapshot> snapshot) {
+  Widget _buildPastBrewsList(BuildContext context, List<DocumentSnapshot> snapshot) {
+    
+    return ListView.builder(
+      itemBuilder: (BuildContext context , int index) {
+        return _buildEachItem(context, snapshot[index], index, snapshot.length);
+      },
+      itemCount: snapshot.length,
+    );
+
+  /*
     return ListView(
       padding: EdgeInsets.only(top: 10.0),
       children: snapshot.map((data) => _buildEachItem(context, data)).toList(),
-    );
+    );*/
   }
 
   //actually build the listtile
-  Widget _buildEachItem(BuildContext context, DocumentSnapshot data) {
+  Widget _buildEachItem(BuildContext context, DocumentSnapshot data, int index, int length) {
+    final last = index + 1 == length;
     final currentEntry = Recipe.fromSnapshot(data);
-
     return Padding(
       key: ValueKey(currentEntry.id),
-      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
+      //add custom padding to last entry to accomdate floating action button
+      padding: !last ? EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0) : EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 70),
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(color: Colors.grey),

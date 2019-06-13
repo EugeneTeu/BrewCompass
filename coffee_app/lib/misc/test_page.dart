@@ -25,9 +25,8 @@ class TestPageState extends State<TestPage> {
     final uid = await _fetchUser();
     setState(() {
       if (uid.displayName != null) {
-      temp = uid.displayName;
-      } else {
-      }
+        temp = uid.displayName;
+      } else {}
     });
   }
 
@@ -60,15 +59,14 @@ class TestPageState extends State<TestPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-           Text(temp),
+            Text(temp),
             MaterialButton(
               color: Theme.of(context).primaryColor,
               child: Text("Brewing Compass"),
               onPressed: () {
-                
-                Navigator.push(context, MaterialPageRoute(builder: (context) => BrewGuideChart()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => BrewGuideChart()));
               },
-
             )
           ],
         ),
@@ -86,24 +84,20 @@ class TestPageState extends State<TestPage> {
 class BrewGuideChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-  
     return Scaffold(
-       appBar: AppBar(
-          centerTitle: true,
-          title: Text("Adjust your brew"),
-          leading: BackButton(
-            color: Colors.black,
-          ),
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text("Adjust your brew"),
+        leading: BackButton(
+          color: Colors.black,
         ),
-        body: Stack(
-          fit: StackFit.expand,
-          children: <Widget>[ZoomableImage(new AssetImage('assets/Coffee-Compass.jpg'))],
-        ),
-              
-            
+      ),
+      body: Stack(
+        fit: StackFit.expand,
+        children: <Widget>[
+          ZoomableImage(new AssetImage('assets/Coffee-Compass.jpg'))
+        ],
+      ),
     );
   }
-  
-
-
 }

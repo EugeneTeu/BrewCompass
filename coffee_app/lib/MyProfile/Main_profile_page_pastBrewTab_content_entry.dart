@@ -26,11 +26,11 @@ class JournalEntry extends StatelessWidget {
               Divider(),
               Text(currentRecipe.beanName),
               Divider(),
-              Text(currentRecipe.date),
+              Text(currentRecipe.date != null ? currentRecipe.date : 'Date here'),
               Divider(),
               Column(
                 children:
-                    currentRecipe.steps.map((steps) => Text(steps)).toList(),
+                    currentRecipe.steps != null ? currentRecipe.steps.map((steps) => Text(steps)).toList() : [Text("steps here")],
               ),
             ],
           ),

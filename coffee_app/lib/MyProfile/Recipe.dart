@@ -22,7 +22,20 @@ class Recipe {
 
   Recipe.fromSnapshot(DocumentSnapshot snapshot) 
     : this.fromMap(snapshot.data, reference: snapshot.reference);
-
+  
+  
+  //map to json format
+  toJson() {
+    return {
+      'id' : id,
+      'date' : date,
+      'beanName' : beanName,
+      'brewer' : brewer,
+      'steps' : steps,
+      'tasting Notes' : tastingNotes,
+      'userId' : userId,
+    };
+  }
   @override
   String toString() => "Recipe for <$beanName, date: $date, id: $id>";
 }
