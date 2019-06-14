@@ -1,16 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coffee_app/MyProfile/Main_profile_page_pastBrewTab_content_entry.dart';
 import 'package:coffee_app/MyProfile/Recipe.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:coffee_app/auth.dart';
 
 
 class PastBrews extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() {
-    return _PastBrewsState();
-  }
+  State<StatefulWidget> createState() => _PastBrewsState();
+  
 }
 
 class _PastBrewsState extends State<PastBrews> {

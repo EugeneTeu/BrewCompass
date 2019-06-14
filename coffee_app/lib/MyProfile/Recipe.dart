@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Recipe {
   int id;
+  bool isShared;
   String date;
   String beanName;
   String brewer;
@@ -12,6 +13,7 @@ class Recipe {
 
   Recipe.fromMap(Map<String, dynamic> map, {this.reference}) 
     : this.id = map['id'],
+    this.isShared = map['isShared'],
     this.date = map['date'],
     this.brewer = map['brewer'],
     this.beanName = map['beanName'],
@@ -28,6 +30,7 @@ class Recipe {
   toJson() {
     return {
       'id' : id,
+      'isShared' : isShared,
       'date' : date,
       'beanName' : beanName,
       'brewer' : brewer,

@@ -23,8 +23,13 @@ class JournalEntry extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
+              // Divider(),
+              Text(currentRecipe.beanName != null ? currentRecipe.beanName : 'bean name here'),
               Divider(),
-              Text(currentRecipe.beanName),
+              Text(currentRecipe.brewer != null ? currentRecipe.brewer : 'brewer here'),
+              Divider(),
+              Text(currentRecipe.tastingNotes != null ? 
+                  currentRecipe.tastingNotes : 'tasting notes here'),
               Divider(),
               Text(currentRecipe.date != null ? currentRecipe.date : 'Date here'),
               Divider(),

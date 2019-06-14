@@ -46,6 +46,7 @@ class _addNewEntryState extends State<addNewEntry> {
   //edit entry flow: take in a form for inputs, push recipe object to database by calling runTransaction 
   //TODO: add validator to the fields, add input type for steps variable, add dropdown menu
   int id;
+  bool isShared;
   String date;
   String beanName;
   String brewer;
@@ -55,6 +56,7 @@ class _addNewEntryState extends State<addNewEntry> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
           centerTitle: true,
           title: Text("Add new entry"),
@@ -87,7 +89,7 @@ class _addNewEntryState extends State<addNewEntry> {
         validator: (value) => value.isEmpty ? "field cant be empty" : null,
         onSaved: (value) => id = int.parse(value),
       ),
-      padding: EdgeInsets.all(40.0),
+      padding: EdgeInsets.all(20.0),
     );
   }
 
@@ -100,7 +102,7 @@ class _addNewEntryState extends State<addNewEntry> {
         validator: (value) => value.isEmpty ? "field cant be empty" : null,
         onSaved: (value) => this.date = value,
       ),
-      padding: EdgeInsets.all(40.0),
+      padding: EdgeInsets.all(20.0),
     );
   }
   Widget _buildInputFieldBeanName() {
@@ -112,7 +114,7 @@ class _addNewEntryState extends State<addNewEntry> {
         validator: (value) => value.isEmpty ? "field cant be empty" : null,
         onSaved: (value) => this.beanName = value,
       ),
-      padding: EdgeInsets.all(40.0),
+      padding: EdgeInsets.all(20.0),
     );
   }
     Widget _buildInputFieldBrewer() {
@@ -124,7 +126,7 @@ class _addNewEntryState extends State<addNewEntry> {
         validator: (value) => value.isEmpty ? "field cant be empty" : null,
         onSaved: (value) => this.brewer = value,
       ),
-      padding: EdgeInsets.all(40.0),
+      padding: EdgeInsets.all(20.0),
     );
   }
     Widget _buildInputFieldTastingNotes() {
@@ -136,7 +138,7 @@ class _addNewEntryState extends State<addNewEntry> {
         validator: (value) => value.isEmpty ? "field cant be empty" : null,
         onSaved: (value) => this.tastingNotes = value,
       ),
-      padding: EdgeInsets.all(40.0),
+      padding: EdgeInsets.all(20.0),
     );
   }
 
@@ -144,7 +146,7 @@ class _addNewEntryState extends State<addNewEntry> {
 
   Widget _buildSubmitButton() {
     return Padding(
-      padding: const EdgeInsets.all(40.0),
+      padding: const EdgeInsets.all(20.0),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(10.0),
         child: MaterialButton(
@@ -164,11 +166,14 @@ class _addNewEntryState extends State<addNewEntry> {
         CollectionReference reference = Firestore.instance.collection('testRecipes');
         await reference.add({ 
           'id' : id,
+          // all recipes are created private by default
+          // TODO: create button for users to share recipe, so isShared will = true.
+          'isShared' : false, 
           'date' : date,
           'beanName' : beanName,
           'brewer' : brewer,
           //'steps' : steps,
-          'tasting Notes' : tastingNotes,
+          'tastingNotes' : tastingNotes,
           'userId' : userId,
           });
           print("successful!");
