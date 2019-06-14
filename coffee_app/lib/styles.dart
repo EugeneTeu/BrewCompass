@@ -17,6 +17,12 @@ abstract class Styles {
     color: Colors.black,
     fontFamily: "Montserrat",
   );
+  
+  static const TextStyle entryLabelsText = TextStyle(
+    color: Colors.black,
+    fontFamily: "Montserrat",
+    fontWeight: FontWeight.w800
+  );
 
   static const TextStyle searchText = TextStyle(
     color: Color.fromRGBO(0, 0, 0, 1),

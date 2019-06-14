@@ -1,7 +1,8 @@
 import 'package:coffee_app/auth.dart';
+import 'package:coffee_app/misc/brew-guide.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:coffee_app/misc/zoom-image.dart';
+
 
 class TestPage extends StatefulWidget {
   TestPage(this.auth);
@@ -81,23 +82,3 @@ class TestPageState extends State<TestPage> {
   }
 }
 
-class BrewGuideChart extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text("Adjust your brew"),
-        leading: BackButton(
-          color: Colors.black,
-        ),
-      ),
-      body: Stack(
-        fit: StackFit.expand,
-        children: <Widget>[
-          ZoomableImage(new AssetImage('assets/Coffee-Compass.jpg'))
-        ],
-      ),
-    );
-  }
-}

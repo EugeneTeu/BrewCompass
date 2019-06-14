@@ -130,6 +130,7 @@ class _LoginPageState extends State<LoginPage> {
     if (_formType == FormType.login) {
       return [
         TextFormField(
+          autofocus: true,
           style: Styles.loginText,
           decoration: new InputDecoration(
               hintText: "Enter Email/Username", hintStyle: Styles.loginText),
@@ -152,6 +153,7 @@ class _LoginPageState extends State<LoginPage> {
     } else if (_formType == FormType.register) {
       return [
         TextFormField(
+          autofocus: true,
           style: Styles.loginText,
           decoration: new InputDecoration(
               hintText: "Enter DisplayName", hintStyle: Styles.loginText),
@@ -161,6 +163,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
         Divider(),
         TextFormField(
+          autofocus: true,
           style: Styles.loginText,
           decoration: new InputDecoration(
               hintText: "Enter Email", hintStyle: Styles.loginText),
@@ -170,6 +173,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
         Divider(),
         TextFormField(
+          autofocus: true,
           style: Styles.loginText,
           decoration: new InputDecoration(
               hintText: "Enter password", hintStyle: Styles.loginText),
@@ -180,7 +184,9 @@ class _LoginPageState extends State<LoginPage> {
         ),
         Divider(),
       ];
-    } else {}
+    } else {
+      return [];
+    }
   }
 
 //build buttons
