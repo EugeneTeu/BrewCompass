@@ -1,16 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coffee_app/MyProfile/Main_profile_page_pastBrewTab_content_entry.dart';
 import 'package:coffee_app/MyProfile/Recipe.dart';
+import 'package:coffee_app/auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 
 class PastBrews extends StatefulWidget {
+  PastBrews({this.auth});
+  final BaseAuth auth;
+
   @override
   State<StatefulWidget> createState() => _PastBrewsState();
   
 }
 
 class _PastBrewsState extends State<PastBrews> {
+  String userId;
   /*implement this using stream builder first. 
   to implement this via account version, we must find a way to access the 
   instance of the firebase user when i call this statelesswidget, prob 
@@ -18,7 +24,28 @@ class _PastBrewsState extends State<PastBrews> {
   Would be something like FutureBuilder( future: (where i await theuser id) 
   then we will pull the PastBrewss based on this user uid. 
   */
-  
+
+  Future<FirebaseUser> _fetchUser() async {
+    FirebaseUser user = await widget.auth.getUser();
+    return user;
+  }
+
+  void _user() async {
+    // final user = await _fetchUser();
+    final user = await _fetchUser();
+    setState(() {
+      if (user.uid != null) {
+        //name = uid.displayName;
+       userId = user.uid;
+      } else {}
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _user();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +57,8 @@ class _PastBrewsState extends State<PastBrews> {
   //takes out the data from the stream
   Widget _buildPastBrews(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: Firestore.instance.collection("testRecipes").snapshots(),
+      stream: Firestore.instance.collection("testRecipes").where('userId', isEqualTo: userId).snapshots(),
+      // stream: Firestore.instance.collection("testRecipes").snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return LinearProgressIndicator();

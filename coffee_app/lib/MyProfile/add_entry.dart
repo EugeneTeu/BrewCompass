@@ -26,6 +26,7 @@ class _addNewEntryState extends State<addNewEntry> {
 
   //input here, might not need this method
   void _user() async {
+    // final user = await _fetchUser();
     final user = await _fetchUser();
     setState(() {
       if (user.uid != null) {

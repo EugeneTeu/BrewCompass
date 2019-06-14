@@ -1,11 +1,14 @@
 
 import 'package:coffee_app/MyProfile/Main_profile_page_pastBrewTab_content.dart';
+import 'package:coffee_app/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 
 class PastBrewTab extends StatefulWidget {
-  const PastBrewTab({Key key}) : super(key: key);
+  const PastBrewTab({this.auth, Key key}) : super(key: key);
+  final BaseAuth auth;
+
   @override
   PastBrewTabState createState() => PastBrewTabState();
 }
@@ -46,8 +49,8 @@ class PastBrewTabState extends State<PastBrewTab>
         body: TabBarView(
           physics: NeverScrollableScrollPhysics(),
           children: <Widget>[
-          new PastBrews(),
-          new PastBrews(),
+          new PastBrews(auth: widget.auth),
+          new PastBrews(auth: widget.auth),
         ]),
       ),
     );

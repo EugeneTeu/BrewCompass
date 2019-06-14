@@ -136,7 +136,7 @@ class _Profile extends State<Profile> {
               ),
             ],
           ),
-          Expanded(child: PastBrewTab()),
+          Expanded(child: PastBrewTab(auth: widget.auth)),
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
