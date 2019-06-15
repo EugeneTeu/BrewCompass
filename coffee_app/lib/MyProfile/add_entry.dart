@@ -52,19 +52,28 @@ class _addNewEntryState extends State<addNewEntry> {
   String date;
   String beanName;
   String brewer;
-  List steps = ["pour 30g of water, bloom for first 30s", "stir the bloom" ,"pour 50g every 30s", "stop extraction at 3:30"];
+  List steps = [
+   'pour water'
+  ];
   String tastingNotes;
   String userId = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
-          centerTitle: true,
-          title: Text("Add new entry"),
-          leading: BackButton(
-            color: Colors.black,
-          )),
+        //remove backbutton
+        automaticallyImplyLeading: false,
+        centerTitle: true,
+        title: Text("Add New Entry"),
+        actions: <Widget>[
+          MaterialButton(
+            child: Icon(Icons.close),
+            onPressed: () => Navigator.pop(context),
+          )
+        ],
+      ),
       body: GestureDetector(
         onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
         child: Container(
@@ -75,7 +84,7 @@ class _addNewEntryState extends State<addNewEntry> {
               child: ListView(
                 shrinkWrap: true,
                 children: <Widget>[
-                   _buildLabel("Enter ur Brew Details"),
+                  _buildLabel("Enter ur Brew Details"),
                   Row(
                     //need to wrap widget in expanded here to give the child widget a size parameter
                     children: <Widget>[
@@ -87,13 +96,13 @@ class _addNewEntryState extends State<addNewEntry> {
                     ],
                   ),
                   Divider(),
-                   _buildLabel("Bean Name"),
+                  _buildLabel("Bean Name"),
                   _buildInputFieldBeanName(),
                   Divider(),
-                   _buildLabel("Brewer"),
+                  _buildLabel("Brewer"),
                   _buildInputFieldBrewer(),
                   Divider(),
-                  _buildLabel("taste log"),
+                  _buildLabel("Taste log"),
                   Row(
                     children: <Widget>[
                       Flexible(flex: 2, child: _buildInputFieldTastingNotes()),
@@ -126,12 +135,15 @@ class _addNewEntryState extends State<addNewEntry> {
   }
 
   Widget _buildLabel(String text) {
-     return Padding(
-                    padding: const EdgeInsets.fromLTRB(8.0,0,0,0),
-                    child: ListTile(
-                      title: Text("$text", style: Styles.entryLabelsText,),
-                    ),
-                  );
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0),
+      child: ListTile(
+        title: Text(
+          "$text",
+          style: Styles.entryLabelsText,
+        ),
+      ),
+    );
   }
 
   Widget _buildInputFieldNum() {
@@ -206,13 +218,12 @@ class _addNewEntryState extends State<addNewEntry> {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(10.0),
         child: MaterialButton(
-          color: Colors.brown[400],
-          child: Text("Create Entry"),
-          onPressed: () { 
-            _submitAndUpdateFirebase();
-            Navigator.pop(context);
-            }
-        ),
+            color: Colors.brown[400],
+            child: Text("Create Entry"),
+            onPressed: () {
+              _submitAndUpdateFirebase();
+              Navigator.pop(context);
+            }),
       ),
     );
   }
@@ -234,7 +245,6 @@ class _addNewEntryState extends State<addNewEntry> {
                       return ListTile(
                         leading: Text(currentNum.toString()),
                         title: Text(steps[index]),
-                       
                       );
                     },
                     itemCount: steps.length,
@@ -248,9 +258,8 @@ class _addNewEntryState extends State<addNewEntry> {
             child: MaterialButton(
               child: Icon(Icons.add_box),
               onPressed: () {
-                Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => EditSteps(steps))
-                );
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => EditSteps(steps)));
               },
             ),
           ),
@@ -260,6 +269,9 @@ class _addNewEntryState extends State<addNewEntry> {
   }
 
   void _submitAndUpdateFirebase() {
+    setState(() {
+      steps = steps;
+    });
     _key.currentState.save();
     Firestore.instance.runTransaction((Transaction transaction) async {
       CollectionReference reference =
@@ -272,7 +284,7 @@ class _addNewEntryState extends State<addNewEntry> {
         'date': date,
         'beanName': beanName,
         'brewer': brewer,
-        //'steps' : steps,
+        'steps' : steps,
         'tastingNotes': tastingNotes,
         'userId': userId,
       });
@@ -280,3 +292,4 @@ class _addNewEntryState extends State<addNewEntry> {
     });
   }
 }
+

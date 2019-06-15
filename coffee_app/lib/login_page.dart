@@ -25,6 +25,8 @@ enum FormType {
 class _LoginPageState extends State<LoginPage> {
   final _formKey = new GlobalKey<FormState>();
 
+  
+
   String _email;
   String _password;
   String _displayName;
