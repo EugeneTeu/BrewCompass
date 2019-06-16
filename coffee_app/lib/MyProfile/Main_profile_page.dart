@@ -1,4 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:coffee_app/MyProfile/Main_profile_page_pastBrewTab.dart';
 import 'package:coffee_app/MyProfile/add_entry.dart';
 import 'package:coffee_app/auth.dart';
@@ -148,7 +148,7 @@ class _Profile extends State<Profile> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (BuildContext context) => addNewEntry(widget.auth)));
+                  builder: (BuildContext context) => AddNewEntry(widget.auth)));
         },
       ),
     );

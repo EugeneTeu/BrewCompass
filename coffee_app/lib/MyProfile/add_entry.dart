@@ -6,17 +6,17 @@ import 'package:coffee_app/styles.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class addNewEntry extends StatefulWidget {
-  addNewEntry(this.auth);
+class AddNewEntry extends StatefulWidget {
+  AddNewEntry(this.auth);
 
   BaseAuth auth;
   @override
   State<StatefulWidget> createState() {
-    return _addNewEntryState();
+    return _AddNewEntryState();
   }
 }
 
-class _addNewEntryState extends State<addNewEntry> {
+class _AddNewEntryState extends State<AddNewEntry> {
   GlobalKey<FormState> _key = GlobalKey();
 
   //code to get firebase User
@@ -48,18 +48,18 @@ class _addNewEntryState extends State<addNewEntry> {
   //edit entry flow: take in a form for inputs, push recipe object to database by calling runTransaction
   //TODO: add validator to the fields, add input type for steps variable, add dropdown menu
   int id;
-  bool isShared;
+  bool isShared = false;
   String date;
   String beanName;
   String brewer;
-  List steps = [
-   'pour water'
-  ];
+  List steps = [];
   String tastingNotes;
   String userId = '';
 
   @override
   Widget build(BuildContext context) {
+    Widget shareButton = _buildShareButton();
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -123,6 +123,8 @@ class _addNewEntryState extends State<addNewEntry> {
                   Divider(),
                   _buildLabel("Steps"),
                   _buildSteps(),
+                  Divider(),
+                  shareButton,
                   _buildSubmitButton(),
                   Divider(),
                 ],
@@ -130,6 +132,28 @@ class _addNewEntryState extends State<addNewEntry> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildShareButton() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0),
+      child: SwitchListTile(
+        title: const Text("Share this entry?"),
+        value: isShared,
+        onChanged: (bool value) {
+          setState(() {
+            isShared = value;
+            print(isShared);
+          });
+          this.isShared = isShared;
+        },
+        secondary: const Icon(Icons.lightbulb_outline),
+        activeColor: Colors.white,
+        activeTrackColor: Colors.green,
+        inactiveThumbColor: Colors.white,
+        inactiveTrackColor: Colors.red,
       ),
     );
   }
@@ -271,6 +295,7 @@ class _addNewEntryState extends State<addNewEntry> {
   void _submitAndUpdateFirebase() {
     setState(() {
       steps = steps;
+      isShared = isShared;
     });
     _key.currentState.save();
     Firestore.instance.runTransaction((Transaction transaction) async {
@@ -279,17 +304,15 @@ class _addNewEntryState extends State<addNewEntry> {
       await reference.add({
         'id': id,
         // all recipes are created private by default
-        // TODO: create button for users to share recipe, so isShared will = true.
-        'isShared': false,
+        'isShared': isShared,
         'date': date,
         'beanName': beanName,
         'brewer': brewer,
-        'steps' : steps,
+        'steps': steps,
         'tastingNotes': tastingNotes,
         'userId': userId,
       });
-      print("successful!");
+      print("created successfully!");
     });
   }
 }
-

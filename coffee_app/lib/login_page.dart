@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/rendering.dart';
 import 'auth.dart';
-import 'root.dart';
 import 'styles.dart';
 
 class LoginPage extends StatefulWidget {
@@ -24,8 +22,6 @@ enum FormType {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = new GlobalKey<FormState>();
-
-  
 
   String _email;
   String _password;

@@ -10,8 +10,6 @@ class EditSteps extends StatefulWidget {
 }
 
 class _EditStepsState extends State<EditSteps> {
- 
-
   List currentSteps = [];
 
   @override
@@ -70,7 +68,7 @@ class _EditStepsState extends State<EditSteps> {
             ),
             onPressed: () {
               setState(() {
-                String temp = "Enter new steps";
+                String temp = "Enter step";
                 currentSteps.add(temp);
               });
             },
@@ -87,7 +85,6 @@ class _EditStepsState extends State<EditSteps> {
     });
   }
 
-  
   void _editTextDialog(String currentEntry, int index) {
     final _formKey = GlobalKey<FormState>();
     String newEntry = currentEntry;
@@ -117,7 +114,7 @@ class _EditStepsState extends State<EditSteps> {
                         onPressed: () {
                           _formKey.currentState.save();
                           setState(() {
-                            currentSteps[index] = newEntry;                            
+                            currentSteps[index] = newEntry;
                           });
                           Navigator.of(context).pop();
                         },
