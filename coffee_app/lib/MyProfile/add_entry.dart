@@ -46,7 +46,7 @@ class _AddNewEntryState extends State<AddNewEntry> {
 
   //id for now is manually entered, need to enable indexing by firebase
   //edit entry flow: take in a form for inputs, push recipe object to database by calling runTransaction
-  //TODO: add validator to the fields, add input type for steps variable, add dropdown menu
+  //TODO: add validator to the fields, add dropdown menu to switches
   int id;
   bool isShared = false;
   String date;

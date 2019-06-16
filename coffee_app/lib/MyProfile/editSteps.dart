@@ -1,6 +1,8 @@
 import 'package:coffee_app/styles.dart';
 import 'package:flutter/material.dart';
 
+//TODO: floating action button for add steps, random key generator
+
 class EditSteps extends StatefulWidget {
   EditSteps(this.steps);
   List steps;
@@ -68,7 +70,7 @@ class _EditStepsState extends State<EditSteps> {
             ),
             onPressed: () {
               setState(() {
-                String temp = "Enter step";
+                String temp = "Enter steps";
                 currentSteps.add(temp);
               });
             },
