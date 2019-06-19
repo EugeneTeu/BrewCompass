@@ -9,7 +9,7 @@ class JournalEntry extends StatelessWidget {
 
   JournalEntry(Recipe currentEntry) : this.currentRecipe = currentEntry;
 
-@override
+  @override
   Widget build(BuildContext context) {
     // Widget shareButton = _buildShareButton();
 
@@ -17,9 +17,17 @@ class JournalEntry extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         //remove backbutton
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: true,
         centerTitle: true,
-        title: Text("Viewing Entry"),
+        leading: Padding(
+          padding: const EdgeInsets.fromLTRB(10.0,0.0,0.0,0),
+          child: MaterialButton(
+            child: Icon(Icons.mode_edit),
+            //implement editing
+            onPressed: () {},
+          ),
+        ),
+        title: Text("View Entry"),
         actions: <Widget>[
           MaterialButton(
             child: Icon(Icons.close),
@@ -27,16 +35,17 @@ class JournalEntry extends StatelessWidget {
           )
         ],
       ),
-      body: Container(
-        child: ListView(
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             _buildLabel("Brew Details"),
             Row(
               children: <Widget>[
-                Expanded(flex: 2, child: _buildFormattedText('ID:')),
-                Expanded(flex: 4, child: _buildFormattedText('${currentRecipe.id}')),
-                Expanded(flex: 3, child: _buildFormattedText('Date:')),
-                Expanded(flex: 4, child: _buildFormattedText('${currentRecipe.date}')),
+                _buildFormattedText('ID:'),
+                _buildFormattedTextField('${currentRecipe.id}'),
+                _buildFormattedText('Date:'),
+                _buildFormattedTextField('${currentRecipe.date}'),
               ],
             ),
             _buildLabel("Bean Name"),
@@ -45,11 +54,14 @@ class JournalEntry extends StatelessWidget {
             _buildFormattedText('${currentRecipe.brewer}'),
             _buildLabel("Taste log"),
             Row(
-              //mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                Expanded(flex: 10, child: _buildFormattedText('${currentRecipe.tastingNotes}')),
                 Expanded(
-                    flex: 5,
+                    flex: 1,
+                    child:
+                        _buildFormattedText('${currentRecipe.tastingNotes}')),
+                Expanded(
+                    flex: 1,
                     child: Padding(
                       padding: const EdgeInsets.all(20.0),
                       child: MaterialButton(
@@ -62,23 +74,30 @@ class JournalEntry extends StatelessWidget {
                                   builder: (context) => BrewGuideChart()));
                         },
                       ),
-                    )
-                ),
+                    )),
               ],
             ),
             Divider(),
             _buildLabel("Steps"),
             _buildSteps(),
-
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton.extended(
+        label: Text("delete this entry"),
+        backgroundColor: Colors.red,
+        //TODO: implement delete
+        onPressed: () {
+
+        },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 
   Widget _buildLabel(String text) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0),
+      padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
       child: ListTile(
         title: Text(
           "$text",
@@ -90,14 +109,21 @@ class JournalEntry extends StatelessWidget {
 
   Widget _buildFormattedText(String text) {
     return Padding(
+      padding: EdgeInsets.fromLTRB(26.0, 0, 0, 0),
       child: Text('$text'),
-      padding: EdgeInsets.all(20.0),
+    );
+  }
+
+  Widget _buildFormattedTextField(String text) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+      child: Text('$text'),
     );
   }
 
   Widget _buildSteps() {
     return Padding(
-      padding: const EdgeInsets.all(20.0),
+      padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0),
       child: Row(
         children: <Widget>[
           Flexible(
@@ -124,7 +150,6 @@ class JournalEntry extends StatelessWidget {
       ),
     );
   }
-
 }
 
 /*

@@ -25,6 +25,7 @@ class _EditStepsState extends State<EditSteps> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         centerTitle: true,
         title: Text('edit your steps'),
@@ -32,19 +33,18 @@ class _EditStepsState extends State<EditSteps> {
           color: Colors.black,
         ),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: currentSteps.length,
-              itemBuilder: (context, index) {
-                final currentNum = index + 1;
-                String currentEntry = currentSteps[index].indivStep;
-
-                return Dismissible(
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListView.builder(
+          physics: AlwaysScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: currentSteps.length,
+          itemBuilder: (context, index) {
+            final currentNum = index + 1;
+            String currentEntry = currentSteps[index].indivStep;
+            return Column(
+              children: <Widget>[
+                Dismissible(
                   background: Container(
                     color: Colors.red,
                   ),
@@ -62,21 +62,24 @@ class _EditStepsState extends State<EditSteps> {
                   onDismissed: (direction) {
                     removeStep(index);
                   },
-                );
-              },
-            ),
-          ),
-          Divider(),
-        ],
+                ),
+                Divider(),
+              ],
+            );
+          },
+        ),
       ),
       floatingActionButton: FloatingActionButton.extended(
         icon: Icon(Icons.add),
         label: Text("Add Step"),
         onPressed: () {
           setState(() {
-                StepData temp = new StepData(indivStep: "Enter steps", id: uuid.v4());
-                currentSteps.add(temp);
-              });
+            StepData temp =
+                new StepData(indivStep: "Enter steps", id: uuid.v4());
+            currentSteps.add(temp);
+            _editTextDialog(
+                temp.indivStep, currentSteps.indexOf(currentSteps.last));
+          });
         },
       ),
     );
