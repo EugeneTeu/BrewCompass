@@ -52,7 +52,7 @@ class _AddNewEntryState extends State<AddNewEntry> {
   String date;
   String beanName;
   String brewer;
-  List steps = [];
+  List<StepData> steps = [];
   String tastingNotes;
   String userId = '';
 
@@ -81,53 +81,54 @@ class _AddNewEntryState extends State<AddNewEntry> {
             key: _key,
             child: Padding(
               padding: const EdgeInsets.fromLTRB(8.0, 20.0, 8.0, 40.0),
-              child: ListView(
-                shrinkWrap: true,
-                children: <Widget>[
-                  _buildLabel("Enter ur Brew Details"),
-                  Row(
-                    //need to wrap widget in expanded here to give the child widget a size parameter
-                    children: <Widget>[
-                      Flexible(flex: 1, child: _buildInputFieldNum()),
-                      Flexible(
-                        flex: 1,
-                        child: _buildInputFieldDate(),
-                      ),
-                    ],
-                  ),
-                  Divider(),
-                  _buildLabel("Bean Name"),
-                  _buildInputFieldBeanName(),
-                  Divider(),
-                  _buildLabel("Brewer"),
-                  _buildInputFieldBrewer(),
-                  Divider(),
-                  _buildLabel("Taste log"),
-                  Row(
-                    children: <Widget>[
-                      Flexible(flex: 2, child: _buildInputFieldTastingNotes()),
-                      Flexible(
+              child: SingleChildScrollView(
+                  child: Column(
+                  children: <Widget>[
+                    _buildLabel("Enter ur Brew Details"),
+                    Row(
+                      //need to wrap widget in expanded here to give the child widget a size parameter
+                      children: <Widget>[
+                        Flexible(flex: 1, child: _buildInputFieldNum()),
+                        Flexible(
                           flex: 1,
-                          child: MaterialButton(
-                            color: Theme.of(context).primaryColor,
-                            child: Text("Reference"),
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => BrewGuideChart()));
-                            },
-                          )),
-                    ],
-                  ),
-                  Divider(),
-                  _buildLabel("Steps"),
-                  _buildSteps(),
-                  Divider(),
-                  shareButton,
-                  _buildSubmitButton(),
-                  Divider(),
-                ],
+                          child: _buildInputFieldDate(),
+                        ),
+                      ],
+                    ),
+                    Divider(),
+                    _buildLabel("Bean Name"),
+                    _buildInputFieldBeanName(),
+                    Divider(),
+                    _buildLabel("Brewer"),
+                    _buildInputFieldBrewer(),
+                    Divider(),
+                    _buildLabel("Taste log"),
+                    Row(
+                      children: <Widget>[
+                        Flexible(flex: 2, child: _buildInputFieldTastingNotes()),
+                        Flexible(
+                            flex: 1,
+                            child: MaterialButton(
+                              color: Theme.of(context).primaryColor,
+                              child: Text("Reference"),
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => BrewGuideChart()));
+                              },
+                            )),
+                      ],
+                    ),
+                    Divider(),
+                    _buildLabel("Steps"),
+                    _buildSteps(),
+                    Divider(),
+                    shareButton,
+                    _buildSubmitButton(),
+                    Divider(),
+                  ],
+                ),
               ),
             ),
           ),
@@ -268,7 +269,7 @@ class _AddNewEntryState extends State<AddNewEntry> {
                       final currentNum = index + 1;
                       return ListTile(
                         leading: Text(currentNum.toString()),
-                        title: Text(steps[index]),
+                        title: Text(steps[index].indivStep),
                       );
                     },
                     itemCount: steps.length,
@@ -297,6 +298,7 @@ class _AddNewEntryState extends State<AddNewEntry> {
       steps = steps;
       isShared = isShared;
     });
+    List<String> stepsString = StepData().convertToListOfStrings(steps);
     _key.currentState.save();
     Firestore.instance.runTransaction((Transaction transaction) async {
       CollectionReference reference =
@@ -308,7 +310,8 @@ class _AddNewEntryState extends State<AddNewEntry> {
         'date': date,
         'beanName': beanName,
         'brewer': brewer,
-        'steps': steps,
+        // TODO: extract string of steps from the class of StepData
+        'steps': stepsString,
         'tastingNotes': tastingNotes,
         'userId': userId,
       });

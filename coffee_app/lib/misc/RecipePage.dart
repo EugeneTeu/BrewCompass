@@ -78,6 +78,7 @@ class _RecipePageState extends State<RecipePage> {
               onPressed: () {
                 print("future view button");
                 Navigator.push(context,
+                // TODO: intercept route page here
                     MaterialPageRoute(builder: (context) => JournalEntry(currentEntry)));
               },
             )),

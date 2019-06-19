@@ -1,18 +1,20 @@
 import 'package:coffee_app/styles.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 //TODO: floating action button for add steps, random key generator
 
 class EditSteps extends StatefulWidget {
   EditSteps(this.steps);
-  List steps;
+  List<StepData> steps;
 
   @override
   _EditStepsState createState() => _EditStepsState();
 }
 
 class _EditStepsState extends State<EditSteps> {
-  List currentSteps = [];
+  List<StepData> currentSteps = [];
+  var uuid = new Uuid();
 
   @override
   void initState() {
@@ -40,18 +42,20 @@ class _EditStepsState extends State<EditSteps> {
               itemCount: currentSteps.length,
               itemBuilder: (context, index) {
                 final currentNum = index + 1;
-                String currentEntry = currentSteps[index];
+                String currentEntry = currentSteps[index].indivStep;
+
                 return Dismissible(
                   background: Container(
                     color: Colors.red,
                   ),
-                  key: Key(currentEntry),
+                  key: Key(currentSteps[index].id),
                   child: ListTile(
                       leading: Text(currentNum.toString()),
-                      title: Text(currentEntry),
+                      title: Text(currentSteps[index].indivStep),
                       trailing: MaterialButton(
                         child: Icon(Icons.edit),
                         onPressed: () {
+                          // TODO: editing of text class
                           _editTextDialog(currentEntry, index);
                         },
                       )),
@@ -62,21 +66,18 @@ class _EditStepsState extends State<EditSteps> {
               },
             ),
           ),
-          MaterialButton(
-            color: Colors.brown[200],
-            child: Text(
-              "add step",
-              style: Styles.createEntryText,
-            ),
-            onPressed: () {
-              setState(() {
-                String temp = "Enter steps";
-                currentSteps.add(temp);
-              });
-            },
-          ),
           Divider(),
         ],
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        icon: Icon(Icons.add),
+        label: Text("Add Step"),
+        onPressed: () {
+          setState(() {
+                StepData temp = new StepData(indivStep: "Enter steps", id: uuid.v4());
+                currentSteps.add(temp);
+              });
+        },
       ),
     );
   }
@@ -116,7 +117,7 @@ class _EditStepsState extends State<EditSteps> {
                         onPressed: () {
                           _formKey.currentState.save();
                           setState(() {
-                            currentSteps[index] = newEntry;
+                            currentSteps[index].indivStep = newEntry;
                           });
                           Navigator.of(context).pop();
                         },
@@ -140,6 +141,22 @@ class _EditStepsState extends State<EditSteps> {
         Navigator.of(context).pop();
       },
     );
+  }
+}
+
+class StepData {
+  String id;
+  String indivStep;
+
+  StepData({this.id, this.indivStep});
+
+  List<String> convertToListOfStrings(List<StepData> stepDataList) {
+    // List<String> result = [];
+    // for (int i = 0; i < stepDataList.length; ++i) {
+    //   result.add(stepDataList[i].indivStep);
+    // }
+    // return result;
+    return stepDataList.map((x) => x.indivStep).toList();
   }
 }
 
