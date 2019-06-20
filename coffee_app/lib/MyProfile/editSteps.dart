@@ -36,7 +36,7 @@ class _EditStepsState extends State<EditSteps> {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: ListView.builder(
-          physics: AlwaysScrollableScrollPhysics(),
+          physics: BouncingScrollPhysics() ,
           shrinkWrap: true,
           itemCount: currentSteps.length,
           itemBuilder: (context, index) {
@@ -148,6 +148,7 @@ class _EditStepsState extends State<EditSteps> {
 }
 
 class StepData {
+  var uuid = new Uuid();
   String id;
   String indivStep;
 
@@ -160,6 +161,17 @@ class StepData {
     // }
     // return result;
     return stepDataList.map((x) => x.indivStep).toList();
+  }
+
+
+  List<StepData> convertToListOfStepData(List<String> listStrings) {
+    List<StepData> result = [];
+    for (int i = 0; i < listStrings.length; ++i) {
+      StepData temp = new StepData(indivStep: listStrings[i], id: uuid.v4() );
+      result.add(temp);
+    }
+    return result;
+   
   }
 }
 

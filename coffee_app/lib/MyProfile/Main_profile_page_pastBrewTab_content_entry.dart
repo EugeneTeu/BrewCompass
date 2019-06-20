@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coffee_app/MyProfile/Recipe.dart';
+import 'package:coffee_app/MyProfile/edit-Entry.dart';
 import 'package:coffee_app/misc/brew-guide.dart';
 import 'package:flutter/material.dart';
 
@@ -6,8 +8,10 @@ import '../styles.dart';
 
 class JournalEntry extends StatelessWidget {
   final Recipe currentRecipe;
-
-  JournalEntry(Recipe currentEntry) : this.currentRecipe = currentEntry;
+  final DocumentSnapshot data;
+  JournalEntry(Recipe currentEntry, DocumentSnapshot data)
+      : this.currentRecipe = currentEntry,
+        this.data = data;
 
   @override
   Widget build(BuildContext context) {
@@ -20,11 +24,17 @@ class JournalEntry extends StatelessWidget {
         automaticallyImplyLeading: true,
         centerTitle: true,
         leading: Padding(
-          padding: const EdgeInsets.fromLTRB(10.0,0.0,0.0,0),
+          padding: const EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0),
           child: MaterialButton(
             child: Icon(Icons.mode_edit),
             //implement editing
-            onPressed: () {},
+            onPressed: () {
+               Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) => EditEntry(data)));
+
+            },
           ),
         ),
         title: Text("View Entry"),
@@ -86,9 +96,17 @@ class JournalEntry extends StatelessWidget {
       floatingActionButton: FloatingActionButton.extended(
         label: Text("delete this entry"),
         backgroundColor: Colors.red,
-        //TODO: implement delete
         onPressed: () {
-
+          Firestore.instance
+              .collection("testRecipes")
+              .document(data.documentID)
+              .delete()
+              .catchError((e) {
+            print(e);
+          });
+          print("deleted!");
+          Navigator.of(context).pop();
+          
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
