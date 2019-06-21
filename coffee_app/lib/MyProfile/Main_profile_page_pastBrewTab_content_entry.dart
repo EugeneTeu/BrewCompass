@@ -111,6 +111,7 @@ class JournalEntry extends StatelessWidget {
                       color: Colors.blue[200],
                       child: Icon(Icons.check_circle_outline),
                       onPressed: () {
+                      
                         Firestore.instance
                             .collection("testRecipes")
                             .document(data.documentID)

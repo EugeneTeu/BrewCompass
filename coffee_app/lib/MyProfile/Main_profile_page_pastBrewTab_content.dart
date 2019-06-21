@@ -112,6 +112,7 @@ class _PastBrewsState extends State<PastBrews> {
           //unique key
           key: Key(uuid.v4()),
           onDismissed: (direction) {
+            
             try {
               setState(() {
                 Firestore.instance

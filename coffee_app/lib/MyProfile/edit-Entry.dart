@@ -322,7 +322,7 @@ class _EditEntryState extends State<EditEntry> {
         'date': date,
         'beanName': beanName,
         'brewer': brewer,
-        // TODO: extract string of steps from the class of StepData
+       
         'steps': stepsString,
         'tastingNotes': tastingNotes,
         'userId': userId,
