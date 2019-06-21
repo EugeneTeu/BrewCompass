@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>412516290199-b2f2105b5ak218sb0ifn68dfm0o29ddt.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.412516290199-b2f2105b5ak218sb0ifn68dfm0o29ddt</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCNSlH5FpUHRReH1dEs7op0xDVQhGWDzII</string>
+	<key>GCM_SENDER_ID</key>
+	<string>412516290199</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.BrewCompass</string>
+	<key>PROJECT_ID</key>
+	<string>brewcompass-f0285</string>
+	<key>STORAGE_BUCKET</key>
+	<string>brewcompass-f0285.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:412516290199:ios:de9918dc0f3027d1</string>
+	<key>DATABASE_URL</key>
+	<string>https://brewcompass-f0285.firebaseio.com</string>
+</dict>
+</plist>
