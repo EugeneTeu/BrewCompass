@@ -29,11 +29,10 @@ class JournalEntry extends StatelessWidget {
             child: Icon(Icons.mode_edit),
             //implement editing
             onPressed: () {
-               Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (BuildContext context) => EditEntry(data)));
-
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => EditEntry(data)));
             },
           ),
         ),
@@ -97,16 +96,38 @@ class JournalEntry extends StatelessWidget {
         label: Text("delete this entry"),
         backgroundColor: Colors.red,
         onPressed: () {
-          Firestore.instance
-              .collection("testRecipes")
-              .document(data.documentID)
-              .delete()
-              .catchError((e) {
-            print(e);
-          });
-          print("deleted!");
-          Navigator.of(context).pop();
           
+          showDialog(
+            context: context,
+            builder : (context) { 
+              return AlertDialog(
+              title: Text("Delete Entry"),
+              content: Text("Are you sure you like to delete this entry?"),
+              actions: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    FlatButton(
+                      color: Colors.blue[200],
+                      child: Icon(Icons.check_circle_outline),
+                      onPressed: () {
+                        Firestore.instance
+                            .collection("testRecipes")
+                            .document(data.documentID)
+                            .delete()
+                            .catchError((e) {
+                          print(e);
+                        });
+                        print("deleted!");
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                )
+              ],
+            );
+            }
+          );
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,

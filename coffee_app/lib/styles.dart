@@ -16,6 +16,7 @@ abstract class Styles {
   static const TextStyle createEntryText = TextStyle(
     color: Colors.black,
     fontFamily: "Montserrat",
+    
   );
   
   static const TextStyle entryLabelsText = TextStyle(

@@ -137,7 +137,7 @@ class _EditStepsState extends State<EditSteps> {
   }
 
   Widget cancelButton(BuildContext context) {
-    return MaterialButton(
+    return FlatButton(
       color: Colors.red[400],
       child: Icon(Icons.close),
       onPressed: () {
