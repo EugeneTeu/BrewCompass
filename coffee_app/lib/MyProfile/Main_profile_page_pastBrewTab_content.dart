@@ -4,6 +4,7 @@ import 'package:coffee_app/MyProfile/Recipe.dart';
 import 'package:coffee_app/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 class PastBrews extends StatefulWidget {
   PastBrews({this.auth});
@@ -15,6 +16,7 @@ class PastBrews extends StatefulWidget {
 
 class _PastBrewsState extends State<PastBrews> {
   String userId;
+  Uuid uuid = new Uuid();
 
   Future<FirebaseUser> _fetchUser() async {
     FirebaseUser user = await widget.auth.getUser();
@@ -108,7 +110,7 @@ class _PastBrewsState extends State<PastBrews> {
             color: Colors.red,
           ),
           //unique key
-          key: Key(data.documentID),
+          key: Key(uuid.v4()),
           onDismissed: (direction) {
             try{setState(() {
               Firestore.instance

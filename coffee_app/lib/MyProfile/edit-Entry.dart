@@ -175,6 +175,7 @@ class _EditEntryState extends State<EditEntry> {
       child: TextFormField(
         style: Styles.createEntryText,
         decoration: new InputDecoration(hintText: "Enter id"),
+        initialValue: id.toString(),
         keyboardType: TextInputType.number,
         validator: (value) => value.isEmpty ? "field cant be empty" : null,
         onSaved: (value) => id = int.parse(value),
@@ -188,6 +189,7 @@ class _EditEntryState extends State<EditEntry> {
       child: TextFormField(
         style: Styles.createEntryText,
         decoration: new InputDecoration(hintText: "Enter date"),
+        initialValue: date,
         keyboardType: TextInputType.text,
         validator: (value) => value.isEmpty ? "field cant be empty" : null,
         onSaved: (value) => this.date = value,
@@ -201,6 +203,7 @@ class _EditEntryState extends State<EditEntry> {
       child: TextFormField(
         style: Styles.createEntryText,
         decoration: new InputDecoration(hintText: "Enter Bean Name"),
+        initialValue: beanName,
         keyboardType: TextInputType.text,
         validator: (value) => value.isEmpty ? "field cant be empty" : null,
         onSaved: (value) => this.beanName = value,
@@ -214,6 +217,7 @@ class _EditEntryState extends State<EditEntry> {
       child: TextFormField(
         style: Styles.createEntryText,
         decoration: new InputDecoration(hintText: "Enter brewer"),
+        initialValue: brewer,
         keyboardType: TextInputType.text,
         validator: (value) => value.isEmpty ? "field cant be empty" : null,
         onSaved: (value) => this.brewer = value,
@@ -228,6 +232,7 @@ class _EditEntryState extends State<EditEntry> {
         style: Styles.createEntryText,
         decoration:
             new InputDecoration(hintText: "How did the cup taste today?"),
+            initialValue: tastingNotes,
         keyboardType: TextInputType.text,
         validator: (value) => value.isEmpty ? "field cant be empty" : null,
         onSaved: (value) => this.tastingNotes = value,
@@ -243,9 +248,10 @@ class _EditEntryState extends State<EditEntry> {
         borderRadius: BorderRadius.circular(10.0),
         child: MaterialButton(
             color: Colors.brown[400],
-            child: Text("Create Entry"),
+            child: Text("Edit this Entry"),
             onPressed: () {
               _submitAndUpdateFirebase();
+              Navigator.pop(context);
               Navigator.pop(context);
             }),
       ),
@@ -299,6 +305,13 @@ class _EditEntryState extends State<EditEntry> {
     });
     List<String> stepsString = StepData().convertToListOfStrings(steps);
     _key.currentState.save();
+     Firestore.instance
+              .collection("testRecipes")
+              .document(widget.data.documentID)
+              .delete()
+              .catchError((e) {
+            print(e);
+          });
     Firestore.instance.runTransaction((Transaction transaction) async {
       CollectionReference reference =
           Firestore.instance.collection('testRecipes');
@@ -314,7 +327,8 @@ class _EditEntryState extends State<EditEntry> {
         'tastingNotes': tastingNotes,
         'userId': userId,
       });
-      print("created successfully!");
+      print("edited successfully!");
+      
     });
   }
 }
