@@ -25,13 +25,12 @@ class PastBrewTabState extends State<PastBrewTab>
       indicatorColor: Colors.blueGrey,
       tabs: <Tab>[
         new Tab(text: 'Journal'),
-        new Tab(text: "Past Brews")
       ]);
 
   @override
   Widget build(BuildContext context) {
     return new DefaultTabController(
-      length: 2,
+      length: 1,
       child: Scaffold(
         appBar: new PreferredSize(
             preferredSize: toolBar.preferredSize,
@@ -49,7 +48,6 @@ class PastBrewTabState extends State<PastBrewTab>
         body: TabBarView(
           physics: NeverScrollableScrollPhysics(),
           children: <Widget>[
-          new PastBrews(auth: widget.auth),
           new PastBrews(auth: widget.auth),
         ]),
       ),
