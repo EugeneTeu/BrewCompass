@@ -93,7 +93,7 @@ class _Profile extends State<Profile> {
                 style: TextStyle(fontFamily: 'Montserrat', color: Colors.grey),
               ),
               Padding(
-                padding: EdgeInsets.all(30.0),
+                padding: EdgeInsets.all(20.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
@@ -151,6 +151,7 @@ class _Profile extends State<Profile> {
                   builder: (BuildContext context) => AddNewEntry(widget.auth)));
         },
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }

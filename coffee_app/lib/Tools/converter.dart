@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../styles.dart';
 
-
 class MyConverter extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -28,19 +27,19 @@ class _MyConverter extends State<MyConverter> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-        body: ListView(
-                  children: <Widget>[
-        GestureDetector(
-          onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
-                  child: Container(
+      body: ListView(
+        children: <Widget>[
+          GestureDetector(
+            onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
+            child: Container(
               child: Form(
                 key: _formKey,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    ListTile(
+                   SizedBox(height: 40.0,),
+                    ListTile(     
                       title: TextFormField(
-              
                         controller: _controllerTwo,
                         focusNode: _focusNodeTwo,
                         style: Styles.calcFont,
@@ -48,26 +47,30 @@ class _MyConverter extends State<MyConverter> {
                           hintText: "Enter Weight Of Beans",
                           hintStyle: new TextStyle(fontSize: 15.0),
                         ),
-                        keyboardType: TextInputType.numberWithOptions(decimal: true),
-                        validator: (value) => value.isEmpty ? "invalid number" : null,
-                        onSaved: (value) => _inputBeanWeight = value ,
+                        keyboardType:
+                            TextInputType.numberWithOptions(decimal: true),
+                        validator: (value) =>
+                            value.isEmpty ? "invalid number" : null,
+                        onSaved: (value) => _inputBeanWeight = value,
                       ),
                     ),
+                    SizedBox(height:40.0,),
                     ListTile(
                       title: TextFormField(
-              
                         controller: _controller,
                         focusNode: _focusNode,
                         style: Styles.calcFont,
                         decoration: new InputDecoration(
                             hintText: "Enter Desired Water Ratio (1:_)",
                             hintStyle: new TextStyle(fontSize: 15.0)),
-                        keyboardType: TextInputType.numberWithOptions(decimal: true),
-                        validator: (value) => value.isEmpty ? "invalid number" : null,
+                        keyboardType:
+                            TextInputType.numberWithOptions(decimal: true),
+                        validator: (value) =>
+                            value.isEmpty ? "invalid number" : null,
                         onSaved: (value) => _inputRatio = value,
                       ),
-                      
                     ),
+                      SizedBox(height:80.0,),
                     // Calculate and Clear button
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -75,24 +78,26 @@ class _MyConverter extends State<MyConverter> {
                         MaterialButton(
                           elevation: 10.0,
                           color: Colors.red,
-                          child: Text("Clear", style: Styles.calcFont,),
+                          child: Text(
+                            "Clear",
+                            style: Styles.calcFont,
+                          ),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5.0)),
-                              onPressed: (){
-                                //clears input field and reset results field.
-                                setState(() {
-                                  _controller.clear();
-                                  _controllerTwo.clear();
-                                  _ratio = 0.0;
-                                  _beanWeight = 0.0;
-                                  _water = 0.0;
-                                  _inputBeanWeight ='';
-                                  _inputRatio ='';
-                                });
-                              },
-
+                          onPressed: () {
+                            //clears input field and reset results field.
+                            setState(() {
+                              _controller.clear();
+                              _controllerTwo.clear();
+                              _ratio = 0.0;
+                              _beanWeight = 0.0;
+                              _water = 0.0;
+                              _inputBeanWeight = '';
+                              _inputRatio = '';
+                            });
+                          },
                         ),
-                                        MaterialButton(
+                        MaterialButton(
                           child: Text(
                             "Calculate",
                             style: Styles.calcFont,
@@ -107,13 +112,15 @@ class _MyConverter extends State<MyConverter> {
 
                             setState(() {
                               _ratio = double.parse(_inputRatio);
-                              _water = double.parse(_inputBeanWeight) * double.parse(_inputRatio);
+                              _water = double.parse(_inputBeanWeight) *
+                                  double.parse(_inputRatio);
                               _beanWeight = double.parse(_inputBeanWeight);
                             });
                           },
                         ),
                       ],
                     ),
+                    SizedBox(height:40.0,),
                     ListTile(
                       title: Text("Ratio", style: Styles.calcFont),
                       trailing: Text("$_ratio"),
@@ -129,14 +136,13 @@ class _MyConverter extends State<MyConverter> {
                   ],
                 ),
               ),
+            ),
           ),
-        ),
-      ],
-        ),
+        ],
+      ),
     );
   }
 }
-
 
 /*
 initial way of taking focus away from the form: 

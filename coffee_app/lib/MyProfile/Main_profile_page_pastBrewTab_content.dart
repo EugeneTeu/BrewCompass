@@ -4,6 +4,7 @@ import 'package:coffee_app/MyProfile/Recipe.dart';
 import 'package:coffee_app/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:uuid/uuid.dart';
 
 class PastBrews extends StatefulWidget {
@@ -37,15 +38,14 @@ class _PastBrewsState extends State<PastBrews> {
   @override
   void initState() {
     super.initState();
-    _user();   
+    _user();
   }
 
-
-  Stream<QuerySnapshot> newStream() { 
+  Stream<QuerySnapshot> newStream() {
     return Firestore.instance
-      .collection("testRecipes")
-      .where('userId', isEqualTo: userId)
-      .snapshots();
+        .collection("testRecipes")
+        .where('userId', isEqualTo: userId)
+        .snapshots();
   }
 
   @override
@@ -99,7 +99,7 @@ class _PastBrewsState extends State<PastBrews> {
       //add custom padding to last entry to accomdate floating action button
       padding: !last
           ? EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0)
-          : EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 70),
+          : EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 120),
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(color: Colors.grey),
@@ -112,32 +112,49 @@ class _PastBrewsState extends State<PastBrews> {
           //unique key
           key: Key(uuid.v4()),
           onDismissed: (direction) {
-            try{setState(() {
-              Firestore.instance
-                  .collection("testRecipes")
-                  .document(data.documentID)
-                  .delete()
-                  .catchError((e) {
-                print(e);
+            try {
+              setState(() {
+                Firestore.instance
+                    .collection("testRecipes")
+                    .document(data.documentID)
+                    .delete()
+                    .catchError((e) {
+                  print(e);
+                });
               });
-            });
-          } catch(e) {
-            print("danggity");
-          }
+            } catch (e) {
+              print("danggity");
+            }
           },
           child: ListTile(
+              contentPadding:
+                  EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+              leading: Container(
+                padding: EdgeInsets.only(right: 12.0),
+                decoration: new BoxDecoration(
+                    border: new Border(
+                        right:new BorderSide(width: 1.0, color: Colors.black45))),
+                child: Icon(Icons.book, color: Colors.black),
+              ),
               title: Text("Bean: " + currentEntry.beanName),
-              //subtitle: Text(currentEntry.date),
-              trailing: IconButton(
-                icon: Icon(Icons.edit),
-                onPressed: () {
-                  print("future edit button");
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        
-                          builder: (context) => JournalEntry(currentEntry, data)));
-                },
+              subtitle: Text(currentEntry.date),
+              trailing: Container(
+                decoration: BoxDecoration(
+                  border: Border(
+                    left: BorderSide(width: 1.0, color: Colors.black45),
+                  )
+                ),
+                child: IconButton(
+                  icon: Icon(Icons.chevron_right),
+                  onPressed: () {
+                    print("future edit button");
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                JournalEntry(currentEntry, data)));
+                  },
+                ),
               )),
         ),
       ),

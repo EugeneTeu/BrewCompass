@@ -75,18 +75,30 @@ class _RecipePageState extends State<RecipePage> {
           borderRadius: BorderRadius.circular(5.0),
         ),
         child: ListTile(
+            contentPadding:
+                  EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+              leading: Container(
+                padding: EdgeInsets.only(right: 12.0),
+                decoration: new BoxDecoration(
+                    border: new Border(
+                        right:new BorderSide(width: 1.0, color: Colors.black45))),
+                child: Icon(Icons.book, color: Colors.black),
+              ),
             title: Text("Bean: " + currentEntry.beanName),
-            //subtitle: Text(currentEntry.date),
-            trailing: IconButton(
-              icon: Icon(Icons.edit),
-              onPressed: () {
-                print("future view button");
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            ViewJournalEntry(currentEntry, data)));
-              },
+            subtitle: Text(currentEntry.brewer),
+            trailing: Container(
+              
+              child: IconButton(
+                icon: Icon(Icons.library_books),
+                onPressed: () {
+               
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              ViewJournalEntry(currentEntry, data)));
+                },
+              ),
             )),
       ),
     );
