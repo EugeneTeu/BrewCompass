@@ -135,7 +135,7 @@ class _PastBrewsState extends State<PastBrews> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        // TODO: reroute this call to JournalEntry(..)
+                        
                           builder: (context) => JournalEntry(currentEntry, data)));
                 },
               )),

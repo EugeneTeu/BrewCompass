@@ -310,7 +310,6 @@ class _AddNewEntryState extends State<AddNewEntry> {
         'date': date,
         'beanName': beanName,
         'brewer': brewer,
-        // TODO: extract string of steps from the class of StepData
         'steps': stepsString,
         'tastingNotes': tastingNotes,
         'userId': userId,

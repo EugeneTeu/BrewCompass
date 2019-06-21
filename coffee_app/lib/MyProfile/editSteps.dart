@@ -2,7 +2,7 @@ import 'package:coffee_app/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
-//TODO: floating action button for add steps, random key generator
+
 
 class EditSteps extends StatefulWidget {
   EditSteps(this.steps);
@@ -55,7 +55,7 @@ class _EditStepsState extends State<EditSteps> {
                       trailing: MaterialButton(
                         child: Icon(Icons.edit),
                         onPressed: () {
-                          // TODO: editing of text class
+                          
                           _editTextDialog(currentEntry, index);
                         },
                       )),
