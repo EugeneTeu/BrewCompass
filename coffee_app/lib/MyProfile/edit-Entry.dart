@@ -1,10 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coffee_app/MyProfile/Recipe.dart';
 import 'package:coffee_app/MyProfile/editSteps.dart';
-import 'package:coffee_app/auth.dart';
 import 'package:coffee_app/misc/brew-guide.dart';
 import 'package:coffee_app/styles.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class EditEntry extends StatefulWidget {
@@ -18,13 +16,12 @@ class EditEntry extends StatefulWidget {
 }
 
 class _EditEntryState extends State<EditEntry> {
-
   _EditEntryState(data) : this.currentData = data;
   DocumentSnapshot currentData;
-  Recipe recipe; 
+  Recipe recipe;
 
   GlobalKey<FormState> _key = GlobalKey();
- 
+
   int id;
   bool isShared = false;
   String date;
@@ -34,7 +31,7 @@ class _EditEntryState extends State<EditEntry> {
   String tastingNotes;
   String userId = '';
 
-   @override
+  @override
   void initState() {
     super.initState();
     this.recipe = Recipe.fromSnapshot(currentData);
@@ -81,7 +78,7 @@ class _EditEntryState extends State<EditEntry> {
             child: Padding(
               padding: const EdgeInsets.fromLTRB(8.0, 20.0, 8.0, 40.0),
               child: SingleChildScrollView(
-                  child: Column(
+                child: Column(
                   children: <Widget>[
                     _buildLabel("Enter ur Brew Details"),
                     Row(
@@ -104,7 +101,8 @@ class _EditEntryState extends State<EditEntry> {
                     _buildLabel("Taste log"),
                     Row(
                       children: <Widget>[
-                        Flexible(flex: 2, child: _buildInputFieldTastingNotes()),
+                        Flexible(
+                            flex: 2, child: _buildInputFieldTastingNotes()),
                         Flexible(
                             flex: 1,
                             child: MaterialButton(
@@ -114,7 +112,8 @@ class _EditEntryState extends State<EditEntry> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => BrewGuideChart()));
+                                        builder: (context) =>
+                                            BrewGuideChart()));
                               },
                             )),
                       ],
@@ -232,7 +231,7 @@ class _EditEntryState extends State<EditEntry> {
         style: Styles.createEntryText,
         decoration:
             new InputDecoration(hintText: "How did the cup taste today?"),
-            initialValue: tastingNotes,
+        initialValue: tastingNotes,
         keyboardType: TextInputType.text,
         validator: (value) => value.isEmpty ? "field cant be empty" : null,
         onSaved: (value) => this.tastingNotes = value,
@@ -305,13 +304,13 @@ class _EditEntryState extends State<EditEntry> {
     });
     List<String> stepsString = StepData().convertToListOfStrings(steps);
     _key.currentState.save();
-     Firestore.instance
-              .collection("testRecipes")
-              .document(widget.data.documentID)
-              .delete()
-              .catchError((e) {
-            print(e);
-          });
+    Firestore.instance
+        .collection("testRecipes")
+        .document(widget.data.documentID)
+        .delete()
+        .catchError((e) {
+      print(e);
+    });
     Firestore.instance.runTransaction((Transaction transaction) async {
       CollectionReference reference =
           Firestore.instance.collection('testRecipes');
@@ -322,13 +321,12 @@ class _EditEntryState extends State<EditEntry> {
         'date': date,
         'beanName': beanName,
         'brewer': brewer,
-       
+
         'steps': stepsString,
         'tastingNotes': tastingNotes,
         'userId': userId,
       });
       print("edited successfully!");
-      
     });
   }
 }

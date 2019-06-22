@@ -57,7 +57,7 @@ class _BottomNavyBarState extends State<BottomNavyBar> {
     return AnimatedContainer(
       width: isSelected ? 130 : 50,
       height: double.maxFinite,
-      duration: Duration(milliseconds: 270),
+      duration: Duration(milliseconds: 200),
       padding: EdgeInsets.only(left: 12),
       decoration: BoxDecoration(
         color: isSelected ? item.activeColor.withOpacity(0.2) : backgroundColor,

@@ -33,8 +33,11 @@ class Auth implements BaseAuth {
   }
   //check what auth status is with fire base
   Future<String> currentUser() async {
-    FirebaseUser user = await _instance.currentUser();
+    try{ FirebaseUser user = await _instance.currentUser();
     return user.uid;
+    } catch(e) {
+      
+    }
   }
 
   Future<FirebaseUser> getUser() async {

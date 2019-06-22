@@ -20,7 +20,7 @@ class Profile extends StatefulWidget {
 class _Profile extends State<Profile> {
   String name = "displayname";
   String title;
-  String numberOfBrews = " ";
+  String numberOfBrews = "loading..";
   String userId;
 
   //code to get firebase User
@@ -54,8 +54,8 @@ class _Profile extends State<Profile> {
     final QuerySnapshot temp = await Firestore.instance.collection("testRecipes").getDocuments();
     List<DocumentSnapshot> list = temp.documents;
     list.forEach( (data) => Recipe.fromSnapshot(data).userId == userId  ? result.add(data) : {}  );
-    print(userId);
-    print(result.length);
+    //print(userId);
+    //print(result.length);
     setState(() {
       numberOfBrews = result.length.toString();
     });
