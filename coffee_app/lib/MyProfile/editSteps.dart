@@ -2,7 +2,7 @@ import 'package:coffee_app/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
-//TODO: floating action button for add steps, random key generator
+
 
 class EditSteps extends StatefulWidget {
   EditSteps(this.steps);
@@ -25,6 +25,7 @@ class _EditStepsState extends State<EditSteps> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         centerTitle: true,
         title: Text('edit your steps'),
@@ -32,19 +33,18 @@ class _EditStepsState extends State<EditSteps> {
           color: Colors.black,
         ),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: currentSteps.length,
-              itemBuilder: (context, index) {
-                final currentNum = index + 1;
-                String currentEntry = currentSteps[index].indivStep;
-
-                return Dismissible(
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListView.builder(
+          physics: BouncingScrollPhysics() ,
+          shrinkWrap: true,
+          itemCount: currentSteps.length,
+          itemBuilder: (context, index) {
+            final currentNum = index + 1;
+            String currentEntry = currentSteps[index].indivStep;
+            return Column(
+              children: <Widget>[
+                Dismissible(
                   background: Container(
                     color: Colors.red,
                   ),
@@ -55,28 +55,31 @@ class _EditStepsState extends State<EditSteps> {
                       trailing: MaterialButton(
                         child: Icon(Icons.edit),
                         onPressed: () {
-                          // TODO: editing of text class
+                          
                           _editTextDialog(currentEntry, index);
                         },
                       )),
                   onDismissed: (direction) {
                     removeStep(index);
                   },
-                );
-              },
-            ),
-          ),
-          Divider(),
-        ],
+                ),
+                Divider(),
+              ],
+            );
+          },
+        ),
       ),
       floatingActionButton: FloatingActionButton.extended(
         icon: Icon(Icons.add),
         label: Text("Add Step"),
         onPressed: () {
           setState(() {
-                StepData temp = new StepData(indivStep: "Enter steps", id: uuid.v4());
-                currentSteps.add(temp);
-              });
+            StepData temp =
+                new StepData(indivStep: "Enter steps", id: uuid.v4());
+            currentSteps.add(temp);
+            _editTextDialog(
+                temp.indivStep, currentSteps.indexOf(currentSteps.last));
+          });
         },
       ),
     );
@@ -134,7 +137,7 @@ class _EditStepsState extends State<EditSteps> {
   }
 
   Widget cancelButton(BuildContext context) {
-    return MaterialButton(
+    return FlatButton(
       color: Colors.red[400],
       child: Icon(Icons.close),
       onPressed: () {
@@ -145,6 +148,7 @@ class _EditStepsState extends State<EditSteps> {
 }
 
 class StepData {
+  var uuid = new Uuid();
   String id;
   String indivStep;
 
@@ -157,6 +161,17 @@ class StepData {
     // }
     // return result;
     return stepDataList.map((x) => x.indivStep).toList();
+  }
+
+
+  List<StepData> convertToListOfStepData(List<String> listStrings) {
+    List<StepData> result = [];
+    for (int i = 0; i < listStrings.length; ++i) {
+      StepData temp = new StepData(indivStep: listStrings[i], id: uuid.v4() );
+      result.add(temp);
+    }
+    return result;
+   
   }
 }
 

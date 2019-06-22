@@ -1,5 +1,6 @@
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coffee_app/MyProfile/Main_profile_page_pastBrewTab.dart';
+import 'package:coffee_app/MyProfile/Recipe.dart';
 import 'package:coffee_app/MyProfile/add_entry.dart';
 import 'package:coffee_app/auth.dart';
 
@@ -19,6 +20,8 @@ class Profile extends StatefulWidget {
 class _Profile extends State<Profile> {
   String name = "displayname";
   String title;
+  String numberOfBrews = " ";
+  String userId;
 
   //code to get firebase User
   Future<FirebaseUser> _fetchUser() async {
@@ -28,12 +31,14 @@ class _Profile extends State<Profile> {
 
   //input here, might not need this method
   void _user() async {
-    final uid = await _fetchUser();
+    final user = await _fetchUser();
+    
     setState(() {
-      if (uid.displayName != null) {
-        name = uid.displayName;
+      if (user.displayName != null) {
+        name = user.displayName;
+        userId = user.uid;
       } else {}
-    });
+    });  
   }
 
   //call async method once instead of continually calling _user();
@@ -41,7 +46,21 @@ class _Profile extends State<Profile> {
   void initState() {
     super.initState();
     _user();
+    _countBrew();
   }
+
+  void _countBrew() async {
+    List result = [];
+    final QuerySnapshot temp = await Firestore.instance.collection("testRecipes").getDocuments();
+    List<DocumentSnapshot> list = temp.documents;
+    list.forEach( (data) => Recipe.fromSnapshot(data).userId == userId  ? result.add(data) : {}  );
+    print(userId);
+    print(result.length);
+    setState(() {
+      numberOfBrews = result.length.toString();
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +112,7 @@ class _Profile extends State<Profile> {
                 style: TextStyle(fontFamily: 'Montserrat', color: Colors.grey),
               ),
               Padding(
-                padding: EdgeInsets.all(30.0),
+                padding: EdgeInsets.all(20.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
@@ -102,7 +121,7 @@ class _Profile extends State<Profile> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Text(
-                          '31',
+                          numberOfBrews,
                           style: TextStyle(
                               fontFamily: 'Montserrat',
                               fontWeight: FontWeight.bold),
@@ -114,23 +133,6 @@ class _Profile extends State<Profile> {
                         )
                       ],
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text(
-                          '21',
-                          style: TextStyle(
-                              fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          'JOURNAL LOG',
-                          style: TextStyle(
-                              fontFamily: 'Montserrat', color: Colors.grey),
-                        )
-                      ],
-                    )
                   ],
                 ),
               ),
@@ -151,6 +153,27 @@ class _Profile extends State<Profile> {
                   builder: (BuildContext context) => AddNewEntry(widget.auth)));
         },
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
+
+/*
+   Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(
+                          '21',
+                          style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          'JOURNAL LOG',
+                          style: TextStyle(
+                              fontFamily: 'Montserrat', color: Colors.grey),
+                        )
+                      ],
+                    )
+*/

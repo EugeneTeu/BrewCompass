@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 
 import '../styles.dart';
 
-class JournalEntry extends StatelessWidget {
+class ViewJournalEntry extends StatelessWidget {
   final Recipe currentRecipe;
   final DocumentSnapshot data;
-  JournalEntry(Recipe currentEntry, DocumentSnapshot data)
+  ViewJournalEntry(Recipe currentEntry, DocumentSnapshot data)
       : this.currentRecipe = currentEntry,
         this.data = data;
 
@@ -23,26 +23,8 @@ class JournalEntry extends StatelessWidget {
         //remove backbutton
         automaticallyImplyLeading: true,
         centerTitle: true,
-        leading: Padding(
-          padding: const EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0),
-          child: MaterialButton(
-            child: Icon(Icons.mode_edit),
-            //implement editing
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => EditEntry(data)));
-            },
-          ),
-        ),
-        title: Text("View Entry"),
-        actions: <Widget>[
-          MaterialButton(
-            child: Icon(Icons.close),
-            onPressed: () => Navigator.pop(context),
-          )
-        ],
+       title: Text("View Entry"),
+        actions: <Widget>[],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -92,47 +74,7 @@ class JournalEntry extends StatelessWidget {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        label: Text("delete this entry"),
-        backgroundColor: Colors.red,
-        onPressed: () {
-          
-          showDialog(
-            context: context,
-            builder : (context) { 
-              return AlertDialog(
-              title: Text("Delete Entry"),
-              content: Text("Are you sure you like to delete this entry?"),
-              actions: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    FlatButton(
-                      color: Colors.blue[200],
-                      child: Icon(Icons.check_circle_outline),
-                      onPressed: () {
-                      
-                        Firestore.instance
-                            .collection("testRecipes")
-                            .document(data.documentID)
-                            .delete()
-                            .catchError((e) {
-                          print(e);
-                        });
-                        print("deleted!");
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                  ],
-                )
-              ],
-            );
-            }
-          );
-        },
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-    );
+     );
   }
 
   Widget _buildLabel(String text) {
@@ -191,49 +133,3 @@ class JournalEntry extends StatelessWidget {
     );
   }
 }
-
-/*
-// TODO: remodel this whole thing to 
-// become the same as edit steps, except that there are no edit buttons
-class JournalEntry extends StatelessWidget {
-  
-  final Recipe currentRecipe;
-
-  JournalEntry(Recipe currentEntry) : this.currentRecipe = currentEntry;
-
-  //List<Widget> steps = currentRecipe.steps.map((steps) => Text(steps)).toList();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text("This brew"),
-          leading: BackButton(
-            color: Colors.black,
-          ),
-        ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              // Divider(),
-              Text(currentRecipe.beanName != null ? currentRecipe.beanName : 'bean name here'),
-              Divider(),
-              Text(currentRecipe.brewer != null ? currentRecipe.brewer : 'brewer here'),
-              Divider(),
-              Text(currentRecipe.tastingNotes != null ? 
-                  currentRecipe.tastingNotes : 'tasting notes here'),
-              Divider(),
-              Text(currentRecipe.date != null ? currentRecipe.date : 'Date here'),
-              Divider(),
-              Column(
-                children:
-                    currentRecipe.steps != null ? currentRecipe.steps.map((steps) => Text(steps)).toList() : [Text("steps here")],
-              ),
-            ],
-          ),
-        ));
-  }
-}
-*/

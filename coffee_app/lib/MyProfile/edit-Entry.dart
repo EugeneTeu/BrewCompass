@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:coffee_app/MyProfile/Recipe.dart';
 import 'package:coffee_app/MyProfile/editSteps.dart';
 import 'package:coffee_app/auth.dart';
 import 'package:coffee_app/misc/brew-guide.dart';
@@ -6,47 +7,24 @@ import 'package:coffee_app/styles.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class AddNewEntry extends StatefulWidget {
-  AddNewEntry(this.auth);
+class EditEntry extends StatefulWidget {
+  EditEntry(this.data);
 
-  BaseAuth auth;
+  DocumentSnapshot data;
   @override
   State<StatefulWidget> createState() {
-    return _AddNewEntryState();
+    return _EditEntryState(data);
   }
 }
 
-class _AddNewEntryState extends State<AddNewEntry> {
+class _EditEntryState extends State<EditEntry> {
+
+  _EditEntryState(data) : this.currentData = data;
+  DocumentSnapshot currentData;
+  Recipe recipe; 
+
   GlobalKey<FormState> _key = GlobalKey();
-
-  //code to get firebase User
-  Future<FirebaseUser> _fetchUser() async {
-    FirebaseUser user = await widget.auth.getUser();
-    return user;
-  }
-
-  //input here, might not need this method
-  void _user() async {
-    // final user = await _fetchUser();
-    final user = await _fetchUser();
-    setState(() {
-      if (user.uid != null) {
-        //name = uid.displayName;
-        userId = user.uid;
-      } else {}
-    });
-  }
-
-  //call async method once instead of continually calling _user();
-  @override
-  void initState() {
-    super.initState();
-    _user();
-  }
-
-  //id for now is manually entered, need to enable indexing by firebase
-  //edit entry flow: take in a form for inputs, push recipe object to database by calling runTransaction
-  //TODO: add validator to the fields, add dropdown menu to switches
+ 
   int id;
   bool isShared = false;
   String date;
@@ -55,6 +33,27 @@ class _AddNewEntryState extends State<AddNewEntry> {
   List<StepData> steps = [];
   String tastingNotes;
   String userId = '';
+
+   @override
+  void initState() {
+    super.initState();
+    this.recipe = Recipe.fromSnapshot(currentData);
+    this.id = recipe.id;
+    this.isShared = recipe.isShared;
+    this.date = recipe.date;
+    this.beanName = recipe.beanName;
+    this.brewer = recipe.brewer;
+    this.steps = _convertList(recipe.steps);
+    this.tastingNotes = recipe.tastingNotes;
+    this.userId = recipe.userId;
+  }
+
+  //casts List<dynamic> to List<String> then converting
+  List<StepData> _convertList(List<dynamic> step) {
+    var temp = new List<String>.from(step);
+    List<StepData> result = StepData().convertToListOfStepData(temp);
+    return result;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +65,7 @@ class _AddNewEntryState extends State<AddNewEntry> {
         //remove backbutton
         automaticallyImplyLeading: false,
         centerTitle: true,
-        title: Text("Add New Entry"),
+        title: Text("Edit Current Entry"),
         actions: <Widget>[
           MaterialButton(
             child: Icon(Icons.close),
@@ -176,6 +175,7 @@ class _AddNewEntryState extends State<AddNewEntry> {
       child: TextFormField(
         style: Styles.createEntryText,
         decoration: new InputDecoration(hintText: "Enter id"),
+        initialValue: id.toString(),
         keyboardType: TextInputType.number,
         validator: (value) => value.isEmpty ? "field cant be empty" : null,
         onSaved: (value) => id = int.parse(value),
@@ -189,6 +189,7 @@ class _AddNewEntryState extends State<AddNewEntry> {
       child: TextFormField(
         style: Styles.createEntryText,
         decoration: new InputDecoration(hintText: "Enter date"),
+        initialValue: date,
         keyboardType: TextInputType.text,
         validator: (value) => value.isEmpty ? "field cant be empty" : null,
         onSaved: (value) => this.date = value,
@@ -202,6 +203,7 @@ class _AddNewEntryState extends State<AddNewEntry> {
       child: TextFormField(
         style: Styles.createEntryText,
         decoration: new InputDecoration(hintText: "Enter Bean Name"),
+        initialValue: beanName,
         keyboardType: TextInputType.text,
         validator: (value) => value.isEmpty ? "field cant be empty" : null,
         onSaved: (value) => this.beanName = value,
@@ -215,6 +217,7 @@ class _AddNewEntryState extends State<AddNewEntry> {
       child: TextFormField(
         style: Styles.createEntryText,
         decoration: new InputDecoration(hintText: "Enter brewer"),
+        initialValue: brewer,
         keyboardType: TextInputType.text,
         validator: (value) => value.isEmpty ? "field cant be empty" : null,
         onSaved: (value) => this.brewer = value,
@@ -229,6 +232,7 @@ class _AddNewEntryState extends State<AddNewEntry> {
         style: Styles.createEntryText,
         decoration:
             new InputDecoration(hintText: "How did the cup taste today?"),
+            initialValue: tastingNotes,
         keyboardType: TextInputType.text,
         validator: (value) => value.isEmpty ? "field cant be empty" : null,
         onSaved: (value) => this.tastingNotes = value,
@@ -244,9 +248,10 @@ class _AddNewEntryState extends State<AddNewEntry> {
         borderRadius: BorderRadius.circular(10.0),
         child: MaterialButton(
             color: Colors.brown[400],
-            child: Text("Create Entry"),
+            child: Text("Edit this Entry"),
             onPressed: () {
               _submitAndUpdateFirebase();
+              Navigator.pop(context);
               Navigator.pop(context);
             }),
       ),
@@ -300,6 +305,13 @@ class _AddNewEntryState extends State<AddNewEntry> {
     });
     List<String> stepsString = StepData().convertToListOfStrings(steps);
     _key.currentState.save();
+     Firestore.instance
+              .collection("testRecipes")
+              .document(widget.data.documentID)
+              .delete()
+              .catchError((e) {
+            print(e);
+          });
     Firestore.instance.runTransaction((Transaction transaction) async {
       CollectionReference reference =
           Firestore.instance.collection('testRecipes');
@@ -310,11 +322,13 @@ class _AddNewEntryState extends State<AddNewEntry> {
         'date': date,
         'beanName': beanName,
         'brewer': brewer,
+       
         'steps': stepsString,
         'tastingNotes': tastingNotes,
         'userId': userId,
       });
-      print("created successfully!");
+      print("edited successfully!");
+      
     });
   }
 }

@@ -16,32 +16,35 @@ class SearchBar extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         color: Styles.searchBackground,
-         borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(10),
       ),
-      child: Padding(padding: const EdgeInsets.symmetric(
-        horizontal: 4, 
-        vertical: 8,
-        ),
-        child: Row(
-          children: [
-            const Icon(Icons.search,
-            ),
-            Expanded(
-              child: TextField(controller: controller,
-              focusNode: focusNode, 
-              style: Styles.searchText, 
-              cursorColor: Styles.searchCursorColor,
+      child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 4,
+            vertical: 8,
+          ),
+          child: Row(
+            children: [
+              const Icon(
+                Icons.search,
               ),
-            ),
-            GestureDetector(
-              onTap: controller.clear,
-              child: const Icon(Icons.add_circle,
-              color: Styles.searchIconColor,
+              Expanded(
+                child: TextField(
+                  controller: controller,
+                  focusNode: focusNode,
+                  style: Styles.searchText,
+                  cursorColor: Styles.searchCursorColor,
+                ),
               ),
-            ),
-          ],
-        )
-        ),
-    );   
+              GestureDetector(
+                onTap: controller.clear,
+                child: const Icon(
+                  Icons.backspace,
+                  color: Styles.searchIconColor,
+                ),
+              ),
+            ],
+          )),
+    );
   }
 }
