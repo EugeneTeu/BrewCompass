@@ -264,6 +264,7 @@ class _AddNewEntryState extends State<AddNewEntry> {
               child: Column(
                 children: <Widget>[
                   ListView.builder(
+                    physics: BouncingScrollPhysics(),
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
                       final currentNum = index + 1;

@@ -65,7 +65,7 @@ class _PastBrewsState extends State<PastBrews> {
       // stream: Firestore.instance.collection("testRecipes").snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
-          return LinearProgressIndicator();
+          return CircularProgressIndicator();
         }
         return _buildPastBrewsList(context, snapshot.data.documents);
       },

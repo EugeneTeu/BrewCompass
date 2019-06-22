@@ -79,46 +79,49 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return new Scaffold(
       resizeToAvoidBottomInset: false,
-      body: Stack(
-        fit: StackFit.expand,
-        children: <Widget>[
-          Image(
-            image: new AssetImage("assets/login_background.jpg"),
-            fit: BoxFit.fitHeight,
-            color: Colors.black87,
-            colorBlendMode: BlendMode.darken,
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              new Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  Container(
-                      alignment: Alignment.center,
-                      child: Text(
-                        "BrewCompass",
-                        style: TextStyle(
-                            fontFamily: "Montesarro",
-                            fontSize: 25.0,
-                            color: Colors.white,
-                            fontStyle: FontStyle.italic),
-                      ))
-                ],
-              ),
-              Container(
-                padding: EdgeInsets.all(40.0),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: buildInputs() + buildSubmitButtons(),
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
+        child: Stack(
+          fit: StackFit.expand,
+          children: <Widget>[
+            Image(
+              image: new AssetImage("assets/login_background.jpg"),
+              fit: BoxFit.fitHeight,
+              color: Colors.black87,
+              colorBlendMode: BlendMode.darken,
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                new Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    Container(
+                        alignment: Alignment.center,
+                        child: Text(
+                          "BrewCompass",
+                          style: TextStyle(
+                              fontFamily: "Montesarro",
+                              fontSize: 25.0,
+                              color: Colors.white,
+                              fontStyle: FontStyle.italic),
+                        ))
+                  ],
+                ),
+                Container(
+                  padding: EdgeInsets.all(40.0),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: buildInputs() + buildSubmitButtons(),
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
