@@ -65,7 +65,12 @@ class _PastBrewsState extends State<PastBrews> {
       // stream: Firestore.instance.collection("testRecipes").snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
-          return CircularProgressIndicator();
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              Center(child: CircularProgressIndicator()),
+            ],
+          );
         }
         return _buildPastBrewsList(context, snapshot.data.documents);
       },
@@ -112,7 +117,6 @@ class _PastBrewsState extends State<PastBrews> {
           //unique key
           key: Key(uuid.v4()),
           onDismissed: (direction) {
-            
             try {
               setState(() {
                 Firestore.instance
@@ -134,17 +138,17 @@ class _PastBrewsState extends State<PastBrews> {
                 padding: EdgeInsets.only(right: 12.0),
                 decoration: new BoxDecoration(
                     border: new Border(
-                        right:new BorderSide(width: 1.0, color: Colors.black45))),
+                        right:
+                            new BorderSide(width: 1.0, color: Colors.black45))),
                 child: Icon(Icons.book, color: Colors.black),
               ),
               title: Text("Bean: " + currentEntry.beanName),
               subtitle: Text(currentEntry.date),
               trailing: Container(
                 decoration: BoxDecoration(
-                  border: Border(
-                    left: BorderSide(width: 1.0, color: Colors.black45),
-                  )
-                ),
+                    border: Border(
+                  left: BorderSide(width: 1.0, color: Colors.black45),
+                )),
                 child: IconButton(
                   icon: Icon(Icons.chevron_right),
                   onPressed: () {

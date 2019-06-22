@@ -72,7 +72,12 @@ class _Profile extends State<Profile> {
           return _buildProfilePage(context);
         } else {
           return Scaffold(
-            body: LinearProgressIndicator(),
+            body: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                CircularProgressIndicator(),
+              ],
+            ),
           );
         }
       },
