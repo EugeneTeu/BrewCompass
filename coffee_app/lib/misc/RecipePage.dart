@@ -24,8 +24,8 @@ class _RecipePageState extends State<RecipePage> {
   TextEditingController _controller;
   FocusNode _focusNode;
   String _terms = '';
-  List queryResults = [];
-  List tempSearchedResults = [];
+  List<DocumentSnapshot> queryResults = [];
+  List<DocumentSnapshot> tempSearchedResults = [];
 
   @override
   void initState() {
@@ -33,7 +33,7 @@ class _RecipePageState extends State<RecipePage> {
     _controller = TextEditingController()..addListener(_onTextChanged);
     _focusNode = FocusNode();
     _fetchQueryResults();
-    // print('init state ran');
+    // print('init state ran@@@@@@@@@@@@@@@');
   }
 
   void _fetchQueryResults() async {
@@ -43,10 +43,11 @@ class _RecipePageState extends State<RecipePage> {
         .getDocuments();
 
     for (int i = 0; i < docs.documents.length; ++i) {
-      queryResults.add(docs.documents[i].data);
+      setState(() {
+        queryResults.add(docs.documents[i]);
+        tempSearchedResults.add(docs.documents[i]);
+      });
     }
-
-    // print(queryResults);
   }
 
   @override
@@ -85,28 +86,30 @@ class _RecipePageState extends State<RecipePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: <Widget>[
-          _buildSearchBox(),
-          // _buildRecipePage(context),
-          Expanded(
-            child: ListView.builder(
-              itemCount: tempSearchedResults.length,
-              itemBuilder: (context, index) => _buildEachItem(
-                  context,
-                  tempSearchedResults[index],
-                  index,
-                  tempSearchedResults.length),
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
+        child: Column(
+          children: <Widget>[
+            _buildSearchBox(),
+            Expanded(
+              child: ListView.builder(
+                itemCount: tempSearchedResults.length,
+                itemBuilder: (context, index) => _buildEachItem(
+                    context,
+                    tempSearchedResults[index],
+                    index,
+                    tempSearchedResults.length),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildSearchBox() {
     return Padding(
-      padding: const EdgeInsets.all(8),
+      padding: const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
       child: SearchBar(
         controller: _controller,
         focusNode: _focusNode,
@@ -148,8 +151,8 @@ class _RecipePageState extends State<RecipePage> {
     );*/
 }
 
-Widget _buildEachItem(
-    BuildContext context, Map currentEntry, int index, int length) {
+Widget _buildEachItem(BuildContext context, DocumentSnapshot currentEntry,
+    int index, int length) {
   final last = index + 1 == length;
   // final currentEntry = Recipe.fromSnapshot(data);
   return Padding(
@@ -178,15 +181,13 @@ Widget _buildEachItem(
           trailing: Container(
             child: IconButton(
               icon: Icon(Icons.library_books),
-              // TODO: JD: change document type from a Map to a DocumentSnapShot
-              // so that the view function is linked properly
-              // onPressed: () {
-              //   Navigator.push(
-              //       context,
-              //       MaterialPageRoute(
-              //           builder: (context) =>
-              //               ViewJournalEntry(currentEntry, data)));
-              // },
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ViewJournalEntry(
+                            Recipe.fromSnapshot(currentEntry), currentEntry)));
+              },
             ),
           )),
     ),
