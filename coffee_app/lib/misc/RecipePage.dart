@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coffee_app/MyProfile/Recipe.dart';
 import 'package:coffee_app/misc/search_bar.dart';
-
 import 'package:coffee_app/misc/view-Entry.dart';
 import 'package:flutter/material.dart';
 
@@ -144,7 +143,7 @@ class _RecipePageState extends State<RecipePage> {
   //     itemCount: snapshot.length,
   //   );
 
-  /*
+    /*
     return ListView(
       padding: EdgeInsets.only(top: 10.0),
       children: snapshot.map((data) => _buildEachItem(context, data)).toList(),
