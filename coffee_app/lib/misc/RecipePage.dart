@@ -72,10 +72,11 @@ class _RecipePageState extends State<RecipePage> {
       });
 
       queryResults.forEach((element) {
-        if (element['beanName'].contains(_terms)) {
+        // change the test condition in the if block below 
+        // to change search functionality
+        if (element['beanName'].toLowerCase().contains(_terms.toLowerCase())) {
           setState(() {
             tempSearchedResults.add(element);
-            // print(JsonEncoder.withIndent('  ').convert(element));
           });
         }
       });
