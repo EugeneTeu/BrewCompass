@@ -71,11 +71,15 @@ class _RecipePageState extends State<RecipePage> {
         tempSearchedResults = [];
       });
 
+      // change the test condition in the if block below 
+      // to change search functionality
+      bool searchPredicate(DocumentSnapshot element) => 
+          element['beanName'].toLowerCase().contains(_terms.toLowerCase()) ||
+          element['brewer'].toLowerCase().contains(_terms.toLowerCase());
+
       // in brewer branch
       queryResults.forEach((element) {
-        // change the test condition in the if block below 
-        // to change search functionality
-        if (element['beanName'].toLowerCase().contains(_terms.toLowerCase())) {
+        if (searchPredicate(element)) {
           setState(() {
             tempSearchedResults.add(element);
           });
