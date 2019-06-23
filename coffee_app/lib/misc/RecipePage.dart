@@ -37,7 +37,7 @@ class _RecipePageState extends State<RecipePage> {
 
   void _fetchQueryResults() async {
     final QuerySnapshot docs = await Firestore.instance
-        .collection('testRecipes')
+        .collection('testRecipesv3')
         .where('isShared', isEqualTo: true)
         .getDocuments();
 

@@ -43,7 +43,7 @@ class _PastBrewsState extends State<PastBrews> {
 
   Stream<QuerySnapshot> newStream() {
     return Firestore.instance
-        .collection("testRecipes")
+        .collection("testRecipesv3")
         .where('userId', isEqualTo: userId)
         .snapshots();
   }
@@ -59,7 +59,7 @@ class _PastBrewsState extends State<PastBrews> {
   Widget _buildPastBrews(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
       stream: Firestore.instance
-          .collection("testRecipes")
+          .collection("testRecipesv3")
           .where('userId', isEqualTo: userId)
           .snapshots(),
       // stream: Firestore.instance.collection("testRecipes").snapshots(),
@@ -100,7 +100,6 @@ class _PastBrewsState extends State<PastBrews> {
     final last = index + 1 == length;
     final currentEntry = Recipe.fromSnapshot(data);
     return Padding(
-      key: ValueKey(currentEntry.id),
       //add custom padding to last entry to accomdate floating action button
       padding: !last
           ? EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0)
@@ -120,7 +119,7 @@ class _PastBrewsState extends State<PastBrews> {
             try {
               setState(() {
                 Firestore.instance
-                    .collection("testRecipes")
+                    .collection("testRecipesv3")
                     .document(data.documentID)
                     .delete()
                     .catchError((e) {

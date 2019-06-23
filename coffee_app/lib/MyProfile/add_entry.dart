@@ -85,10 +85,11 @@ class _AddNewEntryState extends State<AddNewEntry> {
                   child: Column(
                   children: <Widget>[
                     _buildLabel("Enter ur Brew Details"),
+                    _buildLabel("Date of this brew"),
                     Row(
                       //need to wrap widget in expanded here to give the child widget a size parameter
                       children: <Widget>[
-                        Flexible(flex: 1, child: _buildInputFieldNum()),
+                        /*Flexible(flex: 1, child: _buildInputFieldNum()),*/
                         Flexible(
                           flex: 1,
                           child: _buildInputFieldDate(),
@@ -303,9 +304,9 @@ class _AddNewEntryState extends State<AddNewEntry> {
     _key.currentState.save();
     Firestore.instance.runTransaction((Transaction transaction) async {
       CollectionReference reference =
-          Firestore.instance.collection('testRecipes');
+          Firestore.instance.collection('testRecipesv3');
       await reference.add({
-        'id': id,
+        /*'id': id,*/
         // all recipes are created private by default
         'isShared': isShared,
         'date': date,

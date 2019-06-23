@@ -23,18 +23,18 @@ class ViewJournalEntry extends StatelessWidget {
         //remove backbutton
         automaticallyImplyLeading: true,
         centerTitle: true,
-       title: Text("View Entry"),
+        title: Text("View Entry"),
         actions: <Widget>[],
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            _buildLabel("Brew Details"),
+            _buildLabel("Date"),
             Row(
               children: <Widget>[
-                _buildFormattedText('ID:'),
-                _buildFormattedTextField('${currentRecipe.id}'),
+                /* _buildFormattedText('ID:'),*/
+                /*_buildFormattedTextField('${currentRecipe.id}'),*/
                 _buildFormattedText('Date:'),
                 _buildFormattedTextField('${currentRecipe.date}'),
               ],
@@ -74,7 +74,7 @@ class ViewJournalEntry extends StatelessWidget {
           ],
         ),
       ),
-     );
+    );
   }
 
   Widget _buildLabel(String text) {

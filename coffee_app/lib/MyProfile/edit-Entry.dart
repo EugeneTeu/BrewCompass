@@ -35,7 +35,7 @@ class _EditEntryState extends State<EditEntry> {
   void initState() {
     super.initState();
     this.recipe = Recipe.fromSnapshot(currentData);
-    this.id = recipe.id;
+    /*this.id = recipe.id;*/
     this.isShared = recipe.isShared;
     this.date = recipe.date;
     this.beanName = recipe.beanName;
@@ -84,7 +84,7 @@ class _EditEntryState extends State<EditEntry> {
                     Row(
                       //need to wrap widget in expanded here to give the child widget a size parameter
                       children: <Widget>[
-                        Flexible(flex: 1, child: _buildInputFieldNum()),
+                        //Flexible(flex: 1, child: _buildInputFieldNum()),
                         Flexible(
                           flex: 1,
                           child: _buildInputFieldDate(),
@@ -305,7 +305,7 @@ class _EditEntryState extends State<EditEntry> {
     List<String> stepsString = StepData().convertToListOfStrings(steps);
     _key.currentState.save();
     Firestore.instance
-        .collection("testRecipes")
+        .collection("testRecipesv3")
         .document(widget.data.documentID)
         .delete()
         .catchError((e) {
@@ -313,9 +313,9 @@ class _EditEntryState extends State<EditEntry> {
     });
     Firestore.instance.runTransaction((Transaction transaction) async {
       CollectionReference reference =
-          Firestore.instance.collection('testRecipes');
+          Firestore.instance.collection('testRecipesv3');
       await reference.add({
-        'id': id,
+        /*'id': id,*/
         // all recipes are created private by default
         'isShared': isShared,
         'date': date,

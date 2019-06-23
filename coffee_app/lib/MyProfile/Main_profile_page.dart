@@ -51,7 +51,7 @@ class _Profile extends State<Profile> {
 
   void _countBrew() async {
     List result = [];
-    final QuerySnapshot temp = await Firestore.instance.collection("testRecipes").getDocuments();
+    final QuerySnapshot temp = await Firestore.instance.collection("testRecipesv3").getDocuments();
     List<DocumentSnapshot> list = temp.documents;
     list.forEach( (data) => Recipe.fromSnapshot(data).userId == userId  ? result.add(data) : {}  );
     //print(userId);
@@ -151,7 +151,7 @@ class _Profile extends State<Profile> {
         label: Text("New Entry"),
         onPressed: () {
           //var dummyData = {'beanName': 'black', 'brewer': 'KW'};
-          //Firestore.instance.collection('testRecipes').add(dummyData);
+          //Firestore.instance.collection('v3').add(dummyData);
           Navigator.push(
               context,
               MaterialPageRoute(

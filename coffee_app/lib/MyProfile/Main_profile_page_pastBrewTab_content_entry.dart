@@ -52,7 +52,7 @@ class JournalEntry extends StatelessWidget {
             Row(
               children: <Widget>[
                 _buildFormattedText('ID:'),
-                _buildFormattedTextField('${currentRecipe.id}'),
+                //_buildFormattedTextField('${currentRecipe.id}'),
                 _buildFormattedText('Date:'),
                 _buildFormattedTextField('${currentRecipe.date}'),
               ],
@@ -113,7 +113,7 @@ class JournalEntry extends StatelessWidget {
                       onPressed: () {
                       
                         Firestore.instance
-                            .collection("testRecipes")
+                            .collection("testRecipesv3")
                             .document(data.documentID)
                             .delete()
                             .catchError((e) {
