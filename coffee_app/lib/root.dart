@@ -1,4 +1,5 @@
 
+import 'package:coffee_app/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'auth.dart';
@@ -8,8 +9,7 @@ import 'login_page.dart';
 
 class RootPage extends StatefulWidget {
 
-  RootPage({this.auth});
-  final BaseAuth auth;
+  
   @override
   State<StatefulWidget> createState() {
     return RootPageState();
@@ -27,16 +27,23 @@ class RootPageState extends State<RootPage> {
   //initial
   AuthStatus _authStatus = AuthStatus.notSignedIn;
 
-  //each time the stateful widget is created 
   @override
-  void initState() {
-    super.initState();
-    //initState not async, cannot use await here
-    widget.auth.currentUser().then((userId) {
+  void didChangeDependencies() {
+    //init state for Auth
+    //not ok to call object from init state
+    super.didChangeDependencies();
+    var auth = AuthProvider.of(context).auth;
+    auth.currentUser().then((userId) {
       setState(() {
         _authStatus = userId == null ? AuthStatus.notSignedIn : AuthStatus.signedIn;
       });
     } ) ;
+  }
+
+  //each time the stateful widget is created 
+  @override
+  void initState() {
+    super.initState();
   }
 
   void _signedIn() {
@@ -54,12 +61,10 @@ class RootPageState extends State<RootPage> {
   @override
   Widget build(BuildContext context) {
     if(_authStatus == AuthStatus.notSignedIn) {
-      return new LoginPage(
-        auth : widget.auth,
+      return new LoginPage(    
         onSignedIn: _signedIn,);
     } else if (_authStatus == AuthStatus.signedIn) {
       return new MyHomePage(
-        auth: widget.auth,
         onSignedOut: _signedOut,
       );
     }

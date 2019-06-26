@@ -1,3 +1,4 @@
+import 'package:coffee_app/auth_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,15 +19,18 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        accentColor: Colors.brown[200],
-        primaryColor: Colors.brown[200],
-        brightness: Brightness.light,
-        
+    return AuthProvider(
+      auth:Auth(),
+          child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          accentColor: Colors.brown[200],
+          primaryColor: Colors.brown[200],
+          brightness: Brightness.light,
+          
+        ),
+        home: new RootPage(),
       ),
-      home: new RootPage(auth: new Auth()),
     );
   }
 }

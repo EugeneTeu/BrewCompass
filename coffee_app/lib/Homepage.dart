@@ -1,4 +1,5 @@
 import 'package:coffee_app/MyProfile/Main_profile_page.dart';
+import 'package:coffee_app/auth_provider.dart';
 import 'package:coffee_app/misc/RecipePage.dart';
 import 'package:coffee_app/misc/test_page.dart';
 import 'package:flutter/material.dart';
@@ -7,27 +8,28 @@ import 'package:coffee_app/auth.dart';
 import 'package:coffee_app/bottom_navy_bar.dart';
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title, this.auth, this.onSignedOut})
+  MyHomePage({Key key, this.title, this.onSignedOut})
       : super(key: key);
-  final BaseAuth auth;
+ 
   final VoidCallback onSignedOut;
   final String title;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState(auth, onSignedOut);
+  _MyHomePageState createState() => _MyHomePageState( onSignedOut);
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  _MyHomePageState(this._auth, this._onSignedOut);
+  _MyHomePageState( this._onSignedOut);
 
-  final BaseAuth _auth;
+  
   final VoidCallback _onSignedOut;
 
   PageController _pageController = new PageController();
 
-  void _signOut() async {
+  void _signOut(BuildContext context) async {
     try {
-      await _auth.signOut();
+      var auth = AuthProvider.of(context).auth;
+      await auth.signOut();
       _onSignedOut();
     } catch (e) {
       print(e);
@@ -44,7 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
           new MaterialButton(
             child: Text("logout"),
             onPressed: () {
-              _signOut();
+              _signOut(context);
             },
           )
         ],
@@ -57,7 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
   //list of main tabs here
   List<Widget> _buildPageOptions() => [
         //TestPage(_auth),
-        Profile(_auth),
+        Profile(),
         RecipePage(),
         TabbedPage(),
         

@@ -1,3 +1,4 @@
+import 'package:coffee_app/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'auth.dart';
@@ -5,8 +6,8 @@ import 'styles.dart';
 
 class LoginPage extends StatefulWidget {
   //need to pass in an instance of this abstract class BaseAuth
-  LoginPage({this.auth, this.onSignedIn});
-  final BaseAuth auth;
+  LoginPage({ this.onSignedIn});
+
   final VoidCallback onSignedIn;
 
   @override
@@ -43,12 +44,13 @@ class _LoginPageState extends State<LoginPage> {
   void validateAndSubmit() async {
     if (validateAndSave()) {
       try {
+        var auth = AuthProvider.of(context).auth;
         if (_formType == FormType.login) {
           String userId =
-              await widget.auth.signInWithEmailAndPassword(_email, _password);
+              await auth.signInWithEmailAndPassword(_email, _password);
           print("signed in $userId");
         } else {
-          String userId = await widget.auth
+          String userId = await auth
               .createUserWithEmailAndPassword(_email, _password, _displayName);
           print("registered $userId");
         }

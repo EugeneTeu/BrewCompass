@@ -3,14 +3,15 @@ import 'package:coffee_app/MyProfile/Main_profile_page_pastBrewTab.dart';
 import 'package:coffee_app/MyProfile/Recipe.dart';
 import 'package:coffee_app/MyProfile/add_entry.dart';
 import 'package:coffee_app/auth.dart';
+import 'package:coffee_app/auth_provider.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class Profile extends StatefulWidget {
-  Profile(this.auth);
-  final BaseAuth auth;
+  
+  
   @override
   State<StatefulWidget> createState() {
     return _Profile();
@@ -22,10 +23,17 @@ class _Profile extends State<Profile> {
   String title;
   String numberOfBrews = "loading..";
   String userId;
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+     _user();
+    _countBrew();
+  }
 
   //code to get firebase User
   Future<FirebaseUser> _fetchUser() async {
-    FirebaseUser user = await widget.auth.getUser();
+    var auth = AuthProvider.of(context).auth;
+    FirebaseUser user = await auth.getUser();
     return user;
   }
 
@@ -45,8 +53,8 @@ class _Profile extends State<Profile> {
   @override
   void initState() {
     super.initState();
-    _user();
-    _countBrew();
+    //_user();
+   // _countBrew();
   }
 
   void _countBrew() async {
@@ -85,6 +93,7 @@ class _Profile extends State<Profile> {
   }
 
   Widget _buildProfilePage(BuildContext context) {
+    var auth = AuthProvider.of(context).auth;
     return Scaffold(
       body: Column(
         children: <Widget>[
@@ -143,7 +152,7 @@ class _Profile extends State<Profile> {
               ),
             ],
           ),
-          Expanded(child: PastBrewTab(auth: widget.auth)),
+          Expanded(child: PastBrewTab(auth:auth)),
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
@@ -155,7 +164,7 @@ class _Profile extends State<Profile> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (BuildContext context) => AddNewEntry(widget.auth)));
+                  builder: (BuildContext context) => AddNewEntry(auth)));
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
