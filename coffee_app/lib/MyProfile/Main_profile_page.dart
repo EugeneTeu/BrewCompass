@@ -97,7 +97,7 @@ class _Profile extends State<Profile> {
       body: Column(
         children: <Widget>[
           SizedBox(
-            height: 25.0,
+            height: 10.0,
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
