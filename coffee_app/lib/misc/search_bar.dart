@@ -39,7 +39,7 @@ class _SearchBarState extends State<SearchBar> {
       child: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 10,
-            vertical: 8,
+            vertical: 8.0,
           ),
           child: Row(
             children: [
@@ -49,6 +49,7 @@ class _SearchBarState extends State<SearchBar> {
               ),
               Expanded(
                 child: TextField(
+                 decoration: InputDecoration(hintText: "Search for recipes from other users"),
                   controller: widget.controller,
                   focusNode: widget.focusNode,
                   style: Styles.searchText,

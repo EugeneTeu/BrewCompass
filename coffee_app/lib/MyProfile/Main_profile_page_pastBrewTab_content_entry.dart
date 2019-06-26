@@ -51,8 +51,6 @@ class JournalEntry extends StatelessWidget {
             _buildLabel("Brew Details"),
             Row(
               children: <Widget>[
-                _buildFormattedText('ID:'),
-                //_buildFormattedTextField('${currentRecipe.id}'),
                 _buildFormattedText('Date:'),
                 _buildFormattedTextField('${currentRecipe.date}'),
               ],
@@ -96,39 +94,36 @@ class JournalEntry extends StatelessWidget {
         label: Text("delete this entry"),
         backgroundColor: Colors.red,
         onPressed: () {
-          
           showDialog(
-            context: context,
-            builder : (context) { 
-              return AlertDialog(
-              title: Text("Delete Entry"),
-              content: Text("Are you sure you like to delete this entry?"),
-              actions: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    FlatButton(
-                      color: Colors.blue[200],
-                      child: Icon(Icons.check_circle_outline),
-                      onPressed: () {
-                      
-                        Firestore.instance
-                            .collection("testRecipesv3")
-                            .document(data.documentID)
-                            .delete()
-                            .catchError((e) {
-                          print(e);
-                        });
-                        print("deleted!");
-                        Navigator.of(context).pop();
-                      },
-                    ),
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: Text("Delete Entry"),
+                  content: Text("Are you sure you like to delete this entry?"),
+                  actions: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        FlatButton(
+                          color: Colors.blue[200],
+                          child: Icon(Icons.check_circle_outline),
+                          onPressed: () {
+                            Firestore.instance
+                                .collection("testRecipesv3")
+                                .document(data.documentID)
+                                .delete()
+                                .catchError((e) {
+                              print(e);
+                            });
+                            print("deleted!");
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    )
                   ],
-                )
-              ],
-            );
-            }
-          );
+                );
+              });
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,

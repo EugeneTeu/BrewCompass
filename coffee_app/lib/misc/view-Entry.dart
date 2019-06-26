@@ -33,8 +33,7 @@ class ViewJournalEntry extends StatelessWidget {
             _buildLabel("Date"),
             Row(
               children: <Widget>[
-                /* _buildFormattedText('ID:'),*/
-                /*_buildFormattedTextField('${currentRecipe.id}'),*/
+                
                 _buildFormattedText('Date:'),
                 _buildFormattedTextField('${currentRecipe.date}'),
               ],

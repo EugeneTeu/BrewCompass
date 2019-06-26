@@ -6,8 +6,8 @@ import 'package:flutter/rendering.dart';
 
 
 class PastBrewTab extends StatefulWidget {
-  const PastBrewTab({this.auth, Key key}) : super(key: key);
-  final BaseAuth auth;
+  const PastBrewTab({ Key key}) : super(key: key);
+  
 
   @override
   PastBrewTabState createState() => PastBrewTabState();
@@ -48,7 +48,7 @@ class PastBrewTabState extends State<PastBrewTab>
         body: TabBarView(
           physics: NeverScrollableScrollPhysics(),
           children: <Widget>[
-          new PastBrews(auth: widget.auth),
+          new PastBrews(),
         ]),
       ),
     );

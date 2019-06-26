@@ -61,7 +61,7 @@ class _MyConverter extends State<MyConverter> {
                         focusNode: _focusNode,
                         style: Styles.calcFont,
                         decoration: new InputDecoration(
-                            hintText: "Enter Desired Water Ratio (1:_)",
+                            hintText: "Enter Desired Water Ratio 1 : ",
                             hintStyle: new TextStyle(fontSize: 15.0)),
                         keyboardType:
                             TextInputType.numberWithOptions(decimal: true),

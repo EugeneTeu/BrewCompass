@@ -1,15 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coffee_app/MyProfile/editSteps.dart';
 import 'package:coffee_app/auth.dart';
+import 'package:coffee_app/auth_provider.dart';
 import 'package:coffee_app/misc/brew-guide.dart';
 import 'package:coffee_app/styles.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class AddNewEntry extends StatefulWidget {
-  AddNewEntry(this.auth);
+ 
 
-  BaseAuth auth;
+
   @override
   State<StatefulWidget> createState() {
     return _AddNewEntryState();
@@ -21,7 +22,8 @@ class _AddNewEntryState extends State<AddNewEntry> {
 
   //code to get firebase User
   Future<FirebaseUser> _fetchUser() async {
-    FirebaseUser user = await widget.auth.getUser();
+    var auth = AuthProvider.of(context).auth;
+    FirebaseUser user = await auth.getUser();
     return user;
   }
 
@@ -37,11 +39,16 @@ class _AddNewEntryState extends State<AddNewEntry> {
     });
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _user();
+  }
+
   //call async method once instead of continually calling _user();
   @override
   void initState() {
     super.initState();
-    _user();
   }
 
   //id for now is manually entered, need to enable indexing by firebase

@@ -114,7 +114,7 @@ class _RecipePageState extends State<RecipePage> {
 
   Widget _buildSearchBox() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 20.0),
+      padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 20.0),
       child: SearchBar(
         controller: _controller,
         focusNode: _focusNode,

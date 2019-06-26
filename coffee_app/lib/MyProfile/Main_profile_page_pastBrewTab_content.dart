@@ -1,15 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coffee_app/MyProfile/Main_profile_page_pastBrewTab_content_entry.dart';
 import 'package:coffee_app/MyProfile/Recipe.dart';
-import 'package:coffee_app/auth.dart';
+import 'package:coffee_app/auth_provider.dart';
+import 'package:coffee_app/misc/view-Entry.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:uuid/uuid.dart';
 
 class PastBrews extends StatefulWidget {
-  PastBrews({this.auth});
-  final BaseAuth auth;
+  
+ 
 
   @override
   State<StatefulWidget> createState() => _PastBrewsState();
@@ -20,7 +21,8 @@ class _PastBrewsState extends State<PastBrews> {
   Uuid uuid = new Uuid();
 
   Future<FirebaseUser> _fetchUser() async {
-    FirebaseUser user = await widget.auth.getUser();
+    var auth = AuthProvider.of(context).auth;
+    FirebaseUser user = await auth.getUser();
     return user;
   }
 
@@ -34,11 +36,15 @@ class _PastBrewsState extends State<PastBrews> {
       } else {}
     });
   }
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+     _user();
+  }
 
   @override
   void initState() {
     super.initState();
-    _user();
   }
 
   Stream<QuerySnapshot> newStream() {
@@ -151,7 +157,7 @@ class _PastBrewsState extends State<PastBrews> {
                 child: IconButton(
                   icon: Icon(Icons.chevron_right),
                   onPressed: () {
-                    print("future edit button");
+                   
                     Navigator.push(
                         context,
                         MaterialPageRoute(

@@ -10,8 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class Profile extends StatefulWidget {
-  
-  
   @override
   State<StatefulWidget> createState() {
     return _Profile();
@@ -26,7 +24,7 @@ class _Profile extends State<Profile> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-     _user();
+    _user();
     _countBrew();
   }
 
@@ -40,13 +38,13 @@ class _Profile extends State<Profile> {
   //input here, might not need this method
   void _user() async {
     final user = await _fetchUser();
-    
+
     setState(() {
       if (user.displayName != null) {
         name = user.displayName;
         userId = user.uid;
       } else {}
-    });  
+    });
   }
 
   //call async method once instead of continually calling _user();
@@ -54,21 +52,22 @@ class _Profile extends State<Profile> {
   void initState() {
     super.initState();
     //_user();
-   // _countBrew();
+    // _countBrew();
   }
 
   void _countBrew() async {
     List result = [];
-    final QuerySnapshot temp = await Firestore.instance.collection("testRecipesv3").getDocuments();
+    final QuerySnapshot temp =
+        await Firestore.instance.collection("testRecipesv3").getDocuments();
     List<DocumentSnapshot> list = temp.documents;
-    list.forEach( (data) => Recipe.fromSnapshot(data).userId == userId  ? result.add(data) : {}  );
+    list.forEach((data) =>
+        Recipe.fromSnapshot(data).userId == userId ? result.add(data) : {});
     //print(userId);
     //print(result.length);
     setState(() {
       numberOfBrews = result.length.toString();
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -103,29 +102,43 @@ class _Profile extends State<Profile> {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Container(
-                height: 80.0,
-                width: 80.0,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(62.5),
-                    image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: AssetImage('assets/BrewCompass-icon-1.png'))),
-              ),
-              SizedBox(height: 25.0),
-              Text(
-                name,
-                style: TextStyle(
-                    fontFamily: 'Montserrat',
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 4.0),
-              Text(
-                'Singapore',
-                style: TextStyle(fontFamily: 'Montserrat', color: Colors.grey),
-              ),
-              Padding(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  Column(
+                    children: <Widget>[
+                      Container(
+                        height: 80.0,
+                        width: 80.0,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(62.5),
+                            image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: AssetImage(
+                                    'assets/BrewCompass-icon-1.png'))),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Text(
+                          name,
+                          style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(8.0,0.0,8.0,8.0),
+                        child: Text(
+                            'Singapore',
+                            style: TextStyle(
+                                fontFamily: 'Montserrat', color: Colors.grey),
+                          ),
+                      )
+                      
+                    ],
+                  ),
+                     Padding(
                 padding: EdgeInsets.all(20.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -152,7 +165,10 @@ class _Profile extends State<Profile> {
               ),
             ],
           ),
-          Expanded(child: PastBrewTab(auth:auth)),
+                ],
+              ),
+           
+          Expanded(child: PastBrewTab()),
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
@@ -164,7 +180,7 @@ class _Profile extends State<Profile> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (BuildContext context) => AddNewEntry(auth)));
+                  builder: (BuildContext context) => AddNewEntry()));
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
