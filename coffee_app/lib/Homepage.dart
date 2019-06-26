@@ -86,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
               title: Text('Profile'),
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.library_books),
+              icon: Icon(Icons.search),
               title: Text('Recipes'),
             ),
             BottomNavigationBarItem(

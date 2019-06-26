@@ -25,7 +25,7 @@ class _SearchBarState extends State<SearchBar> {
 
   _onOnFocusNodeEvent() {
     setState(() {
-      // Re-renders
+     
     });
   }
 
