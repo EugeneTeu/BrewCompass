@@ -1,13 +1,15 @@
 import 'package:coffee_app/auth_provider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'dart:io' show Platform;
 import 'auth.dart';
 import 'styles.dart';
 
 class LoginPage extends StatefulWidget {
   //need to pass in an instance of this abstract class BaseAuth
-  LoginPage({ this.onSignedIn});
+  LoginPage({this.onSignedIn});
 
   final VoidCallback onSignedIn;
 
@@ -51,8 +53,8 @@ class _LoginPageState extends State<LoginPage> {
               await auth.signInWithEmailAndPassword(_email, _password);
           print("signed in $userId");
         } else {
-          String userId = await auth
-              .createUserWithEmailAndPassword(_email, _password, _displayName);
+          String userId = await auth.createUserWithEmailAndPassword(
+              _email, _password, _displayName);
           print("registered $userId");
         }
         widget.onSignedIn();
@@ -65,24 +67,33 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<Null> _signInErrorDialog(PlatformException e) async {
-    
-
     return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("Error signing in"),
-          content: Text(e.code),
-          actions: <Widget>[
-            FlatButton(
-              child: Text("try again"),
-              onPressed: () => Navigator.of(context).pop(),
-            )
-          ],
-        );
-      }
-    );
-
+        context: context,
+        builder: (BuildContext context) {
+          if (Platform.isAndroid) {
+            return AlertDialog(
+              title: Text("Error signing in"),
+              content: Text(e.code),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text("try again"),
+                  onPressed: () => Navigator.of(context).pop(),
+                )
+              ],
+            );
+          } else if (Platform.isIOS) {
+            return CupertinoAlertDialog(
+              title: Text("Error signing in"),
+              content: Text(e.code),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text("try again"),
+                  onPressed: () => Navigator.of(context).pop(),
+                )
+              ],
+            );
+          }
+        });
   }
 
   //register user by switching form type

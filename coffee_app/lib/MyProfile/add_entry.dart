@@ -35,6 +35,7 @@ class _AddNewEntryState extends State<AddNewEntry> {
       if (user.uid != null) {
         //name = uid.displayName;
         userId = user.uid;
+        displayName = user.displayName;
       } else {}
     });
   }
@@ -43,6 +44,7 @@ class _AddNewEntryState extends State<AddNewEntry> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     _user();
+  
   }
 
   //call async method once instead of continually calling _user();
@@ -62,6 +64,7 @@ class _AddNewEntryState extends State<AddNewEntry> {
   List<StepData> steps = [];
   String tastingNotes;
   String userId = '';
+  String displayName = ' ';
 
   @override
   Widget build(BuildContext context) {
@@ -315,6 +318,7 @@ class _AddNewEntryState extends State<AddNewEntry> {
       await reference.add({
         /*'id': id,*/
         // all recipes are created private by default
+        'displayName' : displayName,
         'isShared': isShared,
         'date': date,
         'beanName': beanName,

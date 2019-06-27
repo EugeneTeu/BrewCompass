@@ -9,10 +9,12 @@ class Recipe {
   List steps;
   String tastingNotes;
   String userId;
+  String displayName;
   final DocumentReference reference;
 
   Recipe.fromMap(Map<String, dynamic> map, {this.reference}) 
     : /*this.id = map['id'],*/
+    this.displayName = map['displayName'],
     this.isShared = map['isShared'],
     this.date = map['date'],
     this.brewer = map['brewer'],
@@ -30,6 +32,7 @@ class Recipe {
   toJson() {
     return {
      /* 'id' : id,*/
+     "displayName" : displayName,
       'isShared' : isShared,
       'date' : date,
       'beanName' : beanName,

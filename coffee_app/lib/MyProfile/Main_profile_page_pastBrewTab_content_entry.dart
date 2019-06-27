@@ -51,6 +51,8 @@ class JournalEntry extends StatelessWidget {
             _buildLabel("Brew Details"),
             Row(
               children: <Widget>[
+                _buildFormattedText("Owner: "),
+                _buildFormattedTextName(currentRecipe.displayName),
                 _buildFormattedText('Date:'),
                 _buildFormattedTextField('${currentRecipe.date}'),
               ],
@@ -139,6 +141,13 @@ class JournalEntry extends StatelessWidget {
           style: Styles.entryLabelsText,
         ),
       ),
+    );
+  }
+
+  Widget _buildFormattedTextName(String text) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(0.0, 0, 0, 0),
+      child: Text('$text'),
     );
   }
 

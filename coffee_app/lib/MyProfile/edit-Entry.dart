@@ -30,6 +30,7 @@ class _EditEntryState extends State<EditEntry> {
   List<StepData> steps = [];
   String tastingNotes;
   String userId = '';
+  String displayName = '';
 
   @override
   void initState() {
@@ -43,6 +44,7 @@ class _EditEntryState extends State<EditEntry> {
     this.steps = _convertList(recipe.steps);
     this.tastingNotes = recipe.tastingNotes;
     this.userId = recipe.userId;
+    this.displayName = recipe.displayName;
   }
 
   //casts List<dynamic> to List<String> then converting
@@ -317,11 +319,11 @@ class _EditEntryState extends State<EditEntry> {
       await reference.add({
         /*'id': id,*/
         // all recipes are created private by default
+        'displayName': displayName,
         'isShared': isShared,
         'date': date,
         'beanName': beanName,
         'brewer': brewer,
-
         'steps': stepsString,
         'tastingNotes': tastingNotes,
         'userId': userId,

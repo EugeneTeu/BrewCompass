@@ -182,10 +182,21 @@ Widget _buildEachItem(BuildContext context, DocumentSnapshot currentEntry,
             child: Icon(Icons.book, color: Colors.black),
           ),
           title: Text("Bean: " + currentEntry['beanName']),
-          subtitle: Text(currentEntry['brewer']),
+          subtitle: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text("Brewer: " + currentEntry['brewer']),
+              Text("Owner: " + currentEntry['displayName']),
+            ],
+          ),
           trailing: Container(
-            child: IconButton(
-              icon: Icon(Icons.library_books),
+            child: MaterialButton(
+              child: Column(
+                children: <Widget>[
+                  Icon(Icons.library_books),
+                  Text("view"),
+                ],
+              ),
               onPressed: () {
                 Navigator.push(
                     context,

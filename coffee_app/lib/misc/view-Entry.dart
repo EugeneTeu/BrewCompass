@@ -28,14 +28,15 @@ class ViewJournalEntry extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+             _buildLabel("Brewed by: " + currentRecipe.displayName),
             _buildLabel("Date"),
             Row(
               children: <Widget>[
-                
-                _buildFormattedText('Date:'),
-                _buildFormattedTextField('${currentRecipe.date}'),
+               
+                _buildFormattedText('${currentRecipe.date}'),
               ],
             ),
             _buildLabel("Bean Name"),
@@ -75,6 +76,7 @@ class ViewJournalEntry extends StatelessWidget {
       ),
     );
   }
+
 
   Widget _buildLabel(String text) {
     return Padding(

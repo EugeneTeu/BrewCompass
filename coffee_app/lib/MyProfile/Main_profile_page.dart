@@ -42,6 +42,7 @@ class _Profile extends State<Profile> {
     setState(() {
       if (user.displayName != null) {
         name = user.displayName;
+       
         userId = user.uid;
       } else {}
     });
