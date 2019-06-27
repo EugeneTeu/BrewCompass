@@ -2,11 +2,13 @@ import 'package:coffee_app/MyProfile/Main_profile_page.dart';
 import 'package:coffee_app/auth_provider.dart';
 import 'package:coffee_app/misc/RecipePage.dart';
 import 'package:coffee_app/misc/test_page.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:coffee_app/Tools/tabbedPage.dart';
 import 'package:coffee_app/auth.dart';
 import 'package:coffee_app/bottom_navy_bar.dart';
 import 'package:open_iconic_flutter/open_iconic_flutter.dart';
+import 'dart:io' show Platform;
 
 
 class MyHomePage extends StatefulWidget {
@@ -75,7 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: PageView(
           controller: _pageController,
           children: <Widget>[_buildPageOptions()[_selectedPage]]),
-      bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar:  (Platform.isAndroid) ?  BottomNavigationBar(
         backgroundColor: Colors.brown[200],
         selectedItemColor: Colors.black,
           onTap: (int index) {
@@ -97,7 +99,32 @@ class _MyHomePageState extends State<MyHomePage> {
               icon: Icon(Icons.build),
               title: Text('Utilities'),
             ),
-          ]),
+          ]) : CupertinoTabBar(
+             backgroundColor: Colors.brown[200],
+             activeColor: Colors.black,
+            currentIndex: _selectedPage ,
+            onTap: (int index) {
+            setState(() {
+              
+              _selectedPage = index;
+            });
+          },
+             items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.people_outline),
+              title: Text('Profile'),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(OpenIconicIcons.compass),
+              title: Text('Recipes'),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.build),
+              title: Text('Utilities'),
+            ),
+          ]
+
+          )
     );
   }
 }
