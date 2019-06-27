@@ -44,53 +44,55 @@ class JournalEntry extends StatelessWidget {
           )
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            _buildLabel("Brew Details"),
-            Row(
-              children: <Widget>[
-                _buildFormattedText("Owner: "),
-                _buildFormattedTextName(currentRecipe.displayName),
-                _buildFormattedText('Date:'),
-                _buildFormattedTextField('${currentRecipe.date}'),
-              ],
-            ),
-            _buildLabel("Bean Name"),
-            _buildFormattedText('${currentRecipe.beanName}'),
-            _buildLabel("Brewer"),
-            _buildFormattedText('${currentRecipe.brewer}'),
-            _buildLabel("Taste log"),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                Expanded(
-                    flex: 1,
-                    child:
-                        _buildFormattedText('${currentRecipe.tastingNotes}')),
-                Expanded(
-                    flex: 1,
-                    child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: MaterialButton(
-                        color: Theme.of(context).primaryColor,
-                        child: Text("Reference"),
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => BrewGuideChart()));
-                        },
-                      ),
-                    )),
-              ],
-            ),
-            Divider(),
-            _buildLabel("Steps"),
-            _buildSteps(),
-          ],
-        ),
+      body: ListView(
+        children: <Widget>[
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              _buildLabel("Brew Details"),
+              Row(
+                children: <Widget>[
+                  _buildFormattedText("Owner: " + currentRecipe.displayName),
+                  
+                  _buildFormattedText('Date:'),
+                  _buildFormattedTextField('${currentRecipe.date}'),
+                ],
+              ),
+              _buildLabel("Bean Name"),
+              _buildFormattedText('${currentRecipe.beanName}'),
+              _buildLabel("Brewer"),
+              _buildFormattedText('${currentRecipe.brewer}'),
+              _buildLabel("Taste log"),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  Expanded(
+                      flex: 1,
+                      child:
+                          _buildFormattedText('${currentRecipe.tastingNotes}')),
+                  Expanded(
+                      flex: 1,
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: MaterialButton(
+                          color: Theme.of(context).primaryColor,
+                          child: Text("Reference"),
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => BrewGuideChart()));
+                          },
+                        ),
+                      )),
+                ],
+              ),
+              Divider(),
+              _buildLabel("Steps"),
+              _buildSteps(),
+            ],
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton.extended(
         label: Text("delete this entry"),
@@ -166,28 +168,29 @@ class JournalEntry extends StatelessWidget {
   }
 
   Widget _buildSteps() {
+
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0),
       child: Row(
         children: <Widget>[
           Flexible(
             flex: 2,
-            child: SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  ListView.builder(
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      final currentNum = index + 1;
-                      return ListTile(
-                        leading: Text(currentNum.toString()),
-                        title: Text(currentRecipe.steps[index]),
-                      );
-                    },
-                    itemCount: currentRecipe.steps.length,
-                  )
-                ],
-              ),
+            child: Column(
+              children: <Widget>[
+                ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    final currentNum = index + 1;
+                    return ListTile(
+                      leading: Text(currentNum.toString()),
+                      title: Text(currentRecipe.steps[index]),
+                    );
+                  },
+                  itemCount: currentRecipe.steps.length,
+                )
+              ],
             ),
           ),
         ],
