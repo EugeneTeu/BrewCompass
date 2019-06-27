@@ -27,18 +27,20 @@ class _MyConverter extends State<MyConverter> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: ListView(
-        children: <Widget>[
-          GestureDetector(
-            onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
-            child: Container(
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
+        child: ListView(
+          children: <Widget>[
+            Container(
               child: Form(
                 key: _formKey,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                   SizedBox(height: 40.0,),
-                    ListTile(     
+                    SizedBox(
+                      height: 40.0,
+                    ),
+                    ListTile(
                       title: TextFormField(
                         controller: _controllerTwo,
                         focusNode: _focusNodeTwo,
@@ -54,7 +56,9 @@ class _MyConverter extends State<MyConverter> {
                         onSaved: (value) => _inputBeanWeight = value,
                       ),
                     ),
-                    SizedBox(height:40.0,),
+                    SizedBox(
+                      height: 40.0,
+                    ),
                     ListTile(
                       title: TextFormField(
                         controller: _controller,
@@ -70,7 +74,9 @@ class _MyConverter extends State<MyConverter> {
                         onSaved: (value) => _inputRatio = value,
                       ),
                     ),
-                      SizedBox(height:80.0,),
+                    SizedBox(
+                      height: 80.0,
+                    ),
                     // Calculate and Clear button
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -120,7 +126,9 @@ class _MyConverter extends State<MyConverter> {
                         ),
                       ],
                     ),
-                    SizedBox(height:40.0,),
+                    SizedBox(
+                      height: 40.0,
+                    ),
                     ListTile(
                       title: Text("Ratio", style: Styles.calcFont),
                       trailing: Text("$_ratio"),
@@ -137,8 +145,8 @@ class _MyConverter extends State<MyConverter> {
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

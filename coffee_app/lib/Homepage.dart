@@ -10,22 +10,19 @@ import 'package:coffee_app/bottom_navy_bar.dart';
 import 'package:open_iconic_flutter/open_iconic_flutter.dart';
 import 'dart:io' show Platform;
 
-
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title, this.onSignedOut})
-      : super(key: key);
- 
+  MyHomePage({Key key, this.title, this.onSignedOut}) : super(key: key);
+
   final VoidCallback onSignedOut;
   final String title;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState( onSignedOut);
+  _MyHomePageState createState() => _MyHomePageState(onSignedOut);
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  _MyHomePageState( this._onSignedOut);
+  _MyHomePageState(this._onSignedOut);
 
-  
   final VoidCallback _onSignedOut;
 
   PageController _pageController = new PageController();
@@ -66,66 +63,63 @@ class _MyHomePageState extends State<MyHomePage> {
         Profile(),
         RecipePage(),
         TabbedPage(),
-        
       ];
 
   //main "Frame" of the app
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildTopBar(context),
-      body: PageView(
-          controller: _pageController,
-          children: <Widget>[_buildPageOptions()[_selectedPage]]),
-      bottomNavigationBar:  (Platform.isAndroid) ?  BottomNavigationBar(
-        backgroundColor: Colors.brown[200],
-        selectedItemColor: Colors.black,
-          onTap: (int index) {
-            setState(() {
-              _selectedPage = index;
-            });
-          },
-          currentIndex: _selectedPage,
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.people_outline),
-              title: Text('Profile'),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(OpenIconicIcons.compass),
-              title: Text('Recipes'),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.build),
-              title: Text('Utilities'),
-            ),
-          ]) : CupertinoTabBar(
-             backgroundColor: Colors.brown[200],
-             activeColor: Colors.black,
-            currentIndex: _selectedPage ,
-            onTap: (int index) {
-            setState(() {
-              
-              _selectedPage = index;
-            });
-          },
-             items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.people_outline),
-              title: Text('Profile'),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(OpenIconicIcons.compass),
-              title: Text('Recipes'),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.build),
-              title: Text('Utilities'),
-            ),
-          ]
-
-          )
-    );
+        appBar: buildTopBar(context),
+        body: PageView(
+            controller: _pageController,
+            children: <Widget>[_buildPageOptions()[_selectedPage]]),
+        bottomNavigationBar: (Platform.isAndroid)
+            ? BottomNavigationBar(
+                backgroundColor: Colors.brown[200],
+                selectedItemColor: Colors.black,
+                onTap: (int index) {
+                  setState(() {
+                    _selectedPage = index;
+                  });
+                },
+                currentIndex: _selectedPage,
+                items: <BottomNavigationBarItem>[
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.people_outline),
+                      title: Text('Profile'),
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(OpenIconicIcons.compass),
+                      title: Text('Recipes'),
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.build),
+                      title: Text('Utilities'),
+                    ),
+                  ])
+            : CupertinoTabBar(
+                backgroundColor: Colors.brown[200],
+                activeColor: Colors.black,
+                currentIndex: _selectedPage,
+                onTap: (int index) {
+                  setState(() {
+                    _selectedPage = index;
+                  });
+                },
+                items: <BottomNavigationBarItem>[
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.people_outline),
+                      title: Text('Profile'),
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(OpenIconicIcons.compass),
+                      title: Text('Recipes'),
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.build),
+                      title: Text('Utilities'),
+                    ),
+                  ]));
   }
 }
 
