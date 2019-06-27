@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:coffee_app/Tools/tabbedPage.dart';
 import 'package:coffee_app/auth.dart';
 import 'package:coffee_app/bottom_navy_bar.dart';
+import 'package:open_iconic_flutter/open_iconic_flutter.dart';
+
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title, this.onSignedOut})
@@ -88,7 +90,7 @@ class _MyHomePageState extends State<MyHomePage> {
               title: Text('Profile'),
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.search),
+              icon: Icon(OpenIconicIcons.compass),
               title: Text('Recipes'),
             ),
             BottomNavigationBarItem(
