@@ -1,6 +1,7 @@
 import 'package:coffee_app/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'auth.dart';
 import 'styles.dart';
 
@@ -57,9 +58,31 @@ class _LoginPageState extends State<LoginPage> {
         widget.onSignedIn();
       } catch (e) {
         print(e);
+        _signInErrorDialog(e);
         print("error signing in");
       }
     }
+  }
+
+  Future<Null> _signInErrorDialog(PlatformException e) async {
+    
+
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Error signing in"),
+          content: Text(e.code),
+          actions: <Widget>[
+            FlatButton(
+              child: Text("try again"),
+              onPressed: () => Navigator.of(context).pop(),
+            )
+          ],
+        );
+      }
+    );
+
   }
 
   //register user by switching form type
