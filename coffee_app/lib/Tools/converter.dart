@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../styles.dart';
+import "dart:io" show Platform;
 
 class MyConverter extends StatefulWidget {
   @override
@@ -81,7 +83,7 @@ class _MyConverter extends State<MyConverter> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
-                        MaterialButton(
+                        (Platform.isAndroid) ? MaterialButton(
                           elevation: 10.0,
                           color: Colors.red,
                           child: Text(
@@ -102,8 +104,28 @@ class _MyConverter extends State<MyConverter> {
                               _inputRatio = '';
                             });
                           },
+                        ) : CupertinoButton(
+                          
+                          color: Colors.red,
+                          child: Text(
+                            "Clear",
+                            style: Styles.calcFont,
+                          ),
+                         minSize: 25.0,
+                          onPressed: () {
+                            //clears input field and reset results field.
+                            setState(() {
+                              _controller.clear();
+                              _controllerTwo.clear();
+                              _ratio = 0.0;
+                              _beanWeight = 0.0;
+                              _water = 0.0;
+                              _inputBeanWeight = '';
+                              _inputRatio = '';
+                            });
+                          },
                         ),
-                        MaterialButton(
+                        (Platform.isAndroid) ? MaterialButton(
                           child: Text(
                             "Calculate",
                             style: Styles.calcFont,
@@ -123,6 +145,25 @@ class _MyConverter extends State<MyConverter> {
                               _beanWeight = double.parse(_inputBeanWeight);
                             });
                           },
+                        ) : CupertinoButton(
+                           child: Text(
+                            "Calculate",
+                            style: Styles.calcFont,
+                          ),
+                          color: Colors.blue,
+                          minSize: 25.0,
+                          onPressed: () {
+                            final form = _formKey.currentState;
+                            form.save();
+                            setState(() {
+                              _ratio = double.parse(_inputRatio);
+                              _water = double.parse(_inputBeanWeight) *
+                                  double.parse(_inputRatio);
+                              _beanWeight = double.parse(_inputBeanWeight);
+                            });
+                            FocusScope.of(context).requestFocus(new FocusNode());
+                          },
+
                         ),
                       ],
                     ),
