@@ -4,6 +4,7 @@ import 'package:coffee_app/MyProfile/Recipe.dart';
 import 'package:coffee_app/MyProfile/add_entry.dart';
 import 'package:coffee_app/auth.dart';
 import 'package:coffee_app/auth_provider.dart';
+import 'package:coffee_app/styles.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -97,81 +98,86 @@ class _Profile extends State<Profile> {
   Widget _buildProfilePage(BuildContext context) {
     var auth = AuthProvider.of(context).auth;
     return Scaffold(
-      body: Column(
-        children: <Widget>[
-          SizedBox(
-            height: 10.0,
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+      body: Stack(fit: StackFit.expand, children: <Widget>[
+        Image(
+          image: new AssetImage("assets/profilePage.jpg"),
+          fit: BoxFit.cover,
+          color: Colors.black45,
+          colorBlendMode: BlendMode.darken,
+        ),
+        Opacity(
+          opacity: 0.80,
+          child: Column(
             children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+              SizedBox(
+                height: 10.0,
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Column(
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: <Widget>[
-                      Container(
-                        height: 80.0,
-                        width: 80.0,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(62.5),
-                            image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: AssetImage(
-                                    'assets/BrewCompass-icon-1.png'))),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(4.0),
-                        child: Text(
-                          name,
-                          style: TextStyle(
-                              fontFamily: 'Montserrat',
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
-                        child: Text(
-                          'Singapore',
-                          style: TextStyle(
-                              fontFamily: 'Montserrat', color: Colors.grey),
-                        ),
-                      )
-                    ],
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(20.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text(
-                              numberOfBrews,
-                              style: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  fontWeight: FontWeight.bold),
+                      Column(
+                        children: <Widget>[
+                          Container(
+                            height: 80.0,
+                            width: 80.0,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(62.5),
+                                image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: AssetImage(
+                                        'assets/BrewCompass-icon-1.png'))),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Text(
+                              name,
+                              style: Styles.profileStyle,
                             ),
-                            Text(
-                              'BREWS',
-                              style: TextStyle(
-                                  fontFamily: 'Montserrat', color: Colors.grey),
-                            )
+                          ),
+                          Padding(
+                            padding:
+                                const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
+                            child: Text(
+                              'Singapore',
+                              style: Styles.profileStyle,
+                            ),
+                          )
+                        ],
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(20.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: <Widget>[
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(
+                                  numberOfBrews,
+                                  style: Styles.profileStyle,
+                                ),
+                                Text(
+                                  'BREWS',
+                                  style: Styles.profileStyle,
+                                )
+                              ],
+                            ),
                           ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ],
               ),
+              Expanded(child: PastBrewTab()),
             ],
           ),
-          Expanded(child: PastBrewTab()),
-        ],
-      ),
+        ),
+      ]),
       floatingActionButton: (Platform.isAndroid)
           ? FloatingActionButton.extended(
               icon: Icon(Icons.add),

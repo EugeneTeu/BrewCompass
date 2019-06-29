@@ -38,6 +38,13 @@ abstract class Styles {
      fontFamily: "Bebas Neue"
   );
 
+
+  static const TextStyle profileStyle =  TextStyle(
+    fontSize: 20.0,
+    color: Colors.white,
+    
+  );
+
   static const TextStyle calcFont = TextStyle(
     fontWeight: FontWeight.w300,
      fontSize: 23.0,

@@ -116,6 +116,7 @@ class _LoginPageState extends State<LoginPage> {
     return new Scaffold(
       resizeToAvoidBottomInset: false,
       body: GestureDetector(
+        
         onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
         child: Stack(
           fit: StackFit.expand,
