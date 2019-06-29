@@ -1,7 +1,10 @@
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
 import '../styles.dart';
+import 'dart:io' show Platform;
 
 class ElapsedTime {
   final int hundreds;
@@ -55,10 +58,13 @@ class TimerPageState extends State<TimerPage> {
 
   Widget buildFloatingButton(String text, VoidCallback callback) {
     TextStyle roundTextStyle = Styles.calcFont;
-    return new RaisedButton(
+    return (Platform.isAndroid) ? RaisedButton(
       shape: new RoundedRectangleBorder(
           borderRadius: new BorderRadius.circular(20)),
       color: Colors.grey[400],
+      child: new Text(text, style: roundTextStyle),
+      onPressed: callback) : CupertinoButton(
+        color: Colors.grey[400],
       child: new Text(text, style: roundTextStyle),
       onPressed: callback);
   }
@@ -71,10 +77,7 @@ class TimerPageState extends State<TimerPage> {
         new Expanded(
           child: new TimerText(dependencies: dependencies),        
         ),
-
         // lap times should go in here
-        
-
         new Expanded(
           flex: 0,
           child: new Padding(

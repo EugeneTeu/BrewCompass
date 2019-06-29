@@ -1,5 +1,3 @@
-
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coffee_app/MyProfile/Recipe.dart';
 import 'package:coffee_app/misc/search_bar.dart';
@@ -71,9 +69,9 @@ class _RecipePageState extends State<RecipePage> {
         tempSearchedResults = [];
       });
 
-      // change the test condition in the if block below 
+      // change the test condition in the if block below
       // to change search functionality
-      bool searchPredicate(DocumentSnapshot element) => 
+      bool searchPredicate(DocumentSnapshot element) =>
           element['beanName'].toLowerCase().contains(_terms.toLowerCase()) ||
           element['brewer'].toLowerCase().contains(_terms.toLowerCase());
 
@@ -149,7 +147,7 @@ class _RecipePageState extends State<RecipePage> {
   //     itemCount: snapshot.length,
   //   );
 
-    /*
+  /*
     return ListView(
       padding: EdgeInsets.only(top: 10.0),
       children: snapshot.map((data) => _buildEachItem(context, data)).toList(),
@@ -163,9 +161,9 @@ Widget _buildEachItem(BuildContext context, DocumentSnapshot currentEntry,
   return Padding(
     key: ValueKey(currentEntry['id']),
     //add custom padding to last entry to accomdate floating action button
-    padding: !last
-        ? EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0)
-        : EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 70),
+    padding:
+         EdgeInsets.symmetric(horizontal: 25.0, vertical: 20.0),
+        
     child: Container(
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey),
@@ -176,9 +174,9 @@ Widget _buildEachItem(BuildContext context, DocumentSnapshot currentEntry,
               EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
           leading: Container(
             padding: EdgeInsets.only(right: 12.0),
-            decoration: new BoxDecoration(
-                border: new Border(
-                    right: new BorderSide(width: 1.0, color: Colors.black45))),
+            decoration: BoxDecoration(
+                border: Border(
+                    right: BorderSide(width: 1.0, color: Colors.black45))),
             child: Icon(Icons.book, color: Colors.black),
           ),
           title: Text("Bean: " + currentEntry['beanName']),

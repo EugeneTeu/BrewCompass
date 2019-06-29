@@ -4,6 +4,7 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import '../styles.dart';
+import 'dart:io' show Platform;
 
 class MyCalcPage extends StatefulWidget {
   MyCalcPage({Key key, this.title}) : super(key: key);
@@ -67,7 +68,7 @@ class _MyCalcPageState extends State<MyCalcPage> {
     });
   }
 
-  Widget _buildButton(String i) {
+  Widget _buildAndroidButton(String i) {
     return new RaisedButton(
       child: Text(
         i,
@@ -79,6 +80,18 @@ class _MyCalcPageState extends State<MyCalcPage> {
           borderRadius: new BorderRadius.circular(20)),
     );
   }
+
+  Widget _buildIOSButton(String i) {
+    return CupertinoButton(
+      child: Text(
+        i,
+        style: _calcFont,
+      ),
+      onPressed: () => _buttonPressed(i),
+      color: Colors.grey[400],
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -106,49 +119,49 @@ class _MyCalcPageState extends State<MyCalcPage> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
-                children: <Widget>[
+                children:  <Widget>[
                   new Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                      _buildButton("7"),
-                      _buildButton("8"),
-                      _buildButton("9"),
-                      _buildButton("/"),
+                      _buildAndroidButton("7"),
+                      _buildAndroidButton("8"),
+                      _buildAndroidButton("9"),
+                      _buildAndroidButton("/"),
                     ],
                   ),
                   new Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                      _buildButton("4"),
-                      _buildButton("5"),
-                      _buildButton("6"),
-                      _buildButton("X"),
+                      _buildAndroidButton("4"),
+                      _buildAndroidButton("5"),
+                      _buildAndroidButton("6"),
+                      _buildAndroidButton("X"),
                     ],
                   ),
                   new Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                      _buildButton("1"),
-                      _buildButton("2"),
-                      _buildButton("3"),
-                      _buildButton("-"),
+                      _buildAndroidButton("1"),
+                      _buildAndroidButton("2"),
+                      _buildAndroidButton("3"),
+                      _buildAndroidButton("-"),
                     ],
                   ),
                   new Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                      _buildButton("."),
-                      _buildButton("0"),
-                      _buildButton("00"),
-                      _buildButton("+"),
+                      _buildAndroidButton("."),
+                      _buildAndroidButton("0"),
+                      _buildAndroidButton("00"),
+                      _buildAndroidButton("+"),
                     ],
                   ),
                   new Container(
                     padding: EdgeInsets.fromLTRB(10, 0.0, 10, 0.0),
                     child: new Row(
                       children: <Widget>[
-                        new Expanded(flex: 3, child: _buildButton("C")),
-                        new Expanded(child: _buildButton("="))
+                        new Expanded(flex: 3, child: _buildAndroidButton("C")),
+                        new Expanded(child: _buildAndroidButton("="))
                       ],
                     ),
                   )

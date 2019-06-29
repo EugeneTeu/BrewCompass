@@ -6,8 +6,10 @@ import 'package:coffee_app/auth.dart';
 import 'package:coffee_app/auth_provider.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'dart:io' show Platform;
 
 class Profile extends StatefulWidget {
   @override
@@ -42,7 +44,7 @@ class _Profile extends State<Profile> {
     setState(() {
       if (user.displayName != null) {
         name = user.displayName;
-        
+
         userId = user.uid;
       } else {}
     });
@@ -129,61 +131,71 @@ class _Profile extends State<Profile> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(8.0,0.0,8.0,8.0),
+                        padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
                         child: Text(
-                            'Singapore',
-                            style: TextStyle(
-                                fontFamily: 'Montserrat', color: Colors.grey),
-                          ),
-                      )
-                      
-                    ],
-                  ),
-                     Padding(
-                padding: EdgeInsets.all(20.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text(
-                          numberOfBrews,
-                          style: TextStyle(
-                              fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          'BREWS',
+                          'Singapore',
                           style: TextStyle(
                               fontFamily: 'Montserrat', color: Colors.grey),
-                        )
+                        ),
+                      )
+                    ],
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(20.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text(
+                              numberOfBrews,
+                              style: TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              'BREWS',
+                              style: TextStyle(
+                                  fontFamily: 'Montserrat', color: Colors.grey),
+                            )
+                          ],
+                        ),
                       ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ],
           ),
-                ],
-              ),
-           
           Expanded(child: PastBrewTab()),
         ],
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        icon: Icon(Icons.add),
-        label: Text("New Entry"),
-        onPressed: () {
-          //var dummyData = {'beanName': 'black', 'brewer': 'KW'};
-          //Firestore.instance.collection('v3').add(dummyData);
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (BuildContext context) => AddNewEntry()));
-        },
-      ),
+      floatingActionButton: (Platform.isAndroid)
+          ? FloatingActionButton.extended(
+              icon: Icon(Icons.add),
+              label: Text("New Entry"),
+              onPressed: () {
+                //var dummyData = {'beanName': 'black', 'brewer': 'KW'};
+                //Firestore.instance.collection('v3').add(dummyData);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => AddNewEntry()));
+              },
+            )
+          : CupertinoButton(
+              color: Theme.of(context).primaryColor,
+              minSize: 25.0,
+              child: Text("add Entry"),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => AddNewEntry()));
+              },
+            ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
