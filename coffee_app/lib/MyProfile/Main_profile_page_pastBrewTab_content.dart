@@ -9,9 +9,6 @@ import 'package:flutter/widgets.dart';
 import 'package:uuid/uuid.dart';
 
 class PastBrews extends StatefulWidget {
-  
- 
-
   @override
   State<StatefulWidget> createState() => _PastBrewsState();
 }
@@ -36,10 +33,11 @@ class _PastBrewsState extends State<PastBrews> {
       } else {}
     });
   }
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-     _user();
+    _user();
   }
 
   @override
@@ -86,12 +84,24 @@ class _PastBrewsState extends State<PastBrews> {
   //returns the list view
   Widget _buildPastBrewsList(
       BuildContext context, List<DocumentSnapshot> snapshot) {
-    return ListView.builder(
-      itemBuilder: (BuildContext context, int index) {
-        return _buildEachItem(context, snapshot[index], index, snapshot.length);
-      },
-      itemCount: snapshot.length,
-    );
+    if (snapshot.length == 0) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Center(child: Text("Your brew journal is currently empty!")),
+          Center(child: Text("Start logging now!"))
+        ],
+      );
+    } else {
+      return ListView.builder(
+        itemBuilder: (BuildContext context, int index) {
+          return _buildEachItem(
+              context, snapshot[index], index, snapshot.length);
+        },
+        itemCount: snapshot.length,
+      );
+    }
 
     /*
     return ListView(
@@ -148,7 +158,10 @@ class _PastBrewsState extends State<PastBrews> {
                 child: Icon(Icons.book, color: Colors.black),
               ),
               title: Text("Bean: " + currentEntry.beanName),
-              subtitle: Text("By: " + currentEntry.displayName + " on " + currentEntry.date),
+              subtitle: Text("By: " +
+                  currentEntry.displayName +
+                  " on " +
+                  currentEntry.date),
               trailing: Container(
                 decoration: BoxDecoration(
                     border: Border(
@@ -161,9 +174,7 @@ class _PastBrewsState extends State<PastBrews> {
                       Text("View Entry")
                     ],
                   ),
-                  
                   onPressed: () {
-                   
                     Navigator.push(
                         context,
                         MaterialPageRoute(

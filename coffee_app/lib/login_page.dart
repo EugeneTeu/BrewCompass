@@ -7,8 +7,8 @@ import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'dart:io' show Platform;
-import 'auth.dart';
 import 'styles.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
 
 class LoginPage extends StatefulWidget {
   //need to pass in an instance of this abstract class BaseAuth
@@ -35,7 +35,7 @@ class _LoginPageState extends State<LoginPage> {
   String _displayName;
   FormType _formType = FormType.login;
   FacebookLogin facebookLogin = new FacebookLogin();
-  // storing user locally so we can delete facebook's user cache 
+  // storing user locally so we can delete facebook's user cache
   // TODO: inline this into logout function
   // FirebaseUser firebaseUser;
 
@@ -90,7 +90,8 @@ class _LoginPageState extends State<LoginPage> {
             FacebookAuthProvider.getCredential(accessToken: myToken.token);
 
         // this line does auth in firebase with your facebook credential
-        FirebaseUser firebaseUser = await auth.instance.signInWithCredential(credential);
+        FirebaseUser firebaseUser =
+            await auth.instance.signInWithCredential(credential);
 
         print('fb login status : ${facebookLoginResult.status}');
         print('logged in as ${firebaseUser.displayName}');
@@ -134,7 +135,6 @@ class _LoginPageState extends State<LoginPage> {
           })
     },
     */
-          
   }
 
   Future<Null> _signInErrorDialog(PlatformException e) async {
@@ -319,15 +319,31 @@ class _LoginPageState extends State<LoginPage> {
         ),
         ClipRRect(
           borderRadius: BorderRadius.circular(10.0),
-          child: new MaterialButton(
+          child: SignInButton(
+            Buttons.Facebook,
+            text: "Sign in with Facebook",
+            onPressed: () => _initiateFacebookLogin(),
+          )
+
+          /*new MaterialButton(
             color: Colors.brown[400],
             child: Text("Login with Facebook"),
             onPressed: () => _initiateFacebookLogin(),
-          ),
+          )*/
+          ,
         ),
         ClipRRect(
           borderRadius: BorderRadius.circular(10.0),
-          child: new MaterialButton(
+          child: SignInButton(
+            Buttons.Facebook,
+            text: "Clear Facebook account",
+            onPressed: () async {
+              await facebookLogin.logOut();
+              var auth = AuthProvider.of(context).auth;
+              await auth.signOut();
+            },
+          ),
+          /*MaterialButton(
             color: Colors.brown[400],
             child: Text("clear facebook account"),
             onPressed: () async {
@@ -335,6 +351,15 @@ class _LoginPageState extends State<LoginPage> {
               var auth = AuthProvider.of(context).auth;
               await auth.signOut();
               // firebaseUser = null;
+            },
+          )*/
+           ),ClipRRect(
+          borderRadius: BorderRadius.circular(10.0),
+          child: SignInButton(
+            Buttons.Google,
+            text: "Sign In With Google",
+            onPressed: ()  {
+             
             },
           ),
         ),
