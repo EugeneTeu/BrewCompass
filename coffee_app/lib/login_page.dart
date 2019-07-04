@@ -3,6 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 import 'dart:io' show Platform;
 import 'auth.dart';
 import 'styles.dart';
@@ -31,6 +34,10 @@ class _LoginPageState extends State<LoginPage> {
   String _password;
   String _displayName;
   FormType _formType = FormType.login;
+  FacebookLogin facebookLogin = new FacebookLogin();
+  // storing user locally so we can delete facebook's user cache 
+  // TODO: inline this into logout function
+  // FirebaseUser firebaseUser;
 
   bool validateAndSave() {
     final form = _formKey.currentState;
@@ -64,6 +71,70 @@ class _LoginPageState extends State<LoginPage> {
         print("error signing in");
       }
     }
+  }
+
+  void _initiateFacebookLogin() async {
+    var auth = AuthProvider.of(context).auth;
+
+    final facebookLoginResult = await facebookLogin
+        .logInWithReadPermissions(['email', 'public_profile']);
+
+    switch (facebookLoginResult.status) {
+      case FacebookLoginStatus.loggedIn:
+        // login was successful
+        FacebookAccessToken myToken = facebookLoginResult.accessToken;
+
+        // we use FacebookAuthProvider class to get a credential from accessToken
+        // this will return an AuthCredential object that we will use to auth in firebase
+        AuthCredential credential =
+            FacebookAuthProvider.getCredential(accessToken: myToken.token);
+
+        // this line does auth in firebase with your facebook credential
+        FirebaseUser firebaseUser = await auth.instance.signInWithCredential(credential);
+
+        print('fb login status : ${facebookLoginResult.status}');
+        print('logged in as ${firebaseUser.displayName}');
+        print('signing in');
+
+        widget.onSignedIn();
+        break;
+      case FacebookLoginStatus.cancelledByUser:
+        print('from facebook login switch case: login cancelled by user');
+        break;
+      case FacebookLoginStatus.error:
+        print('from facebook login switch case: login error');
+        break;
+    }
+    /* uses deprecated facebook login API
+    For reference only
+    () {
+      fbLogin
+          .logInWithReadPermissions(['email', 'public_profile'])
+          .then((result) {
+            var auth = AuthProvider.of(context).auth;
+            switch (result.status) {
+              case FacebookLoginStatus.loggedIn:
+                auth.instance.signInWithFacebook(
+                  accessToken: result.accessToken.token
+                ).then((signedInUser) {
+                  print('Signed in as facebook ${signedInUser.displayName}');
+                  print('Do the navigator change to homepage here');
+                });
+                break;
+              case FacebookLoginStatus.cancelledByUser:
+                print('Facebook login cancelled by user');
+                break;
+              case FacebookLoginStatus.error:
+                print('Facebook login switch case error');
+                break;
+            }
+          })
+          .catchError((e) {
+            print(e);
+          })
+    },
+    */
+          
   }
 
   Future<Null> _signInErrorDialog(PlatformException e) async {
@@ -116,7 +187,6 @@ class _LoginPageState extends State<LoginPage> {
     return new Scaffold(
       resizeToAvoidBottomInset: false,
       body: GestureDetector(
-        
         onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
         child: Stack(
           fit: StackFit.expand,
@@ -245,6 +315,27 @@ class _LoginPageState extends State<LoginPage> {
             color: Colors.brown[400],
             child: Text("Create account"),
             onPressed: () => moveToRegister(),
+          ),
+        ),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(10.0),
+          child: new MaterialButton(
+            color: Colors.brown[400],
+            child: Text("Login with Facebook"),
+            onPressed: () => _initiateFacebookLogin(),
+          ),
+        ),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(10.0),
+          child: new MaterialButton(
+            color: Colors.brown[400],
+            child: Text("clear facebook account"),
+            onPressed: () async {
+              await facebookLogin.logOut();
+              var auth = AuthProvider.of(context).auth;
+              await auth.signOut();
+              // firebaseUser = null;
+            },
           ),
         ),
         Divider(),

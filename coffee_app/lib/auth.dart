@@ -8,6 +8,7 @@ abstract class BaseAuth {
   Future<String> currentUser(); 
   Future<FirebaseUser> getUser();
   Future<void> signOut();
+  FirebaseAuth get instance;
 }
 
 
@@ -46,5 +47,9 @@ class Auth implements BaseAuth {
 
   Future<void> signOut() async {
     return _instance.signOut();
+  }
+
+  FirebaseAuth get instance {
+    return _instance;
   }
 }
