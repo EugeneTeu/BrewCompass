@@ -2,8 +2,6 @@ import 'package:coffee_app/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
-
-
 class EditSteps extends StatefulWidget {
   EditSteps(this.steps);
   List<StepData> steps;
@@ -36,7 +34,7 @@ class _EditStepsState extends State<EditSteps> {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: ListView.builder(
-          physics: BouncingScrollPhysics() ,
+          physics: BouncingScrollPhysics(),
           shrinkWrap: true,
           itemCount: currentSteps.length,
           itemBuilder: (context, index) {
@@ -55,7 +53,6 @@ class _EditStepsState extends State<EditSteps> {
                       trailing: MaterialButton(
                         child: Icon(Icons.edit),
                         onPressed: () {
-                          
                           _editTextDialog(currentEntry, index);
                         },
                       )),
@@ -74,8 +71,7 @@ class _EditStepsState extends State<EditSteps> {
         label: Text("Add Step"),
         onPressed: () {
           setState(() {
-            StepData temp =
-                new StepData(indivStep: "Enter steps", id: uuid.v4());
+            StepData temp = new StepData(indivStep: "", id: uuid.v4());
             currentSteps.add(temp);
             _editTextDialog(
                 temp.indivStep, currentSteps.indexOf(currentSteps.last));
@@ -107,6 +103,7 @@ class _EditStepsState extends State<EditSteps> {
                 children: <Widget>[
                   TextFormField(
                     initialValue: currentEntry,
+                    decoration: InputDecoration(hintText: "Enter steps here"),
                     keyboardType: TextInputType.multiline,
                     onSaved: (value) => newEntry = value,
                   ),
@@ -114,6 +111,8 @@ class _EditStepsState extends State<EditSteps> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
+                      cancelButton(context),
+                      Divider(),
                       FlatButton(
                         color: Colors.blue[200],
                         child: Icon(Icons.check_circle_outline),
@@ -125,8 +124,6 @@ class _EditStepsState extends State<EditSteps> {
                           Navigator.of(context).pop();
                         },
                       ),
-                      Divider(),
-                      cancelButton(context),
                     ],
                   )
                 ],
@@ -163,15 +160,13 @@ class StepData {
     return stepDataList.map((x) => x.indivStep).toList();
   }
 
-
   List<StepData> convertToListOfStepData(List<String> listStrings) {
     List<StepData> result = [];
     for (int i = 0; i < listStrings.length; ++i) {
-      StepData temp = new StepData(indivStep: listStrings[i], id: uuid.v4() );
+      StepData temp = new StepData(indivStep: listStrings[i], id: uuid.v4());
       result.add(temp);
     }
     return result;
-   
   }
 }
 

@@ -41,7 +41,7 @@ class _Profile extends State<Profile> {
   //input here, might not need this method
   void _user() async {
     final user = await _fetchUser();
-
+  
     setState(() {
       if (user.displayName != null) {
         name = user.displayName;
@@ -101,13 +101,11 @@ class _Profile extends State<Profile> {
       body: Stack(fit: StackFit.expand, children: <Widget>[
         Image(
           image: new AssetImage("assets/profilePage.jpg"),
-          fit: BoxFit.cover,
+          fit: BoxFit.fitHeight,
           color: Colors.black45,
           colorBlendMode: BlendMode.darken,
         ),
-        Opacity(
-          opacity: 0.80,
-          child: Column(
+        Column(
             children: <Widget>[
               SizedBox(
                 height: 10.0,
@@ -115,68 +113,67 @@ class _Profile extends State<Profile> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            Column(
+              children: <Widget>[
+                Container(
+                  height: 80.0,
+                  width: 80.0,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(62.5),
+                      image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: AssetImage(
+                              'assets/BrewCompass-icon-1.png'))),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Text(
+                    name,
+                    style: Styles.profileStyle,
+                  ),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
+                  child: Text(
+                    'Singapore',
+                    style: Styles.profileStyle,
+                  ),
+                )
+              ],
+            ),
+            Padding(
+              padding: EdgeInsets.all(20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Column(
-                        children: <Widget>[
-                          Container(
-                            height: 80.0,
-                            width: 80.0,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(62.5),
-                                image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: AssetImage(
-                                        'assets/BrewCompass-icon-1.png'))),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: Text(
-                              name,
-                              style: Styles.profileStyle,
-                            ),
-                          ),
-                          Padding(
-                            padding:
-                                const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
-                            child: Text(
-                              'Singapore',
-                              style: Styles.profileStyle,
-                            ),
-                          )
-                        ],
+                      Text(
+                        numberOfBrews,
+                        style: Styles.profileStyle,
                       ),
-                      Padding(
-                        padding: EdgeInsets.all(20.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: <Widget>[
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Text(
-                                  numberOfBrews,
-                                  style: Styles.profileStyle,
-                                ),
-                                Text(
-                                  'BREWS',
-                                  style: Styles.profileStyle,
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
+                      Text(
+                        'BREWS',
+                        style: Styles.profileStyle,
+                      )
                     ],
                   ),
+                ],
+              ),
+            ),
+          ],
+        ),
                 ],
               ),
               Expanded(child: PastBrewTab()),
             ],
           ),
-        ),
       ]),
       floatingActionButton: (Platform.isAndroid)
           ? FloatingActionButton.extended(
@@ -192,9 +189,9 @@ class _Profile extends State<Profile> {
               },
             )
           : CupertinoButton(
-              color: Theme.of(context).primaryColor,
+              color: Colors.brown[500],
               minSize: 25.0,
-              child: Text("add Entry"),
+              child: Text("Add Entry"),
               onPressed: () {
                 Navigator.push(
                     context,

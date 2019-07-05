@@ -45,7 +45,7 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Colors.white,
         actions: <Widget>[
           new MaterialButton(
-            child: Text("logout"),
+            child: Text("Logout"),
             onPressed: () {
               _signOut(context);
             },
