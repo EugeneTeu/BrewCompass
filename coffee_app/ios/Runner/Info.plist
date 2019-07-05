@@ -65,6 +65,13 @@
         <string>fbauth2</string>
         <string>fbshareextension</string>
     </array>
-    
+    <key>NSCameraUsageDescription</key>
+    <string>Used to demonstrate image picker plugin</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Used to capture audio for image picker plugin</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Used to demonstrate image picker plugin</string>
+   
+   
 </dict>
 </plist>

@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coffee_app/MyProfile/Main_profile_page_pastBrewTab.dart';
 import 'package:coffee_app/MyProfile/Recipe.dart';
 import 'package:coffee_app/MyProfile/add_entry.dart';
-import 'package:coffee_app/auth.dart';
 import 'package:coffee_app/auth_provider.dart';
 import 'package:coffee_app/styles.dart';
 
@@ -10,7 +9,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'dart:io' show Platform;
+import 'package:image_picker_modern/image_picker_modern.dart';
+import 'dart:io' show File, Platform;
+
+import 'package:uuid/uuid.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -20,6 +22,8 @@ class Profile extends StatefulWidget {
 }
 
 class _Profile extends State<Profile> {
+  File _image;
+
   String name = "displayname";
   String title;
   String numberOfBrews = "loading..";
@@ -38,10 +42,18 @@ class _Profile extends State<Profile> {
     return user;
   }
 
+  Future getImage() async {
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      _image = image;
+    });
+  }
+
   //input here, might not need this method
   void _user() async {
     final user = await _fetchUser();
-  
+
     setState(() {
       if (user.displayName != null) {
         name = user.displayName;
@@ -106,74 +118,77 @@ class _Profile extends State<Profile> {
           colorBlendMode: BlendMode.darken,
         ),
         Column(
-            children: <Widget>[
-              SizedBox(
-                height: 10.0,
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
+            SizedBox(
+              height: 10.0,
+            ),
             Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Container(
-                  height: 80.0,
-                  width: 80.0,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(62.5),
-                      image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: AssetImage(
-                              'assets/BrewCompass-icon-1.png'))),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    Column(
+                      children: <Widget>[
+                        GestureDetector(
+                          onTap: () => _editProfileImage(context),
+                          child: Container(
+                            height: 80.0,
+                            width: 80.0,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(62.5),
+                                image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: AssetImage(
+                                        'assets/BrewCompass-icon-1.png'))),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Text(
+                            name,
+                            style: Styles.profileStyle,
+                          ),
+                        ),
+                        Padding(
+                          padding:
+                              const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
+                          child: Text(
+                            'Singapore',
+                            style: Styles.profileStyle,
+                          ),
+                        )
+                      ],
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(20.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text(
+                                numberOfBrews,
+                                style: Styles.profileStyle,
+                              ),
+                              Text(
+                                'BREWS',
+                                style: Styles.profileStyle,
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Text(
-                    name,
-                    style: Styles.profileStyle,
-                  ),
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
-                  child: Text(
-                    'Singapore',
-                    style: Styles.profileStyle,
-                  ),
-                )
               ],
             ),
-            Padding(
-              padding: EdgeInsets.all(20.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text(
-                        numberOfBrews,
-                        style: Styles.profileStyle,
-                      ),
-                      Text(
-                        'BREWS',
-                        style: Styles.profileStyle,
-                      )
-                    ],
-                  ),
-                ],
-              ),
-            ),
+            Expanded(child: PastBrewTab()),
           ],
         ),
-                ],
-              ),
-              Expanded(child: PastBrewTab()),
-            ],
-          ),
       ]),
       floatingActionButton: (Platform.isAndroid)
           ? FloatingActionButton.extended(
@@ -202,6 +217,56 @@ class _Profile extends State<Profile> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
+
+  Widget cancelButton(BuildContext context) {
+    return FlatButton(
+      color: Colors.red[400],
+      child: Icon(Icons.close),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+  }
+
+  void _editProfileImage(BuildContext context) {
+   var auth = AuthProvider.of(context).auth;
+
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Edit profile picture"),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Image(
+                  image: AssetImage('assets/BrewCompass-icon-1.png'),
+                ),
+                Divider(),
+                Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    cancelButton(context),
+                    SizedBox(width: 5.0),
+                    FlatButton(
+                      color: Colors.brown[300],
+                      child: Text("Upload new picture"),
+                      onPressed: () {
+                        getImage();
+                        var url = auth.uploadProfilePic(_image, userId);
+                        print("uploaded successfully");
+                      },
+                    )
+                  ],
+                )
+              ],
+            ),
+          );
+        });
+  }
+
+ 
 }
 
 /*

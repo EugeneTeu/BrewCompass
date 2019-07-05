@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 
 abstract class BaseAuth { 
@@ -8,6 +10,7 @@ abstract class BaseAuth {
   Future<String> currentUser(); 
   Future<FirebaseUser> getUser();
   Future<void> signOut();
+  Future<String> uploadProfilePic(File file, String ImageId);
   FirebaseAuth get instance;
 }
 
@@ -39,6 +42,15 @@ class Auth implements BaseAuth {
     } catch(e) {
       
     }
+  }
+
+  Future<String> uploadProfilePic(File file, String imageId) async{
+    StorageReference ref = FirebaseStorage.instance.ref().child(imageId).child("image.jpg");
+    print(ref);
+  StorageUploadTask uploadTask = ref.putFile(file);
+  return await (await uploadTask.onComplete).ref.getDownloadURL();
+    
+
   }
 
   Future<FirebaseUser> getUser() async {
