@@ -2,32 +2,38 @@ import 'dart:async';
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
-
-abstract class BaseAuth { 
+abstract class BaseAuth {
   Future<String> signInWithEmailAndPassword(String email, String password);
-  Future<String> createUserWithEmailAndPassword(String email, String password, String _displayName);
-  Future<String> currentUser(); 
+  Future<String> createUserWithEmailAndPassword(
+      String email, String password, String _displayName);
+  Future<String> currentUser();
   Future<FirebaseUser> getUser();
   Future<void> signOut();
-  Future<String> uploadProfilePic(File file, String ImageId);
+  Future<String> uploadProfilePic(File file, String imageId);
+  Future<GoogleSignInAccount> getGoogleSignedInAccount(
+      GoogleSignIn googleSignIn);
+  Future<FirebaseUser> googleSignIntoFirebase(
+      GoogleSignInAccount googleSignInAccount);
   FirebaseAuth get instance;
 }
-
 
 class Auth implements BaseAuth {
   //just to reduce wrting FirebaseAuth.instance multiple times
   final _instance = FirebaseAuth.instance;
 
-
-  Future<String> signInWithEmailAndPassword(String email, String password) async {
-    FirebaseUser user = await _instance.signInWithEmailAndPassword(email: email, password: password);
+  Future<String> signInWithEmailAndPassword(
+      String email, String password) async {
+    FirebaseUser user = await _instance.signInWithEmailAndPassword(
+        email: email, password: password);
     return user.uid;
   }
 
-  Future<String> createUserWithEmailAndPassword(String email, String password , String _displayName) async {
-
-    FirebaseUser user = await _instance.createUserWithEmailAndPassword(email: email, password: password);
+  Future<String> createUserWithEmailAndPassword(
+      String email, String password, String _displayName) async {
+    FirebaseUser user = await _instance.createUserWithEmailAndPassword(
+        email: email, password: password);
     UserUpdateInfo updateUser = UserUpdateInfo();
     updateUser.displayName = _displayName;
     user.updateProfile(updateUser);
@@ -35,22 +41,40 @@ class Auth implements BaseAuth {
     //ref.setData({'email': user.email});
     return user.uid;
   }
+
   //check what auth status is with fire base
   Future<String> currentUser() async {
-    try{ FirebaseUser user = await _instance.currentUser();
-    return user.uid;
-    } catch(e) {
-      
-    }
+    try {
+      FirebaseUser user = await _instance.currentUser();
+      return user.uid;
+    } catch (e) {}
   }
 
-  Future<String> uploadProfilePic(File file, String imageId) async{
-    StorageReference ref = FirebaseStorage.instance.ref().child(imageId).child("image.jpg");
+  Future<String> uploadProfilePic(File file, String imageId) async {
+    StorageReference ref =
+        FirebaseStorage.instance.ref().child(imageId).child("image.jpg");
     print(ref);
-  StorageUploadTask uploadTask = ref.putFile(file);
-  return await (await uploadTask.onComplete).ref.getDownloadURL();
-    
+    StorageUploadTask uploadTask = ref.putFile(file);
+    return await (await uploadTask.onComplete).ref.getDownloadURL();
+  }
 
+  Future<GoogleSignInAccount> getGoogleSignedInAccount(GoogleSignIn googleSignIn) async {
+    GoogleSignInAccount account = googleSignIn.currentUser;
+    if (account == null) {
+      account = await googleSignIn.signInSilently();
+    }
+    return account;
+  }
+
+  Future<FirebaseUser> googleSignIntoFirebase(GoogleSignInAccount googleSignInAccount) async {
+     GoogleSignInAuthentication googleAuth =
+      await googleSignInAccount.authentication;
+      print(googleAuth.accessToken);
+      final AuthCredential credential = GoogleAuthProvider.getCredential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+  return await _instance.signInWithCredential(credential);
   }
 
   Future<FirebaseUser> getUser() async {

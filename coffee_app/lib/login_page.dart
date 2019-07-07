@@ -5,6 +5,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import 'dart:io' show Platform;
 import 'styles.dart';
@@ -73,6 +74,7 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+  //facebook login
   void _initiateFacebookLogin() async {
     var auth = AuthProvider.of(context).auth;
 
@@ -353,13 +355,14 @@ class _LoginPageState extends State<LoginPage> {
               // firebaseUser = null;
             },
           )*/
-           ),ClipRRect(
+        ),
+        ClipRRect(
           borderRadius: BorderRadius.circular(10.0),
           child: SignInButton(
             Buttons.Google,
             text: "Sign In With Google",
-            onPressed: ()  {
-             
+            onPressed: () {
+              signInWithGoogle();   
             },
           ),
         ),
@@ -386,5 +389,21 @@ class _LoginPageState extends State<LoginPage> {
         Divider(),
       ];
     }
+  }
+
+  Future<Null> signInWithGoogle() async {
+    GoogleSignInAccount googleAccount;
+    final GoogleSignIn googleSignIn = new GoogleSignIn();
+
+    if (googleAccount == null) {
+      // Start the sign-in process:
+      googleAccount = await googleSignIn.signIn();
+    }
+    var _auth = AuthProvider.of(context).auth;
+
+    FirebaseUser googleFirebaseUser =
+        await _auth.googleSignIntoFirebase(googleAccount);
+
+    widget.onSignedIn();
   }
 }
