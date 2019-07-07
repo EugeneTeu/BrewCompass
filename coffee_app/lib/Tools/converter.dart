@@ -77,9 +77,23 @@ class _MyConverter extends State<MyConverter> {
                       ),
                     ),
                     SizedBox(
-                      height: 80.0,
+                      height: 20.0,
                     ),
                     // Calculate and Clear button
+                    ListTile(
+                      title: Text("Ratio", style: Styles.calcFont),
+                      trailing: Text("$_ratio"),
+                    ),
+                    ListTile(
+                      title: Text("Water Weight", style: Styles.calcFont),
+                      trailing: Text("$_water"),
+                    ),
+                    ListTile(
+                      title: Text("Bean Weight", style: Styles.calcFont),
+                      trailing: Text("$_beanWeight"),
+                    ),
+                    SizedBox(
+                      height: 20.0),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
@@ -169,19 +183,7 @@ class _MyConverter extends State<MyConverter> {
                     ),
                     SizedBox(
                       height: 40.0,
-                    ),
-                    ListTile(
-                      title: Text("Ratio", style: Styles.calcFont),
-                      trailing: Text("$_ratio"),
-                    ),
-                    ListTile(
-                      title: Text("Water Weight", style: Styles.calcFont),
-                      trailing: Text("$_water"),
-                    ),
-                    ListTile(
-                      title: Text("Bean Weight", style: Styles.calcFont),
-                      trailing: Text("$_beanWeight"),
-                    ),
+                    )
                   ],
                 ),
               ),
