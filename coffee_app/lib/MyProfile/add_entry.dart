@@ -202,22 +202,27 @@ class _AddNewEntryState extends State<AddNewEntry> {
   Widget _buildInputFieldDate() {
     return Padding(
       child:
-      DateTimePickerFormField(
-        inputType: InputType.date,
-        editable: true,
-        decoration: InputDecoration(
-                  labelText: 'Date', hasFloatingPlaceholder: true),
-        format: dateFormat,
-          onChanged: (date) {
-                  this.date = date.toString();
-            },
-            onSaved: (value) {
-              //String dateSlug = "${value.year.toString()}- ${value.month.toString().padLeft(2,'0')}- ${value.day.toString().padLeft(2,'0')}" ;
-              var formatter = new DateFormat('dd-MM-yyyy');
-              this.date = formatter.format(value).toString();
-              print(date);
-            },
-            enabled: true,
+      Theme(
+        data: Theme.of(context).copyWith(
+          primaryColor: Colors.brown[300]
+        ),
+              child: DateTimePickerFormField(
+          inputType: InputType.date,
+          editable: true,
+          decoration: InputDecoration(
+                    labelText: 'Date', hasFloatingPlaceholder: true),
+          format: dateFormat,
+            onChanged: (date) {
+                    this.date = date.toString();
+              },
+              onSaved: (value) {
+                //String dateSlug = "${value.year.toString()}- ${value.month.toString().padLeft(2,'0')}- ${value.day.toString().padLeft(2,'0')}" ;
+                var formatter = new DateFormat('dd-MM-yyyy');
+                this.date = formatter.format(value).toString();
+                print(date);
+              },
+              enabled: true,
+        ),
       )
       
       
