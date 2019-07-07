@@ -6,6 +6,8 @@ import 'package:coffee_app/misc/brew-guide.dart';
 import 'package:coffee_app/styles.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
+import 'package:intl/intl.dart';
 
 class AddNewEntry extends StatefulWidget {
  
@@ -195,15 +197,37 @@ class _AddNewEntryState extends State<AddNewEntry> {
     );
   }
 
+  final dateFormat = DateFormat("EEEE, MMMM d, yyyy");
+
   Widget _buildInputFieldDate() {
     return Padding(
-      child: TextFormField(
+      child:
+      DateTimePickerFormField(
+        inputType: InputType.date,
+        editable: true,
+        decoration: InputDecoration(
+                  labelText: 'Date', hasFloatingPlaceholder: true),
+        format: dateFormat,
+          onChanged: (date) {
+                  this.date = date.toString();
+            },
+            onSaved: (value) {
+              //String dateSlug = "${value.year.toString()}- ${value.month.toString().padLeft(2,'0')}- ${value.day.toString().padLeft(2,'0')}" ;
+              var formatter = new DateFormat('dd-MM-yyyy');
+              this.date = formatter.format(value).toString();
+              print(date);
+            },
+            enabled: true,
+      )
+      
+      
+       /*TextFormField(
         style: Styles.createEntryText,
         decoration: new InputDecoration(hintText: "Enter date"),
         keyboardType: TextInputType.text,
         validator: (value) => value.isEmpty ? "field cant be empty" : null,
         onSaved: (value) => this.date = value,
-      ),
+      ),*/,
       padding: EdgeInsets.all(20.0),
     );
   }
