@@ -158,20 +158,28 @@ class _PastBrewsState extends State<PastBrews> {
                 child: Icon(Icons.book, color: Colors.black),
               ),
               title: Text("Bean: " + currentEntry.beanName),
-              subtitle: Text("By: " +
-                  currentEntry.displayName +
-                  " on " +
-                  currentEntry.date),
+              subtitle: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text("Brewer used: " + currentEntry.brewer),
+                  Text("Brewed on " + currentEntry.date),
+                ],
+              ),
               trailing: Container(
                 decoration: BoxDecoration(
                     border: Border(
-                  left: BorderSide(width: 1.0, color: Colors.black45),
+                  left: BorderSide(width: 1.0, color: Colors.brown[400]),
                 )),
                 child: MaterialButton(
                   child: Column(
                     children: <Widget>[
-                      Icon(Icons.chevron_right),
-                      Text("View Entry")
+                      Icon(
+                        Icons.chevron_right,
+                        color: Colors.brown[300],
+                      ),
+                      Text("View Entry",
+                          style: TextStyle(color: Colors.brown[400])),
                     ],
                   ),
                   onPressed: () {

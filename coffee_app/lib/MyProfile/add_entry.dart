@@ -88,63 +88,80 @@ class _AddNewEntryState extends State<AddNewEntry> {
       ),
       body: GestureDetector(
         onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
-        child: Container(
-          child: Form(
-            key: _key,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(8.0, 20.0, 8.0, 40.0),
-              child: SingleChildScrollView(
-                  child: Column(
-                  children: <Widget>[
-                    _buildLabel("Enter ur Brew Details"),
-                    _buildLabel("Date of this brew"),
-                    Row(
-                      //need to wrap widget in expanded here to give the child widget a size parameter
-                      children: <Widget>[
-                        /*Flexible(flex: 1, child: _buildInputFieldNum()),*/
-                        Flexible(
-                          flex: 1,
-                          child: _buildInputFieldDate(),
-                        ),
-                      ],
-                    ),
-                    Divider(),
-                    _buildLabel("Bean Name"),
-                    _buildInputFieldBeanName(),
-                    Divider(),
-                    _buildLabel("Brewer"),
-                    _buildInputFieldBrewer(),
-                    Divider(),
-                    _buildLabel("Taste log"),
-                    Row(
-                      children: <Widget>[
-                        Flexible(flex: 2, child: _buildInputFieldTastingNotes()),
-                        Flexible(
-                            flex: 1,
-                            child: MaterialButton(
-                              color: Theme.of(context).primaryColor,
-                              child: Text("Reference"),
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => BrewGuideChart()));
-                              },
-                            )),
-                      ],
-                    ),
-                    Divider(),
-                    _buildLabel("Steps"),
-                    _buildSteps(),
-                    Divider(),
-                    shareButton,
-                    _buildSubmitButton(),
-                    Divider(),
-                  ],
-                ),
+        child: Stack(
+          fit: StackFit.expand,
+          
+          children: <Widget>[
+             Image(
+          image: new AssetImage("assets/AddEntryBackground.jpg"),
+          fit: BoxFit.fitHeight,
+          color: Colors.black54,
+          colorBlendMode: BlendMode.darken,
+        ),
+            
+            Opacity(
+              opacity: 0.80,
+              child: Container(
+                color: Colors.white,
+                  child: Form(
+                    key: _key,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 40.0),
+                      child: SingleChildScrollView(
+                          child: Column(
+                          children: <Widget>[
+                           // _buildLabel("Enter ur Brew Details"),
+              //_buildLabel("Date of this brew"),
+              Row(
+                //need to wrap widget in expanded here to give the child widget a size parameter
+                children: <Widget>[
+                  /*Flexible(flex: 1, child: _buildInputFieldNum()),*/
+                  Flexible(
+                    flex: 1,
+                    child: _buildInputFieldDate(),
+                  ),
+                ],
               ),
+              Divider(),
+              //_buildLabel("Bean Name"),
+              _buildInputFieldBeanName(),
+              Divider(),
+              //_buildLabel("Brewer"),
+              _buildInputFieldBrewer(),
+              Divider(),
+              //_buildLabel("Taste log"),
+              Row(
+                children: <Widget>[
+                  Flexible(flex: 2, child: _buildInputFieldTastingNotes()),
+                  Flexible(
+                      flex: 1,
+                      child: MaterialButton(
+                        color: Colors.brown[400],
+                        child: Text("Reference"),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => BrewGuideChart()));
+                        },
+                      )),
+                ],
+              ),
+              Divider(),
+              _buildLabel("Enter Your Steps"),
+              _buildSteps(),
+              Divider(),
+              shareButton,
+              _buildSubmitButton(),
+              Divider(),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
             ),
-          ),
+          ],
         ),
       ),
     );
@@ -321,12 +338,17 @@ class _AddNewEntryState extends State<AddNewEntry> {
           ),
           Flexible(
             flex: 1,
-            child: MaterialButton(
-              child: Icon(Icons.add_box),
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => EditSteps(steps)));
-              },
+            child: Column(
+              children: <Widget>[
+                MaterialButton(
+                  child: Icon(Icons.add_box, color: Colors.brown[400],),
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => EditSteps(steps)));
+                  },
+                ),
+                Text("Add Steps", style: TextStyle(color: Colors.brown[400]),)
+              ],
             ),
           ),
         ],

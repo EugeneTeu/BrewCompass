@@ -44,7 +44,6 @@ class _Profile extends State<Profile> {
 
   Future getImage() async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
-
     setState(() {
       _image = image;
     });
@@ -230,7 +229,6 @@ class _Profile extends State<Profile> {
 
   void _editProfileImage(BuildContext context) {
    var auth = AuthProvider.of(context).auth;
-
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -254,8 +252,8 @@ class _Profile extends State<Profile> {
                       child: Text("Upload new picture"),
                       onPressed: () {
                         getImage();
-                        var url = auth.uploadProfilePic(_image, userId);
-                        print("uploaded successfully");
+                        var url = auth.uploadProfilePic(_image, userId + "1");
+                        //print("uploaded successfully");
                       },
                     )
                   ],
