@@ -5,14 +5,15 @@ import 'package:coffee_app/auth_provider.dart';
 import 'package:coffee_app/misc/brew-guide.dart';
 import 'package:coffee_app/styles.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:intl/intl.dart';
+import 'dart:io' show Platform;
+
+import 'package:open_iconic_flutter/open_iconic_flutter.dart';
 
 class AddNewEntry extends StatefulWidget {
- 
-
-
   @override
   State<StatefulWidget> createState() {
     return _AddNewEntryState();
@@ -46,7 +47,6 @@ class _AddNewEntryState extends State<AddNewEntry> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     _user();
-  
   }
 
   //call async method once instead of continually calling _user();
@@ -88,78 +88,70 @@ class _AddNewEntryState extends State<AddNewEntry> {
       ),
       body: GestureDetector(
         onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
-        child: Stack(
-          fit: StackFit.expand,
-          
+        child: Column(
           children: <Widget>[
-             Image(
-          image: new AssetImage("assets/AddEntryBackground.jpg"),
-          fit: BoxFit.fitHeight,
-          color: Colors.black54,
-          colorBlendMode: BlendMode.darken,
-        ),
-            
-            Opacity(
-              opacity: 0.90,
-              child: Container(
-                color: Colors.white,
-                  child: Form(
-                    key: _key,
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 40.0),
-                      child: SingleChildScrollView(
-                          child: Column(
+            SizedBox(height: 5.0,),
+            Container(
+              color: Colors.white,
+              child: Form(
+                key: _key,
+                child: SingleChildScrollView(
+                  physics: AlwaysScrollableScrollPhysics(),
+                  child: Card(
+                    color: Colors.white,
+                    elevation: 10.0,
+                    child: Column(
+                      children: <Widget>[
+                        // _buildLabel("Enter ur Brew Details"),
+                        //_buildLabel("Date of this brew"),
+                        Row(
+                          //need to wrap widget in expanded here to give the child widget a size parameter
                           children: <Widget>[
-                           // _buildLabel("Enter ur Brew Details"),
-              //_buildLabel("Date of this brew"),
-              Row(
-                //need to wrap widget in expanded here to give the child widget a size parameter
-                children: <Widget>[
-                  /*Flexible(flex: 1, child: _buildInputFieldNum()),*/
-                  Flexible(
-                    flex: 1,
-                    child: _buildInputFieldDate(),
-                  ),
-                ],
-              ),
-              Divider(),
-              //_buildLabel("Bean Name"),
-              _buildInputFieldBeanName(),
-              Divider(),
-              //_buildLabel("Brewer"),
-              _buildInputFieldBrewer(),
-              Divider(),
-              //_buildLabel("Taste log"),
-              Row(
-                children: <Widget>[
-                  Flexible(flex: 2, child: _buildInputFieldTastingNotes()),
-                  Flexible(
-                      flex: 1,
-                      child: MaterialButton(
-                        color: Colors.brown[400],
-                        child: Text("Reference"),
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => BrewGuideChart()));
-                        },
-                      )),
-                ],
-              ),
-              Divider(),
-              _buildLabel("Enter Your Steps"),
-              _buildSteps(),
-              Divider(),
-              shareButton,
-              _buildSubmitButton(),
-              Divider(),
+                            /*Flexible(flex: 1, child: _buildInputFieldNum()),*/
+                            Flexible(
+                              flex: 1,
+                              child: _buildInputFieldDate(),
+                            ),
                           ],
                         ),
-                      ),
+                        Divider(),
+                        //_buildLabel("Bean Name"),
+                        _buildInputFieldBeanName(),
+                        Divider(),
+                        //_buildLabel("Brewer"),
+                        _buildInputFieldBrewer(),
+                        Divider(),
+                        //_buildLabel("Taste log"),
+                        Row(
+                          children: <Widget>[
+                            Flexible(
+                                flex: 2, child: _buildInputFieldTastingNotes()),
+                            Flexible(
+                                flex: 1,
+                                child: MaterialButton(
+                                  color: Colors.brown[400],
+                                  child: Text("Reference"),
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                BrewGuideChart()));
+                                  },
+                                )),
+                          ],
+                        ),
+                        Divider(),
+                        _buildLabel("Enter Your Steps"),
+                        _buildSteps(),
+                        Divider(),
+                        shareButton,
+                        _buildSubmitButton(),
+                      ],
                     ),
                   ),
                 ),
+              ),
             ),
           ],
         ),
@@ -201,67 +193,48 @@ class _AddNewEntryState extends State<AddNewEntry> {
     );
   }
 
-  Widget _buildInputFieldNum() {
-    return Padding(
-      child: TextFormField(
-        style: Styles.createEntryText,
-        decoration: new InputDecoration(hintText: "Enter id"),
-        keyboardType: TextInputType.number,
-        validator: (value) => value.isEmpty ? "field cant be empty" : null,
-        onSaved: (value) => id = int.parse(value),
-      ),
-      padding: EdgeInsets.all(20.0),
-    );
-  }
-
   final dateFormat = DateFormat("EEEE, MMMM d, yyyy");
-
   Widget _buildInputFieldDate() {
     return Padding(
-      child:
-      Theme(
-        data: Theme.of(context).copyWith(
-          primaryColor: Colors.brown[300]
-        ),
-              child: DateTimePickerFormField(
-          inputType: InputType.date,
-          editable: true,
-          decoration: InputDecoration(
-                    labelText: 'Date', hasFloatingPlaceholder: true),
-          format: dateFormat,
+      child: Theme(
+        data: Theme.of(context).copyWith(primaryColor: Colors.brown[300]),
+        child: ListTile(
+          leading: Icon(OpenIconicIcons.calendar),
+          title: DateTimePickerFormField(
+            inputType: InputType.date,
+            editable: true,
+            decoration: InputDecoration(
+                labelText: 'Date', hasFloatingPlaceholder: true),
+            format: dateFormat,
             onChanged: (date) {
-                    this.date = date.toString();
-              },
-              onSaved: (value) {
-                //String dateSlug = "${value.year.toString()}- ${value.month.toString().padLeft(2,'0')}- ${value.day.toString().padLeft(2,'0')}" ;
-                var formatter = new DateFormat('dd-MM-yyyy');
-                this.date = formatter.format(value).toString();
-                print(date);
-              },
-              enabled: true,
+              this.date = date.toString();
+            },
+            onSaved: (value) {
+              //String dateSlug = "${value.year.toString()}- ${value.month.toString().padLeft(2,'0')}- ${value.day.toString().padLeft(2,'0')}" ;
+              var formatter = new DateFormat('dd-MM-yyyy');
+              this.date = formatter.format(value).toString();
+              print(date);
+            },
+            enabled: true,
+          ),
         ),
-      )
-      
-      
-       /*TextFormField(
-        style: Styles.createEntryText,
-        decoration: new InputDecoration(hintText: "Enter date"),
-        keyboardType: TextInputType.text,
-        validator: (value) => value.isEmpty ? "field cant be empty" : null,
-        onSaved: (value) => this.date = value,
-      ),*/,
+      ),
       padding: EdgeInsets.all(20.0),
     );
   }
 
   Widget _buildInputFieldBeanName() {
     return Padding(
-      child: TextFormField(
-        style: Styles.createEntryText,
-        decoration: new InputDecoration(hintText: "Enter Bean Name"),
-        keyboardType: TextInputType.text,
-        validator: (value) => value.isEmpty ? "field cant be empty" : null,
-        onSaved: (value) => this.beanName = value,
+      child: ListTile(
+        leading: Icon(OpenIconicIcons.text),
+        title: TextFormField(
+          style: Styles.createEntryText,
+          decoration: new InputDecoration(hintText: "Enter Bean Name"),
+          keyboardType: TextInputType.text,
+          validator: (value) =>
+              value.isEmpty ? "Bean Name cannot be empty" : null,
+          onSaved: (value) => this.beanName = value,
+        ),
       ),
       padding: EdgeInsets.all(20.0),
     );
@@ -269,12 +242,15 @@ class _AddNewEntryState extends State<AddNewEntry> {
 
   Widget _buildInputFieldBrewer() {
     return Padding(
-      child: TextFormField(
-        style: Styles.createEntryText,
-        decoration: new InputDecoration(hintText: "Enter brewer"),
-        keyboardType: TextInputType.text,
-        validator: (value) => value.isEmpty ? "field cant be empty" : null,
-        onSaved: (value) => this.brewer = value,
+      child: ListTile(
+        leading: Icon(OpenIconicIcons.beaker),
+        title: TextFormField(
+          style: Styles.createEntryText,
+          decoration: new InputDecoration(hintText: "Enter brewer"),
+          keyboardType: TextInputType.text,
+          validator: (value) => value.isEmpty ? "field cant be empty" : null,
+          onSaved: (value) => this.brewer = value,
+        ),
       ),
       padding: EdgeInsets.all(20.0),
     );
@@ -341,13 +317,21 @@ class _AddNewEntryState extends State<AddNewEntry> {
             child: Column(
               children: <Widget>[
                 MaterialButton(
-                  child: Icon(Icons.add_box, color: Colors.brown[400],),
+                  child: Icon(
+                    Icons.add_box,
+                    color: Colors.brown[400],
+                  ),
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => EditSteps(steps)));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => EditSteps(steps)));
                   },
                 ),
-                Text("Add Steps", style: TextStyle(color: Colors.brown[400]),)
+                Text(
+                  "Add Steps",
+                  style: TextStyle(color: Colors.brown[400]),
+                )
               ],
             ),
           ),
@@ -369,7 +353,7 @@ class _AddNewEntryState extends State<AddNewEntry> {
       await reference.add({
         /*'id': id,*/
         // all recipes are created private by default
-        'displayName' : displayName,
+        'displayName': displayName,
         'isShared': isShared,
         'date': date,
         'beanName': beanName,
@@ -380,5 +364,25 @@ class _AddNewEntryState extends State<AddNewEntry> {
       });
       print("created successfully!");
     });
+  }
+
+  void _showErrorWhenSubmitting(NoSuchMethodError e) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          if (Platform.isAndroid) {
+            return AlertDialog(
+              title: Text("Error Creating Entry"),
+              content: Text("Please Try Again"),
+              actions: <Widget>[],
+            );
+          } else if (Platform.isIOS) {
+            return CupertinoAlertDialog(
+              title: Text("Error Creating Entry"),
+              content: Text("Please Try Again"),
+              actions: <Widget>[],
+            );
+          }
+        });
   }
 }
