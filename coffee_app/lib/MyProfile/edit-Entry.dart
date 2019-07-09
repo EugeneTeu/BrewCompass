@@ -84,7 +84,7 @@ class _EditEntryState extends State<EditEntry> {
               child: SingleChildScrollView(
                 child: Column(
                   children: <Widget>[
-                    _buildLabel("Enter ur Brew Details"),
+                    //_buildLabel("Enter ur Brew Details"),
                     Row(
                       //need to wrap widget in expanded here to give the child widget a size parameter
                       children: <Widget>[

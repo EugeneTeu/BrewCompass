@@ -100,7 +100,7 @@ class _AddNewEntryState extends State<AddNewEntry> {
         ),
             
             Opacity(
-              opacity: 0.80,
+              opacity: 0.90,
               child: Container(
                 color: Colors.white,
                   child: Form(

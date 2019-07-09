@@ -3,6 +3,7 @@ import 'package:coffee_app/MyProfile/Recipe.dart';
 import 'package:coffee_app/MyProfile/edit-Entry.dart';
 import 'package:coffee_app/misc/brew-guide.dart';
 import 'package:flutter/material.dart';
+import 'package:open_iconic_flutter/open_iconic_flutter.dart';
 
 import '../styles.dart';
 
@@ -18,8 +19,10 @@ class JournalEntry extends StatelessWidget {
     // Widget shareButton = _buildShareButton();
 
     return Scaffold(
+      backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
+        //backgroundColor: Colors.white,
         //remove backbutton
         automaticallyImplyLeading: true,
         centerTitle: true,
@@ -36,7 +39,7 @@ class JournalEntry extends StatelessWidget {
             },
           ),
         ),
-        title: Text("View Entry"),
+        title: Text("View Your Entry"),
         actions: <Widget>[
           MaterialButton(
             child: Icon(Icons.close),
@@ -45,14 +48,54 @@ class JournalEntry extends StatelessWidget {
         ],
       ),
       body: ListView(
+        
         children: <Widget>[
           Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+             
+              Center(
+                child: Card(
+                  elevation: 10.0,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      ListTile(
+                        leading: Icon(Icons.title),
+                        title: Text("Name Of Bean: " + currentRecipe.beanName),
+                        subtitle: Text("Date of Entry: " + currentRecipe.date),
+                      ),
+                      Divider(),
+                      ListTile(
+                        leading: Icon(OpenIconicIcons.beaker),
+                        title: Text("Brewer Used"),
+                        subtitle: Text(currentRecipe.brewer),
+                      ),
+                      Divider(),
+                      ListTile(
+                        leading: Icon(OpenIconicIcons.task),
+                        title: Text("Tasting Notes"),
+                        subtitle: Text(currentRecipe.tastingNotes),
+                      ),
+                      Divider(),
+                      Center(child: Text("Steps For This Entry")),
+                      _buildSteps(),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          )
+
+          /*Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               _buildLabel("Brew Details"),
               Row(
                 children: <Widget>[
-                  _buildFormattedText("Owner: " + currentRecipe.displayName),
+                 // _buildFormattedText("Owner: " + currentRecipe.displayName),
                   
                   _buildFormattedText('Date:'),
                   _buildFormattedTextField('${currentRecipe.date}'),
@@ -91,11 +134,11 @@ class JournalEntry extends StatelessWidget {
               _buildLabel("Steps"),
               _buildSteps(),
             ],
-          ),
+          ),*/
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
-        label: Text("delete this entry"),
+        label: Icon(OpenIconicIcons.circleX),
         backgroundColor: Colors.red,
         onPressed: () {
           showDialog(
@@ -130,7 +173,7 @@ class JournalEntry extends StatelessWidget {
               });
         },
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 
@@ -168,8 +211,6 @@ class JournalEntry extends StatelessWidget {
   }
 
   Widget _buildSteps() {
-
-
     return Padding(
       padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0),
       child: Row(
@@ -183,9 +224,16 @@ class JournalEntry extends StatelessWidget {
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     final currentNum = index + 1;
-                    return ListTile(
-                      leading: Text(currentNum.toString()),
-                      title: Text(currentRecipe.steps[index]),
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.max,
+                      children: <Widget>[
+                        ListTile(
+                          leading: Text(currentNum.toString()),
+                          title: Text(currentRecipe.steps[index]),
+                        ),
+                        Divider()
+                      ],
                     );
                   },
                   itemCount: currentRecipe.steps.length,
