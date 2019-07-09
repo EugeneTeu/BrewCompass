@@ -25,7 +25,7 @@ class TabbedPageState extends State<TabbedPage> with SingleTickerProviderStateMi
     tabs: <Tab>[
       new Tab(text: 'Convertor'),
       new Tab(text: 'StopWatch'),
-      new Tab(text: 'Caculator'),
+      new Tab(text: 'Calculator'),
     ]);
 
 

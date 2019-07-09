@@ -57,7 +57,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     child: Text(
                       "BrewCompass",
                       style: TextStyle(
-                          fontFamily: "sans-serif",
+                          fontFamily: "Montserrat",
                           fontSize: 55.0,
                           color: Colors.white70,
                           fontStyle: FontStyle.italic),
@@ -73,7 +73,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       child: Text(
                         "Your Specialty Coffee Companion",
                         style: TextStyle(
-                            fontFamily: "sans-serif",
+                            fontFamily: "Montserrat",
                             fontSize: 20.0,
                             color: Colors.white54,
                             fontStyle: FontStyle.italic),

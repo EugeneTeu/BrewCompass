@@ -41,7 +41,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget buildTopBar(BuildContext context) => new AppBar(
         centerTitle: true,
         title:
-            Text("BrewCompass", style: TextStyle(fontStyle: FontStyle.italic)),
+            Text("BrewCompass"),
         backgroundColor: Colors.white,
         actions: <Widget>[
           new MaterialButton(

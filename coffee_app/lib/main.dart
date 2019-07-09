@@ -11,7 +11,9 @@ void main() {
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
   return runApp(
-      new MaterialApp(home: new SplashScreen(), routes: <String, WidgetBuilder>{
+      new MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: new SplashScreen(), routes: <String, WidgetBuilder>{
     '/HomeScreen': (BuildContext context) => new MyApp(),
   }));
 }
@@ -24,7 +26,8 @@ class MyApp extends StatelessWidget {
           child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
-          accentColor: Colors.brown[200],
+          fontFamily: 'OpenSans',
+          accentColor: Colors.brown[400],
           primaryColor: Colors.brown[200],
           brightness: Brightness.light,
           

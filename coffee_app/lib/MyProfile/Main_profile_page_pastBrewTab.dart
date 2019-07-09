@@ -19,10 +19,12 @@ class PastBrewTabState extends State<PastBrewTab>
   //wrapping tabs into a tabBar
   final TabBar toolBar = new TabBar(
       unselectedLabelColor: Colors.black38,
+      labelColor: Colors.black,
       indicator: UnderlineTabIndicator(
           borderSide: BorderSide(color: Colors.blueGrey, width: 2.0),
           insets: EdgeInsets.fromLTRB(0.0, 40.0, 0.0, 0.0)),
       indicatorColor: Colors.blueGrey,
+
       tabs: <Tab>[
         new Tab(text: 'Journal'),
       ]);
@@ -40,8 +42,8 @@ class PastBrewTabState extends State<PastBrewTab>
                 shape: new ContinuousRectangleBorder(
                     borderRadius: new BorderRadius.horizontal()),
                 margin: EdgeInsets.all(0.0),
-                elevation:10.0,
-                color: Colors.white70,
+                elevation:0.0,
+                color: Colors.white,
                 child: toolBar,
               ),
             )),

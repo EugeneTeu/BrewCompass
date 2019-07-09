@@ -10,18 +10,18 @@ abstract class Styles {
 
   static const TextStyle loginText = TextStyle(
     color: Colors.white,
-    fontFamily: "Montserrat",
+    fontFamily: "OpenSans",
   );
 
   static const TextStyle createEntryText = TextStyle(
     color: Colors.black,
-    fontFamily: "Montserrat",
+    fontFamily: "OpenSans",
     
   );
   
   static const TextStyle entryLabelsText = TextStyle(
     color: Colors.black,
-    fontFamily: "Montserrat",
+    fontFamily: "OpenSans",
     fontWeight: FontWeight.w800
   );
 
@@ -35,7 +35,8 @@ abstract class Styles {
 
   static const TextStyle textStyle =  TextStyle(
     fontSize: 90.0,
-     fontFamily: "Bebas Neue"
+     fontFamily: "OpenSans"
+     //"Bebas Neue"
   );
 
 
@@ -47,8 +48,9 @@ abstract class Styles {
 
   static const TextStyle calcFont = TextStyle(
     fontWeight: FontWeight.w300,
-     fontSize: 23.0,
-     fontFamily: "Montserrat");
+     fontSize: 22.0,
+     fontFamily: "OpenSans"
+     );
 
 
   static const Color productRowDivider = Color(0xFFD9D9D9);
