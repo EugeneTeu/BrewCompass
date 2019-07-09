@@ -83,8 +83,9 @@ class _EditEntryState extends State<EditEntry> {
               padding: const EdgeInsets.fromLTRB(8.0, 20.0, 8.0, 40.0),
               child: SingleChildScrollView(
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    //_buildLabel("Enter ur Brew Details"),
+                    _buildLabel("Date Of Entry"),
                     Row(
                       //need to wrap widget in expanded here to give the child widget a size parameter
                       children: <Widget>[
@@ -96,10 +97,10 @@ class _EditEntryState extends State<EditEntry> {
                       ],
                     ),
                     Divider(),
-                    _buildLabel("Bean Name"),
+                    _buildLabel("Name Of Bean"),
                     _buildInputFieldBeanName(),
                     Divider(),
-                    _buildLabel("Brewer"),
+                    _buildLabel("Brewer Used"),
                     _buildInputFieldBrewer(),
                     Divider(),
                     _buildLabel("Taste log"),
@@ -162,14 +163,9 @@ class _EditEntryState extends State<EditEntry> {
   }
 
   Widget _buildLabel(String text) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0),
-      child: ListTile(
-        title: Text(
-          "$text",
-          style: Styles.entryLabelsText,
-        ),
-      ),
+    return Text(
+      "$text",
+      style: Styles.entryLabelsText,
     );
   }
 
@@ -200,11 +196,6 @@ class _EditEntryState extends State<EditEntry> {
       padding: EdgeInsets.all(20.0),
     );
   }
-
-    
-  
-
-
 
   Widget _buildInputFieldBeanName() {
     return Padding(
@@ -294,7 +285,7 @@ class _EditEntryState extends State<EditEntry> {
           Flexible(
             flex: 1,
             child: MaterialButton(
-              child: Icon(Icons.add_box),
+              child: Icon(Icons.add_box, color: Colors.brown[400],),
               onPressed: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => EditSteps(steps)));
