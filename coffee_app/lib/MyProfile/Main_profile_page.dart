@@ -149,14 +149,7 @@ class _Profile extends State<Profile> {
                             style: Styles.profileStyle,
                           ),
                         ),
-                        Padding(
-                          padding:
-                              const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
-                          child: Text(
-                            'Singapore',
-                            style: Styles.profileStyle,
-                          ),
-                        )
+                        
                       ],
                     ),
                     Padding(
