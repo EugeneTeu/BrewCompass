@@ -6,6 +6,7 @@ import 'package:coffee_app/styles.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:open_iconic_flutter/open_iconic_flutter.dart';
 
 class EditEntry extends StatefulWidget {
   EditEntry(this.data);
@@ -185,13 +186,16 @@ class _EditEntryState extends State<EditEntry> {
 
   Widget _buildInputFieldDate() {
     return Padding(
-      child: TextFormField(
-        style: Styles.createEntryText,
-        decoration: new InputDecoration(hintText: "Enter date"),
-        initialValue: date,
-        keyboardType: TextInputType.text,
-        validator: (value) => value.isEmpty ? "field cant be empty" : null,
-        onSaved: (value) => this.date = value,
+      child: ListTile(
+          leading: Icon(OpenIconicIcons.calendar),
+          title: TextFormField(
+          style: Styles.createEntryText,
+          decoration: new InputDecoration(hintText: "Enter date"),
+          initialValue: date,
+          keyboardType: TextInputType.text,
+          validator: (value) => value.isEmpty ? "field cant be empty" : null,
+          onSaved: (value) => this.date = value,
+        ),
       ),
       padding: EdgeInsets.all(20.0),
     );
@@ -199,13 +203,16 @@ class _EditEntryState extends State<EditEntry> {
 
   Widget _buildInputFieldBeanName() {
     return Padding(
-      child: TextFormField(
-        style: Styles.createEntryText,
-        decoration: new InputDecoration(hintText: "Enter Bean Name"),
-        initialValue: beanName,
-        keyboardType: TextInputType.text,
-        validator: (value) => value.isEmpty ? "field cant be empty" : null,
-        onSaved: (value) => this.beanName = value,
+      child: ListTile(
+        leading: Icon(OpenIconicIcons.text),
+              title: TextFormField(
+          style: Styles.createEntryText,
+          decoration: new InputDecoration(hintText: "Enter Bean Name"),
+          initialValue: beanName,
+          keyboardType: TextInputType.text,
+          validator: (value) => value.isEmpty ? "field cant be empty" : null,
+          onSaved: (value) => this.beanName = value,
+        ),
       ),
       padding: EdgeInsets.all(20.0),
     );
@@ -213,13 +220,16 @@ class _EditEntryState extends State<EditEntry> {
 
   Widget _buildInputFieldBrewer() {
     return Padding(
-      child: TextFormField(
-        style: Styles.createEntryText,
-        decoration: new InputDecoration(hintText: "Enter brewer"),
-        initialValue: brewer,
-        keyboardType: TextInputType.text,
-        validator: (value) => value.isEmpty ? "field cant be empty" : null,
-        onSaved: (value) => this.brewer = value,
+      child: ListTile(
+        leading: Icon(OpenIconicIcons.beaker),
+            title: TextFormField(
+          style: Styles.createEntryText,
+          decoration: new InputDecoration(hintText: "Enter brewer"),
+          initialValue: brewer,
+          keyboardType: TextInputType.text,
+          validator: (value) => value.isEmpty ? "field cant be empty" : null,
+          onSaved: (value) => this.brewer = value,
+        ),
       ),
       padding: EdgeInsets.all(20.0),
     );

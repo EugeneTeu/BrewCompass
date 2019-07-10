@@ -73,6 +73,7 @@ class _AddNewEntryState extends State<AddNewEntry> {
     Widget shareButton = _buildShareButton();
 
     return Scaffold(
+    
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         //remove backbutton
@@ -90,9 +91,9 @@ class _AddNewEntryState extends State<AddNewEntry> {
         onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
         child: Column(
           children: <Widget>[
-            SizedBox(height: 5.0,),
+            SizedBox(height: 10.0,),
             Container(
-              color: Colors.white,
+            
               child: Form(
                 key: _key,
                 child: SingleChildScrollView(

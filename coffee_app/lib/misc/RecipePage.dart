@@ -87,6 +87,14 @@ class _RecipePageState extends State<RecipePage> {
       });
     }
   }
+  Widget _showLoading() {
+    return Center(
+      child: CircularProgressIndicator(
+        backgroundColor: Colors.white,
+        
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +116,7 @@ class _RecipePageState extends State<RecipePage> {
                 children: <Widget>[
                   _buildSearchBox(),
                   Expanded(
-                    child: ListView.builder(
+                    child: tempSearchedResults.length == 0 ? _showLoading() : ListView.builder(
                       itemCount: tempSearchedResults.length,
                       itemBuilder: (context, index) => _buildEachItem(
                           context,

@@ -63,7 +63,7 @@ class JournalEntry extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       ListTile(
-                        leading: Icon(Icons.title),
+                        leading: Icon(OpenIconicIcons.text),
                         title: Text("Name Of Bean: " + currentRecipe.beanName),
                         subtitle: Text("Date of Entry: " + currentRecipe.date),
                       ),

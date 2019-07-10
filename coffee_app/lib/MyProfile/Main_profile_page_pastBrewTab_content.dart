@@ -72,7 +72,9 @@ class _PastBrewsState extends State<PastBrews> {
           return Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              Center(child: CircularProgressIndicator()),
+              Center(child: CircularProgressIndicator(
+                backgroundColor: Colors.black,
+              )),
             ],
           );
         }

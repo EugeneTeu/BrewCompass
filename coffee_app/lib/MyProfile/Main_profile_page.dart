@@ -168,10 +168,11 @@ class _Profile extends State<Profile> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
-                              Text(
+                              _showNumOfBrews(),
+                              /*Text(
                                 numberOfBrews,
                                 style: Styles.profileStyle,
-                              ),
+                              ),*/
                               Text(
                                 'BREWS',
                                 style: Styles.profileStyle,
@@ -215,6 +216,19 @@ class _Profile extends State<Profile> {
             ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
+  }
+
+  Widget _showNumOfBrews() {
+    if (numberOfBrews == "loading..") {
+      return CircularProgressIndicator(
+        backgroundColor: Colors.white,
+      );
+    } else {
+      return Text(
+                                numberOfBrews,
+                                style: Styles.profileStyle,
+                              );
+    }
   }
 
   Widget cancelButton(BuildContext context) {
