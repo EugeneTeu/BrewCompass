@@ -149,8 +149,17 @@ class JournalEntry extends StatelessWidget {
                   content: Text("Are you sure you like to delete this entry?"),
                   actions: <Widget>[
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
+                        FlatButton(
+                          color: Colors.red[400],
+                          child: Icon(Icons.close
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                        Divider(),
                         FlatButton(
                           color: Colors.blue[200],
                           child: Icon(Icons.check_circle_outline),
@@ -246,49 +255,3 @@ class JournalEntry extends StatelessWidget {
     );
   }
 }
-
-/*
-// TODO: remodel this whole thing to 
-// become the same as edit steps, except that there are no edit buttons
-class JournalEntry extends StatelessWidget {
-  
-  final Recipe currentRecipe;
-
-  JournalEntry(Recipe currentEntry) : this.currentRecipe = currentEntry;
-
-  //List<Widget> steps = currentRecipe.steps.map((steps) => Text(steps)).toList();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text("This brew"),
-          leading: BackButton(
-            color: Colors.black,
-          ),
-        ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              // Divider(),
-              Text(currentRecipe.beanName != null ? currentRecipe.beanName : 'bean name here'),
-              Divider(),
-              Text(currentRecipe.brewer != null ? currentRecipe.brewer : 'brewer here'),
-              Divider(),
-              Text(currentRecipe.tastingNotes != null ? 
-                  currentRecipe.tastingNotes : 'tasting notes here'),
-              Divider(),
-              Text(currentRecipe.date != null ? currentRecipe.date : 'Date here'),
-              Divider(),
-              Column(
-                children:
-                    currentRecipe.steps != null ? currentRecipe.steps.map((steps) => Text(steps)).toList() : [Text("steps here")],
-              ),
-            ],
-          ),
-        ));
-  }
-}
-*/

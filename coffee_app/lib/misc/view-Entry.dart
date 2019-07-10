@@ -3,6 +3,7 @@ import 'package:coffee_app/MyProfile/Recipe.dart';
 import 'package:coffee_app/MyProfile/edit-Entry.dart';
 import 'package:coffee_app/misc/brew-guide.dart';
 import 'package:flutter/material.dart';
+import 'package:open_iconic_flutter/open_iconic_flutter.dart';
 
 import '../styles.dart';
 
@@ -27,7 +28,53 @@ class ViewJournalEntry extends StatelessWidget {
         actions: <Widget>[],
       ),
       body: SingleChildScrollView(
-        child: Column(
+        child:  Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+             
+              Center(
+                child: Card(
+                  elevation: 10.0,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                       ListTile(
+                        leading: Icon(OpenIconicIcons.person),
+                        title: Text("Recipe Brewed By " + currentRecipe.displayName),
+                     
+                      ),
+                      ListTile(
+                        leading: Icon(OpenIconicIcons.text),
+                        title: Text("Name Of Bean: " + currentRecipe.beanName),
+                        subtitle: Text("Date of Entry: " + currentRecipe.date),
+                      ),
+                      Divider(),
+                      ListTile(
+                        leading: Icon(OpenIconicIcons.beaker),
+                        title: Text("Brewer Used"),
+                        subtitle: Text(currentRecipe.brewer),
+                      ),
+                      Divider(),
+                      ListTile(
+                        leading: Icon(OpenIconicIcons.task),
+                        title: Text("Tasting Notes"),
+                        subtitle: Text(currentRecipe.tastingNotes),
+                      ),
+                      Divider(),
+                      Center(child: Text("Steps For This Entry")),
+                      _buildSteps(),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          )
+
+        
+        
+        /*Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -72,7 +119,7 @@ class ViewJournalEntry extends StatelessWidget {
             _buildLabel("Steps"),
             _buildSteps(),
           ],
-        ),
+        ),*/
       ),
     );
   }

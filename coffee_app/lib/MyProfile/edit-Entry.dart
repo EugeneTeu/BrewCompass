@@ -258,6 +258,7 @@ class _EditEntryState extends State<EditEntry> {
               return InputDecorator(
                 decoration: InputDecoration(
                   labelText: "Select Brewer",
+                  
                 ),
                 
                 child: DropdownButtonHideUnderline(
