@@ -21,6 +21,17 @@ class AddNewEntry extends StatefulWidget {
 }
 
 class _AddNewEntryState extends State<AddNewEntry> {
+  final List<String> coffeeBrewers = [
+    "V60",
+    "Kalita Wave",
+    "Beehouse",
+    "Chemex",
+    "Aeropress",
+    "Vacuum Pot",
+    "Moka Pot",
+    "Others(Filter)",
+    "Others(Espresso)"
+  ];
   GlobalKey<FormState> _key = GlobalKey();
 
   //code to get firebase User
@@ -73,7 +84,6 @@ class _AddNewEntryState extends State<AddNewEntry> {
     Widget shareButton = _buildShareButton();
 
     return Scaffold(
-    
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         //remove backbutton
@@ -87,17 +97,18 @@ class _AddNewEntryState extends State<AddNewEntry> {
           )
         ],
       ),
-      body: GestureDetector(
-        onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
-        child: Column(
-          children: <Widget>[
-            SizedBox(height: 10.0,),
-            Container(
-            
-              child: Form(
-                key: _key,
-                child: SingleChildScrollView(
-                  physics: AlwaysScrollableScrollPhysics(),
+      body: SingleChildScrollView(
+        physics: AlwaysScrollableScrollPhysics(),
+              child: GestureDetector(
+          onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
+          child: Column(
+            children: <Widget>[
+              SizedBox(
+                height: 10.0,
+              ),
+              Container(
+                child: Form(
+                  key: _key,
                   child: Card(
                     color: Colors.white,
                     elevation: 10.0,
@@ -153,8 +164,8 @@ class _AddNewEntryState extends State<AddNewEntry> {
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -243,17 +254,46 @@ class _AddNewEntryState extends State<AddNewEntry> {
 
   Widget _buildInputFieldBrewer() {
     return Padding(
+      padding: const EdgeInsets.all(8.0),
       child: ListTile(
         leading: Icon(OpenIconicIcons.beaker),
-        title: TextFormField(
+        title: ClipRect(
+          child: FormField(
+            builder: (FormFieldState state) {
+              return InputDecorator(
+                decoration: InputDecoration(
+                  labelText: "Select Brewer",
+                ),
+                isEmpty: brewer == '',
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton(
+                    value: brewer,
+                    isDense: true,
+                    onChanged: (String newValue) {
+                      setState(() {
+                        this.brewer = newValue;
+                      });
+                    },
+                    items: coffeeBrewers.map((String value) {
+                      return DropdownMenuItem(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+        /*TextFormField(
           style: Styles.createEntryText,
           decoration: new InputDecoration(hintText: "Enter brewer"),
           keyboardType: TextInputType.text,
           validator: (value) => value.isEmpty ? "field cant be empty" : null,
           onSaved: (value) => this.brewer = value,
-        ),
+        ),*/
       ),
-      padding: EdgeInsets.all(20.0),
     );
   }
 
