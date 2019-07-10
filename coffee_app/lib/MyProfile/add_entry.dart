@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coffee_app/MyProfile/editSteps.dart';
-import 'package:coffee_app/auth.dart';
 import 'package:coffee_app/auth_provider.dart';
 import 'package:coffee_app/misc/brew-guide.dart';
 import 'package:coffee_app/styles.dart';
