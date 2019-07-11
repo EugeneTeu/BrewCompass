@@ -22,17 +22,26 @@ class Profile extends StatefulWidget {
 }
 
 class _Profile extends State<Profile> {
+  String name = "displayname";
+  String numberOfBrews = "loading..";
+  String title;
+  String userId;
+
   File _image;
 
-  String name = "displayname";
-  String title;
-  String numberOfBrews = "loading..";
-  String userId;
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     _user();
     _countBrew();
+  }
+
+  //call async method once instead of continually calling _user();
+  @override
+  void initState() {
+    super.initState();
+    //_user();
+    // _countBrew();
   }
 
   //code to get firebase User
@@ -62,14 +71,6 @@ class _Profile extends State<Profile> {
     });
   }
 
-  //call async method once instead of continually calling _user();
-  @override
-  void initState() {
-    super.initState();
-    //_user();
-    // _countBrew();
-  }
-
   void _countBrew() async {
     List result = [];
     final QuerySnapshot temp =
@@ -84,30 +85,10 @@ class _Profile extends State<Profile> {
     });
   }
 
-  void _refreshCounts() {
-    didChangeDependencies();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: _fetchUser(),
-      builder: (BuildContext context, AsyncSnapshot<FirebaseUser> snapshot) {
-        if (snapshot.hasData && name != null) {
-          //_user();
-          return _buildProfilePage(context);
-        } else {
-          return Scaffold(
-            body: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                CircularProgressIndicator(),
-              ],
-            ),
-          );
-        }
-      },
-    );
+  Future<void> _refreshCounts() async{
+    setState(() {
+      _countBrew();
+    });
   }
 
   Widget _buildProfilePage(BuildContext context) {
@@ -180,7 +161,7 @@ class _Profile extends State<Profile> {
             SizedBox(
               height: 20.0,
             ),
-            Expanded(child: PastBrews()),
+            Expanded(child: PastBrews(onRefresh: () => _refreshCounts(),)),
           ],
         ),
       ]),
@@ -270,6 +251,28 @@ class _Profile extends State<Profile> {
             ),
           );
         });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: _fetchUser(),
+      builder: (BuildContext context, AsyncSnapshot<FirebaseUser> snapshot) {
+        if (snapshot.hasData && name != null) {
+          //_user();
+          return _buildProfilePage(context);
+        } else {
+          return Scaffold(
+            body: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                CircularProgressIndicator(),
+              ],
+            ),
+          );
+        }
+      },
+    );
   }
 }
 

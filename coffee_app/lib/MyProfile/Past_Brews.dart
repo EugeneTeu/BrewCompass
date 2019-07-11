@@ -10,9 +10,12 @@ import 'package:open_iconic_flutter/open_iconic_flutter.dart';
 import 'package:uuid/uuid.dart';
 
 class PastBrews extends StatefulWidget {
+  PastBrews({this.onRefresh});
+  final VoidCallback onRefresh;
   @override
   State<StatefulWidget> createState() => _PastBrewsState();
 }
+
 
 class _PastBrewsState extends State<PastBrews> {
   String userId;
@@ -70,10 +73,6 @@ class _PastBrewsState extends State<PastBrews> {
             "Journal",
             style: TextStyle(color: Colors.black, ),
           ),
-          actions: <Widget>[
-           
-            
-          ],
           bottom: PreferredSize(
             preferredSize: Size.fromHeight(2.0),
             child: Container(color: Colors.brown[400], height: 2.0),
@@ -107,6 +106,11 @@ class _PastBrewsState extends State<PastBrews> {
     );
   }
 
+  Future<void> _refresh() async{
+
+
+  }
+
   //returns the list view
   Widget _buildPastBrewsList(
       BuildContext context, List<DocumentSnapshot> snapshot) {
@@ -120,12 +124,15 @@ class _PastBrewsState extends State<PastBrews> {
         ],
       );
     } else {
-      return ListView.builder(
-        itemBuilder: (BuildContext context, int index) {
-          return _buildEachItem(
-              context, snapshot[index], index, snapshot.length);
-        },
-        itemCount: snapshot.length,
+      return RefreshIndicator(
+        onRefresh: widget.onRefresh,
+              child: ListView.builder(
+          itemBuilder: (BuildContext context, int index) {
+            return _buildEachItem(
+                context, snapshot[index], index, snapshot.length);
+          },
+          itemCount: snapshot.length,
+        ),
       );
     }
   }
@@ -216,29 +223,5 @@ class _PastBrewsState extends State<PastBrews> {
     );
   }
 
-  final topBar = Row(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    mainAxisSize: MainAxisSize.max,
-    children: <Widget>[
-      IconButton(
-        icon: Icon(
-          Icons.sort,
-          color: Colors.brown[400],
-        ),
-        onPressed: () {
-          print("future filter button");
-        },
-      ),
-      Spacer(
-        flex: 1,
-      ),
-      Text(
-        "Journal",
-        style: TextStyle(color: Colors.black),
-      ),
-      Spacer(
-        flex: 1,
-      )
-    ],
-  );
+  
 }
