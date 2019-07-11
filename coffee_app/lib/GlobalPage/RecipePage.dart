@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coffee_app/MyProfile/Recipe.dart';
-import 'package:coffee_app/misc/search_bar.dart';
-import 'package:coffee_app/misc/view-Entry.dart';
+import 'package:coffee_app/GlobalPage/search_bar.dart';
+import 'package:coffee_app/GlobalPage/view-Entry.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';

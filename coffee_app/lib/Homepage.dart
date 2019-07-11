@@ -1,7 +1,6 @@
 import 'package:coffee_app/MyProfile/Main_profile_page.dart';
 import 'package:coffee_app/auth_provider.dart';
-import 'package:coffee_app/misc/RecipePage.dart';
-import 'package:coffee_app/misc/test_page.dart';
+import 'package:coffee_app/GlobalPage/RecipePage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:coffee_app/Tools/tabbedPage.dart';

@@ -51,7 +51,6 @@ class TabbedPageState extends State<TabbedPage> with SingleTickerProviderStateMi
                   physics: NeverScrollableScrollPhysics(),
                   children: <Widget>[
                     new MyConverter(),
-                    new MyStopWatch(),
                     new MyCalcPage(),
                   ]
                 ) 

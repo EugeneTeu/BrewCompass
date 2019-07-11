@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:coffee_app/MyProfile/Main_profile_page_pastBrewTab.dart';
+import 'package:coffee_app/MyProfile/Past_Brews.dart';
 import 'package:coffee_app/MyProfile/Recipe.dart';
 import 'package:coffee_app/MyProfile/add_entry.dart';
 import 'package:coffee_app/auth_provider.dart';
@@ -84,6 +84,10 @@ class _Profile extends State<Profile> {
     });
   }
 
+  void _refreshCounts() {
+    didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -107,7 +111,6 @@ class _Profile extends State<Profile> {
   }
 
   Widget _buildProfilePage(BuildContext context) {
-    var auth = AuthProvider.of(context).auth;
     return Scaffold(
       body: Stack(fit: StackFit.expand, children: <Widget>[
         Image(
@@ -132,8 +135,8 @@ class _Profile extends State<Profile> {
                         GestureDetector(
                           onTap: () => _editProfileImage(context),
                           child: Container(
-                            height: 80.0,
-                            width: 80.0,
+                            height: 120.0,
+                            width: 120.0,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(62.5),
                                 image: DecorationImage(
@@ -149,7 +152,6 @@ class _Profile extends State<Profile> {
                             style: Styles.profileStyle,
                           ),
                         ),
-                        
                       ],
                     ),
                     Padding(
@@ -162,10 +164,6 @@ class _Profile extends State<Profile> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               _showNumOfBrews(),
-                              /*Text(
-                                numberOfBrews,
-                                style: Styles.profileStyle,
-                              ),*/
                               Text(
                                 'BREWS',
                                 style: Styles.profileStyle,
@@ -179,7 +177,10 @@ class _Profile extends State<Profile> {
                 ),
               ],
             ),
-            Expanded(child: PastBrewTab()),
+            SizedBox(
+              height: 20.0,
+            ),
+            Expanded(child: PastBrews()),
           ],
         ),
       ]),
@@ -218,9 +219,9 @@ class _Profile extends State<Profile> {
       );
     } else {
       return Text(
-                                numberOfBrews,
-                                style: Styles.profileStyle,
-                              );
+        numberOfBrews,
+        style: Styles.profileStyle,
+      );
     }
   }
 
@@ -235,7 +236,7 @@ class _Profile extends State<Profile> {
   }
 
   void _editProfileImage(BuildContext context) {
-   var auth = AuthProvider.of(context).auth;
+    var auth = AuthProvider.of(context).auth;
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -270,8 +271,6 @@ class _Profile extends State<Profile> {
           );
         });
   }
-
- 
 }
 
 /*

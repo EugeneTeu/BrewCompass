@@ -1,4 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+/*import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coffee_app/MyProfile/Main_profile_page_pastBrewTab_content_entry.dart';
 import 'package:coffee_app/MyProfile/Recipe.dart';
 import 'package:coffee_app/auth_provider.dart';
@@ -6,6 +6,7 @@ import 'package:coffee_app/misc/view-Entry.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:open_iconic_flutter/open_iconic_flutter.dart';
 import 'package:uuid/uuid.dart';
 
 class PastBrews extends StatefulWidget {
@@ -55,8 +56,30 @@ class _PastBrewsState extends State<PastBrews> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _buildPastBrews(context),
-    );
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          leading: IconButton(
+              icon: Icon(
+                Icons.sort,
+                color: Colors.black,
+              ),
+              onPressed: () {
+                print("future filter button");
+              },),
+          title: Text(
+            "Journal",
+            style: TextStyle(color: Colors.black, ),
+          ),
+          actions: <Widget>[
+           
+            
+          ],
+          bottom: PreferredSize(
+            preferredSize: Size.fromHeight(2.0),
+            child: Container(color: Colors.brown[400], height: 2.0),
+          ),
+        ),
+        body: _buildPastBrews(context));
   }
 
   //takes out the data from the stream
@@ -72,7 +95,8 @@ class _PastBrewsState extends State<PastBrews> {
           return Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              Center(child: CircularProgressIndicator(
+              Center(
+                  child: CircularProgressIndicator(
                 backgroundColor: Colors.black,
               )),
             ],
@@ -104,12 +128,6 @@ class _PastBrewsState extends State<PastBrews> {
         itemCount: snapshot.length,
       );
     }
-
-    /*
-    return ListView(
-      padding: EdgeInsets.only(top: 10.0),
-      children: snapshot.map((data) => _buildEachItem(context, data)).toList(),
-    );*/
   }
 
   //actually build the listtile
@@ -197,4 +215,31 @@ class _PastBrewsState extends State<PastBrews> {
       ),
     );
   }
+
+  final topBar = Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    mainAxisSize: MainAxisSize.max,
+    children: <Widget>[
+      IconButton(
+        icon: Icon(
+          Icons.sort,
+          color: Colors.brown[400],
+        ),
+        onPressed: () {
+          print("future filter button");
+        },
+      ),
+      Spacer(
+        flex: 1,
+      ),
+      Text(
+        "Journal",
+        style: TextStyle(color: Colors.black),
+      ),
+      Spacer(
+        flex: 1,
+      )
+    ],
+  );
 }
+*/
