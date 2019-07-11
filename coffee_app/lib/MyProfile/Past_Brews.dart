@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coffee_app/MyProfile/Journal_entry.dart';
 import 'package:coffee_app/MyProfile/Recipe.dart';
+import 'package:coffee_app/MyProfile/add_entry.dart';
 import 'package:coffee_app/auth_provider.dart';
 import 'package:coffee_app/GlobalPage/view-Entry.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:open_iconic_flutter/open_iconic_flutter.dart';
@@ -78,7 +82,37 @@ class _PastBrewsState extends State<PastBrews> {
             child: Container(color: Colors.brown[400], height: 2.0),
           ),
         ),
-        body: _buildPastBrews(context));
+        body: _buildPastBrews(context),
+        floatingActionButton: (Platform.isAndroid)
+          ? FloatingActionButton.extended(
+              icon: Icon(Icons.add),
+              label: Text("New Entry"),
+              onPressed: () {
+                //var dummyData = {'beanName': 'black', 'brewer': 'KW'};
+                //Firestore.instance.collection('v3').add(dummyData);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => AddNewEntry()));
+              },
+            )
+          : CupertinoButton(
+              color: Colors.brown[500],
+              minSize: 25.0,
+              child: Text("Add Entry"),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => AddNewEntry()));
+              },
+            ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+    );
+        
+        
+      
+
   }
 
   //takes out the data from the stream
@@ -137,6 +171,11 @@ class _PastBrewsState extends State<PastBrews> {
     }
   }
 
+ final snackBarDelete = SnackBar(
+  content: Text("swipe down to refresh page"),
+ duration: Duration(seconds: 5),
+);
+
   //actually build the listtile
   Widget _buildEachItem(
       BuildContext context, DocumentSnapshot data, int index, int length) {
@@ -160,6 +199,7 @@ class _PastBrewsState extends State<PastBrews> {
           key: Key(uuid.v4()),
           onDismissed: (direction) {
             try {
+              Scaffold.of(context).showSnackBar(snackBarDelete);
               setState(() {
                 Firestore.instance
                     .collection("testRecipesv3")
@@ -167,11 +207,17 @@ class _PastBrewsState extends State<PastBrews> {
                     .delete()
                     .catchError((e) {
                   print(e);
+
+                
                 });
-              });
+               
+              }
+              );
+            widget.onRefresh;
             } catch (e) {
               print("danggity");
             }
+       
           },
           child: ListTile(
               contentPadding:

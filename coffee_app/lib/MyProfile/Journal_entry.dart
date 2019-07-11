@@ -88,53 +88,6 @@ class JournalEntry extends StatelessWidget {
               ),
             ],
           )
-
-          /*Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              _buildLabel("Brew Details"),
-              Row(
-                children: <Widget>[
-                 // _buildFormattedText("Owner: " + currentRecipe.displayName),
-                  
-                  _buildFormattedText('Date:'),
-                  _buildFormattedTextField('${currentRecipe.date}'),
-                ],
-              ),
-              _buildLabel("Bean Name"),
-              _buildFormattedText('${currentRecipe.beanName}'),
-              _buildLabel("Brewer"),
-              _buildFormattedText('${currentRecipe.brewer}'),
-              _buildLabel("Taste log"),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  Expanded(
-                      flex: 1,
-                      child:
-                          _buildFormattedText('${currentRecipe.tastingNotes}')),
-                  Expanded(
-                      flex: 1,
-                      child: Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: MaterialButton(
-                          color: Theme.of(context).primaryColor,
-                          child: Text("Reference"),
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => BrewGuideChart()));
-                          },
-                        ),
-                      )),
-                ],
-              ),
-              Divider(),
-              _buildLabel("Steps"),
-              _buildSteps(),
-            ],
-          ),*/
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
@@ -171,6 +124,7 @@ class JournalEntry extends StatelessWidget {
                                 .catchError((e) {
                               print(e);
                             });
+                            
                             print("deleted!");
                             Navigator.of(context).pop();
                           },

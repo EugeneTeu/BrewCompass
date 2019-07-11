@@ -165,31 +165,7 @@ class _Profile extends State<Profile> {
           ],
         ),
       ]),
-      floatingActionButton: (Platform.isAndroid)
-          ? FloatingActionButton.extended(
-              icon: Icon(Icons.add),
-              label: Text("New Entry"),
-              onPressed: () {
-                //var dummyData = {'beanName': 'black', 'brewer': 'KW'};
-                //Firestore.instance.collection('v3').add(dummyData);
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) => AddNewEntry()));
-              },
-            )
-          : CupertinoButton(
-              color: Colors.brown[500],
-              minSize: 25.0,
-              child: Text("Add Entry"),
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) => AddNewEntry()));
-              },
-            ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      
     );
   }
 
