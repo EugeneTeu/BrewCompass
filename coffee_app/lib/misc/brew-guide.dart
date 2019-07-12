@@ -1,5 +1,7 @@
 import 'package:coffee_app/misc/zoom-image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:photo_view/photo_view.dart';
 
 class BrewGuideChart extends StatelessWidget {
   @override
@@ -15,7 +17,10 @@ class BrewGuideChart extends StatelessWidget {
       body: Stack(
         fit: StackFit.expand,
         children: <Widget>[
-          ZoomableImage(new AssetImage('assets/Coffee-Compass.jpg'))
+          // ZoomableImage(new AssetImage('assets/Coffee-Compass.jpg'))
+          PhotoView(
+            imageProvider: AssetImage('assets/Coffee-Compass.jpg'),
+          ),
         ],
       ),
     );
