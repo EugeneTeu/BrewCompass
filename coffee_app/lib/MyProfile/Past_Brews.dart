@@ -140,22 +140,27 @@ class _PastBrewsState extends State<PastBrews> {
     );
   }
 
-  Future<void> _refresh() async{
-
-
-  }
-
   //returns the list view
   Widget _buildPastBrewsList(
       BuildContext context, List<DocumentSnapshot> snapshot) {
     if (snapshot.length == 0) {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Center(child: Text("Your brew journal is currently empty!")),
-          Center(child: Text("Start logging now!"))
-        ],
+      return RefreshIndicator(
+        onRefresh: widget.onRefresh,
+              child: SingleChildScrollView(
+                physics: AlwaysScrollableScrollPhysics(),
+                child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              SizedBox(height: 80.0,),
+              Center(child: Text("Your brew journal is currently empty! Start Brewing!")),
+              SizedBox(height: 80.0,),
+              Center(child: Text("Start logging now!")),
+              SizedBox(height: 80.0,),
+            ],
+          ),
+        ),
       );
     } else {
       return RefreshIndicator(
@@ -207,8 +212,6 @@ class _PastBrewsState extends State<PastBrews> {
                     .delete()
                     .catchError((e) {
                   print(e);
-
-                
                 });
                
               }
