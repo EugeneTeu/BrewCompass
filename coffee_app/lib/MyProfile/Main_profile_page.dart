@@ -1,3 +1,4 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coffee_app/MyProfile/Past_Brews.dart';
 import 'package:coffee_app/MyProfile/Recipe.dart';
@@ -13,6 +14,7 @@ import 'package:image_picker_modern/image_picker_modern.dart';
 import 'dart:io' show File, Platform;
 
 import 'package:uuid/uuid.dart';
+import 'dart:math';
 
 class Profile extends StatefulWidget {
   @override
@@ -194,6 +196,7 @@ class _Profile extends State<Profile> {
 
   void _editProfileImage(BuildContext context) {
     var auth = AuthProvider.of(context).auth;
+    
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -215,10 +218,11 @@ class _Profile extends State<Profile> {
                     FlatButton(
                       color: Colors.brown[300],
                       child: Text("Upload new picture"),
-                      onPressed: () {
-                        getImage();
-                        var url = auth.uploadProfilePic(_image, userId + "1");
+                      onPressed: () async {
+                        await getImage();
+                        var url = auth.uploadProfilePic(_image);
                         //print("uploaded successfully");
+                        
                       },
                     )
                   ],
@@ -251,23 +255,3 @@ class _Profile extends State<Profile> {
     );
   }
 }
-
-/*
-   Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text(
-                          '21',
-                          style: TextStyle(
-                              fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          'JOURNAL LOG',
-                          style: TextStyle(
-                              fontFamily: 'Montserrat', color: Colors.grey),
-                        )
-                      ],
-                    )
-*/

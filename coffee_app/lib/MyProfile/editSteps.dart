@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
 class EditSteps extends StatefulWidget {
+
   EditSteps(this.steps);
   List<StepData> steps;
 
@@ -169,108 +170,3 @@ class StepData {
     return result;
   }
 }
-
-/**
- *  int currentStep = 0;
-  bool complete = false;
-
-  List<Step> steps1 = [
-    Step(
-      title: Text("step"),
-      isActive: true,
-      state: StepState.complete,
-      content: Column(
-        children: <Widget>[
-          TextFormField(
-            keyboardType: TextInputType.multiline,
-            maxLines: 5,
-            decoration: InputDecoration(
-                hintText: "Enter your step", hintStyle: Styles.createEntryText),
-          )
-        ],
-      ),
-    ),
-    Step(
-      isActive: false,
-      state: StepState.complete,
-      title: Text("step"),
-      content: Column(
-        children: <Widget>[
-          TextFormField(
-            keyboardType: TextInputType.multiline,
-            maxLines: 5,
-            decoration: InputDecoration(
-                hintText: "Enter your step", hintStyle: Styles.createEntryText),
-          )
-        ],
-      ),
-    )
-  ];
-
-
- next() {
-    if(currentStep + 1 != steps1.length) {
-      goTo(currentStep +1);
-    } else {
-      setState(() {
-        complete = true;
-      });
-    }
-   
-  }
-
-  cancel() {
-    if (currentStep > 0) {
-      goTo(currentStep - 1);
-    }
-  }
-
-   goTo(int step) {
-    setState(() {
-      currentStep = step;
-    });
-  }
-
-  Step singleStep = Step(
-    title: Text("step"),
-    content: Column(
-      children: <Widget>[
-        TextFormField(
-          keyboardType: TextInputType.multiline,
-          maxLines: 5,
-          decoration: InputDecoration(
-              hintText: "Enter your step", hintStyle: Styles.createEntryText),
-        )
-      ],
-    ),
-  );
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text('edit your steps'),
-        leading: BackButton(
-          color: Colors.black,
-        ),
-      ),
-      body: Column(
-        children: <Widget>[
-          Expanded(
-            child: Stepper(
-              steps: steps1,
-              currentStep: currentStep,
-              onStepContinue: next(),
-              onStepCancel: cancel,
-               onStepTapped: (step) => goTo(step),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  List<Step> _buildStep() {}
-}
- */

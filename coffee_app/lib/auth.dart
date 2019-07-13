@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:math';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -11,7 +12,7 @@ abstract class BaseAuth {
   Future<String> currentUser();
   Future<FirebaseUser> getUser();
   Future<void> signOut();
-  Future<String> uploadProfilePic(File file, String imageId);
+  Future<String> uploadProfilePic(File file);
   Future<GoogleSignInAccount> getGoogleSignedInAccount(
       GoogleSignIn googleSignIn);
   Future<FirebaseUser> googleSignIntoFirebase(
@@ -37,6 +38,7 @@ class Auth implements BaseAuth {
     UserUpdateInfo updateUser = UserUpdateInfo();
     updateUser.displayName = _displayName;
     user.updateProfile(updateUser);
+  
     //DocumentReference ref = Firestore.instance.collection('users').document(user.uid);
     //ref.setData({'email': user.email});
     return user.uid;
@@ -50,9 +52,12 @@ class Auth implements BaseAuth {
     } catch (e) {}
   }
 
-  Future<String> uploadProfilePic(File file, String imageId) async {
+  Future<String> uploadProfilePic(File file) async {
+    var randomno = Random(25);
+    var imageId = randomno.nextInt(5000).toString();
+    String user = "userPictures";
     StorageReference ref =
-        FirebaseStorage.instance.ref().child(imageId).child("image.jpg");
+        FirebaseStorage.instance.ref().child(user).child("profilepics/${randomno.nextInt(5000).toString()}.jpg");
     print(ref);
     StorageUploadTask uploadTask = ref.putFile(file);
     return await (await uploadTask.onComplete).ref.getDownloadURL();

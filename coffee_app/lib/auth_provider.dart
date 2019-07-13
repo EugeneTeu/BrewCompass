@@ -7,7 +7,6 @@ class AuthProvider extends InheritedWidget {
 
   @override
   bool updateShouldNotify(InheritedWidget oldWidget) {
-    
     return true;
   }
 
