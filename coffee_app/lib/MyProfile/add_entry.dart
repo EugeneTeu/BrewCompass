@@ -98,7 +98,7 @@ class _AddNewEntryState extends State<AddNewEntry> {
       ),
       body: SingleChildScrollView(
         physics: AlwaysScrollableScrollPhysics(),
-              child: GestureDetector(
+        child: GestureDetector(
           onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
           child: Column(
             children: <Widget>[
@@ -387,42 +387,65 @@ class _AddNewEntryState extends State<AddNewEntry> {
     });
     List<String> stepsString = StepData().convertToListOfStrings(steps);
     _key.currentState.save();
-    Firestore.instance.runTransaction((Transaction transaction) async {
-      CollectionReference reference =
-          Firestore.instance.collection('testRecipesv3');
-      await reference.add({
-        /*'id': id,*/
-        // all recipes are created private by default
-        'displayName': displayName,
-        'isShared': isShared,
-        'date': date,
-        'beanName': beanName,
-        'brewer': brewer,
-        'steps': stepsString,
-        'tastingNotes': tastingNotes,
-        'userId': userId,
-      });
-      print("created successfully!");
-    });
-  }
 
-  void _showErrorWhenSubmitting(NoSuchMethodError e) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          if (Platform.isAndroid) {
-            return AlertDialog(
-              title: Text("Error Creating Entry"),
-              content: Text("Please Try Again"),
-              actions: <Widget>[],
-            );
-          } else if (Platform.isIOS) {
-            return CupertinoAlertDialog(
-              title: Text("Error Creating Entry"),
-              content: Text("Please Try Again"),
-              actions: <Widget>[],
-            );
-          }
+    print('running test firebase transaction');
+    Firestore.instance.collection("testRecipesv3").add({
+      'displayName': displayName,
+      'isShared': isShared,
+      'date': date,
+      'beanName': beanName,
+      'brewer': brewer,
+      'steps': stepsString,
+      'tastingNotes': tastingNotes,
+      'userId': userId,
+    });
+    print('firebase transaction direct write done');
+
+    /*
+    try {
+      Firestore.instance.runTransaction((Transaction transaction) async {
+        print('inside transaction');
+        CollectionReference reference =
+            Firestore.instance.collection('testRecipesv3');
+        print('still inside transaction');
+        await reference.add({
+          'displayName': displayName,
+          'isShared': isShared,
+          'date': date,
+          'beanName': beanName,
+          'brewer': brewer,
+          'steps': stepsString,
+          'tastingNotes': tastingNotes,
+          'userId': userId,
         });
+        print("created successfully!");
+      });
+    } catch (e) {
+      print('inside catch block');
+      print(e);
+    }
+    print('transaction after');
+  }
+  */
+
+    void _showErrorWhenSubmitting(NoSuchMethodError e) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            if (Platform.isAndroid) {
+              return AlertDialog(
+                title: Text("Error Creating Entry"),
+                content: Text("Please Try Again"),
+                actions: <Widget>[],
+              );
+            } else if (Platform.isIOS) {
+              return CupertinoAlertDialog(
+                title: Text("Error Creating Entry"),
+                content: Text("Please Try Again"),
+                actions: <Widget>[],
+              );
+            }
+          });
+    }
   }
 }
