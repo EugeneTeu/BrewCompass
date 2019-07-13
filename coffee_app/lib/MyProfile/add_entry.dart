@@ -399,7 +399,7 @@ class _AddNewEntryState extends State<AddNewEntry> {
       'tastingNotes': tastingNotes,
       'userId': userId,
     });
-    print('firebase transaction direct write done');
+    print('after firebase transaction direct write');
 
     /*
     try {
