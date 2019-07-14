@@ -12,18 +12,16 @@ class MyConverter extends StatefulWidget {
 }
 
 class _MyConverter extends State<MyConverter> {
-  final _formKey = GlobalKey<FormState>();
-
-  double _ratio = 0.0;
   double _beanWeight = 0.0;
-  double _water = 0.0;
-
+  final TextEditingController _controller = new TextEditingController();
+  final TextEditingController _controllerTwo = new TextEditingController();
+  FocusNode _focusNode = new FocusNode();
+  FocusNode _focusNodeTwo = new FocusNode();
+  final _formKey = GlobalKey<FormState>();
   String _inputBeanWeight;
   String _inputRatio;
-  final TextEditingController _controller = new TextEditingController();
-  FocusNode _focusNode = new FocusNode();
-  final TextEditingController _controllerTwo = new TextEditingController();
-  FocusNode _focusNodeTwo = new FocusNode();
+  double _ratio = 0.0;
+  double _water = 0.0;
 
   @override
   Widget build(BuildContext context) {

@@ -15,15 +15,33 @@ import 'package:uuid/uuid.dart';
 
 class PastBrews extends StatefulWidget {
   PastBrews({this.onRefresh});
+
   final VoidCallback onRefresh;
+
   @override
   State<StatefulWidget> createState() => _PastBrewsState();
 }
 
 
 class _PastBrewsState extends State<PastBrews> {
+ final snackBarDelete = SnackBar(
+  content: Text("swipe down to refresh page"),
+ duration: Duration(seconds: 5),
+);
+
   String userId;
   Uuid uuid = new Uuid();
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _user();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   Future<FirebaseUser> _fetchUser() async {
     var auth = AuthProvider.of(context).auth;
@@ -42,77 +60,11 @@ class _PastBrewsState extends State<PastBrews> {
     });
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _user();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
   Stream<QuerySnapshot> newStream() {
     return Firestore.instance
         .collection("testRecipesv3")
         .where('userId', isEqualTo: userId)
         .snapshots();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          leading: IconButton(
-              icon: Icon(
-                Icons.sort,
-                color: Colors.black,
-              ),
-              onPressed: () {
-                print("future filter button");
-              },),
-          title: Text(
-            "Journal",
-            style: TextStyle(color: Colors.black, ),
-          ),
-          bottom: PreferredSize(
-            preferredSize: Size.fromHeight(2.0),
-            child: Container(color: Colors.brown[400], height: 2.0),
-          ),
-        ),
-        body: _buildPastBrews(context),
-        floatingActionButton: (Platform.isAndroid)
-          ? FloatingActionButton.extended(
-              icon: Icon(Icons.add),
-              label: Text("New Entry"),
-              onPressed: () {
-                //var dummyData = {'beanName': 'black', 'brewer': 'KW'};
-                //Firestore.instance.collection('v3').add(dummyData);
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) => AddNewEntry()));
-              },
-            )
-          : CupertinoButton(
-              color: Colors.brown[500],
-              minSize: 25.0,
-              child: Text("Add Entry"),
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) => AddNewEntry()));
-              },
-            ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-    );
-        
-        
-      
-
   }
 
   //takes out the data from the stream
@@ -175,11 +127,6 @@ class _PastBrewsState extends State<PastBrews> {
       );
     }
   }
-
- final snackBarDelete = SnackBar(
-  content: Text("swipe down to refresh page"),
- duration: Duration(seconds: 5),
-);
 
   //actually build the listtile
   Widget _buildEachItem(
@@ -272,5 +219,58 @@ class _PastBrewsState extends State<PastBrews> {
     );
   }
 
-  
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          leading: IconButton(
+              icon: Icon(
+                Icons.sort,
+                color: Colors.black,
+              ),
+              onPressed: () {
+                print("future filter button");
+              },),
+          title: Text(
+            "Journal",
+            style: TextStyle(color: Colors.black, ),
+          ),
+          bottom: PreferredSize(
+            preferredSize: Size.fromHeight(2.0),
+            child: Container(color: Colors.brown[400], height: 2.0),
+          ),
+        ),
+        body: _buildPastBrews(context),
+        floatingActionButton: (Platform.isAndroid)
+          ? FloatingActionButton.extended(
+              icon: Icon(Icons.add),
+              label: Text("New Entry"),
+              onPressed: () {
+                //var dummyData = {'beanName': 'black', 'brewer': 'KW'};
+                //Firestore.instance.collection('v3').add(dummyData);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => AddNewEntry()));
+              },
+            )
+          : CupertinoButton(
+              color: Colors.brown[500],
+              minSize: 25.0,
+              child: Text("Add Entry"),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => AddNewEntry()));
+              },
+            ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+    );
+        
+        
+      
+
+  }
 }

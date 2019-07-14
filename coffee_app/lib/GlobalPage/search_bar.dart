@@ -29,6 +29,30 @@ class _SearchBarState extends State<SearchBar> {
     });
   }
 
+  Icon getCancelIcon() {
+    if (widget.focusNode.hasFocus) {
+      return const Icon(
+        Icons.cancel,
+        color: Styles.searchIconColor,
+      );
+    } else {
+      return Icon(
+        Icons.cancel,
+        color: Colors.white70,
+      );
+    }
+  }
+
+  Icon getIcon() {
+    if (widget.focusNode.hasFocus) {
+      return Icon(Icons.search, color: Colors.grey,);
+    } else {
+      return const Icon(
+        Icons.search,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return DecoratedBox(
@@ -66,29 +90,5 @@ class _SearchBarState extends State<SearchBar> {
             ],
           )),
     );
-  }
-
-  Icon getCancelIcon() {
-    if (widget.focusNode.hasFocus) {
-      return const Icon(
-        Icons.cancel,
-        color: Styles.searchIconColor,
-      );
-    } else {
-      return Icon(
-        Icons.cancel,
-        color: Colors.white70,
-      );
-    }
-  }
-
-  Icon getIcon() {
-    if (widget.focusNode.hasFocus) {
-      return Icon(Icons.search, color: Colors.grey,);
-    } else {
-      return const Icon(
-        Icons.search,
-      );
-    }
   }
 }

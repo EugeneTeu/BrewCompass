@@ -29,13 +29,14 @@ enum FormType {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final _formKey = new GlobalKey<FormState>();
-
-  String _email;
-  String _password;
-  String _displayName;
-  FormType _formType = FormType.login;
   FacebookLogin facebookLogin = new FacebookLogin();
+
+  String _displayName;
+  String _email;
+  final _formKey = new GlobalKey<FormState>();
+  FormType _formType = FormType.login;
+  String _password;
+
   // storing user locally so we can delete facebook's user cache
   // TODO: inline this into logout function
   // FirebaseUser firebaseUser;
@@ -182,57 +183,6 @@ class _LoginPageState extends State<LoginPage> {
     setState(() {
       _formType = FormType.login;
     });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return new Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: GestureDetector(
-        onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
-        child: Stack(
-          fit: StackFit.expand,
-          children: <Widget>[
-            Image(
-              image: new AssetImage("assets/login_background.jpg"),
-              fit: BoxFit.fitHeight,
-              color: Colors.black87,
-              colorBlendMode: BlendMode.darken,
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                new Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    Container(
-                        alignment: Alignment.center,
-                        child: Text(
-                          "BrewCompass",
-                          style: TextStyle(
-                              fontFamily: "Montesarro",
-                              fontSize: 25.0,
-                              color: Colors.white,
-                              fontStyle: FontStyle.italic),
-                        ))
-                  ],
-                ),
-                Container(
-                  padding: EdgeInsets.all(40.0),
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: buildInputs() + buildSubmitButtons(),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
   }
 
 //build login form fields
@@ -405,5 +355,56 @@ class _LoginPageState extends State<LoginPage> {
         await _auth.googleSignIntoFirebase(googleAccount);
 
     widget.onSignedIn();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
+        child: Stack(
+          fit: StackFit.expand,
+          children: <Widget>[
+            Image(
+              image: new AssetImage("assets/login_background.jpg"),
+              fit: BoxFit.fitHeight,
+              color: Colors.black87,
+              colorBlendMode: BlendMode.darken,
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                new Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    Container(
+                        alignment: Alignment.center,
+                        child: Text(
+                          "BrewCompass",
+                          style: TextStyle(
+                              fontFamily: "Montesarro",
+                              fontSize: 25.0,
+                              color: Colors.white,
+                              fontStyle: FontStyle.italic),
+                        ))
+                  ],
+                ),
+                Container(
+                  padding: EdgeInsets.all(40.0),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: buildInputs() + buildSubmitButtons(),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

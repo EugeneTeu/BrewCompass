@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
 class EditSteps extends StatefulWidget {
-
   EditSteps(this.steps);
+
   List<StepData> steps;
 
   @override
@@ -19,67 +19,6 @@ class _EditStepsState extends State<EditSteps> {
   void initState() {
     super.initState();
     currentSteps = widget.steps;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text('edit your steps'),
-        leading: BackButton(
-          color: Colors.black,
-        ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: ListView.builder(
-          physics: BouncingScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: currentSteps.length,
-          itemBuilder: (context, index) {
-            final currentNum = index + 1;
-            String currentEntry = currentSteps[index].indivStep;
-            return Column(
-              children: <Widget>[
-                Dismissible(
-                  background: Container(
-                    color: Colors.red,
-                  ),
-                  key: Key(currentSteps[index].id),
-                  child: ListTile(
-                      leading: Text(currentNum.toString()),
-                      title: Text(currentSteps[index].indivStep),
-                      trailing: MaterialButton(
-                        child: Icon(Icons.edit),
-                        onPressed: () {
-                          _editTextDialog(currentEntry, index);
-                        },
-                      )),
-                  onDismissed: (direction) {
-                    removeStep(index);
-                  },
-                ),
-                Divider(),
-              ],
-            );
-          },
-        ),
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        icon: Icon(Icons.add),
-        label: Text("Add Step"),
-        onPressed: () {
-          setState(() {
-            StepData temp = new StepData(indivStep: "", id: uuid.v4());
-            currentSteps.add(temp);
-            _editTextDialog(
-                temp.indivStep, currentSteps.indexOf(currentSteps.last));
-          });
-        },
-      ),
-    );
   }
 
   void removeStep(int index) {
@@ -143,14 +82,75 @@ class _EditStepsState extends State<EditSteps> {
       },
     );
   }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text('edit your steps'),
+        leading: BackButton(
+          color: Colors.black,
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListView.builder(
+          physics: BouncingScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: currentSteps.length,
+          itemBuilder: (context, index) {
+            final currentNum = index + 1;
+            String currentEntry = currentSteps[index].indivStep;
+            return Column(
+              children: <Widget>[
+                Dismissible(
+                  background: Container(
+                    color: Colors.red,
+                  ),
+                  key: Key(currentSteps[index].id),
+                  child: ListTile(
+                      leading: Text(currentNum.toString()),
+                      title: Text(currentSteps[index].indivStep),
+                      trailing: MaterialButton(
+                        child: Icon(Icons.edit),
+                        onPressed: () {
+                          _editTextDialog(currentEntry, index);
+                        },
+                      )),
+                  onDismissed: (direction) {
+                    removeStep(index);
+                  },
+                ),
+                Divider(),
+              ],
+            );
+          },
+        ),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        icon: Icon(Icons.add),
+        label: Text("Add Step"),
+        onPressed: () {
+          setState(() {
+            StepData temp = new StepData(indivStep: "", id: uuid.v4());
+            currentSteps.add(temp);
+            _editTextDialog(
+                temp.indivStep, currentSteps.indexOf(currentSteps.last));
+          });
+        },
+      ),
+    );
+  }
 }
 
 class StepData {
-  var uuid = new Uuid();
+  StepData({this.id, this.indivStep});
+
   String id;
   String indivStep;
-
-  StepData({this.id, this.indivStep});
+  var uuid = new Uuid();
 
   List<String> convertToListOfStrings(List<StepData> stepDataList) {
     // List<String> result = [];

@@ -1,17 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Recipe {
-  //int id;
-  bool isShared;
-  String date;
-  String beanName;
-  String brewer;
-  List steps;
-  String tastingNotes;
-  String userId;
-  String displayName;
-  final DocumentReference reference;
-
   Recipe.fromMap(Map<String, dynamic> map, {this.reference}) 
     : /*this.id = map['id'],*/
     this.displayName = map['displayName'],
@@ -23,11 +12,24 @@ class Recipe {
     this.tastingNotes = map['tastingNotes'],
     this.userId = map['userId'];
 
-
   Recipe.fromSnapshot(DocumentSnapshot snapshot) 
     : this.fromMap(snapshot.data, reference: snapshot.reference);
-  
-  
+
+  String beanName;
+  String brewer;
+  String date;
+  String displayName;
+  //int id;
+  bool isShared;
+
+  final DocumentReference reference;
+  List steps;
+  String tastingNotes;
+  String userId;
+
+  @override
+  String toString() => "Recipe for <$beanName, date: $date, userId: $userId>";
+
   //map to json format
   toJson() {
     return {
@@ -42,6 +44,4 @@ class Recipe {
       'userId' : userId,
     };
   }
-  @override
-  String toString() => "Recipe for <$beanName, date: $date, userId: $userId>";
 }

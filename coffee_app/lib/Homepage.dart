@@ -16,6 +16,10 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   @override
+
+
+
+  
   _MyHomePageState createState() => _MyHomePageState(onSignedOut);
 }
 
@@ -23,8 +27,9 @@ class _MyHomePageState extends State<MyHomePage> {
   _MyHomePageState(this._onSignedOut);
 
   final VoidCallback _onSignedOut;
-
   PageController _pageController = new PageController();
+  //intialize started page
+  int _selectedPage = 0;
 
   void _signOut(BuildContext context) async {
     try {
@@ -52,8 +57,6 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       );
 
-  //intialize started page
-  int _selectedPage = 0;
   //get current user
 
   //list of main tabs here

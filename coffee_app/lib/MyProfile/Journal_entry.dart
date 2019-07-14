@@ -8,11 +8,81 @@ import 'package:open_iconic_flutter/open_iconic_flutter.dart';
 import '../styles.dart';
 
 class JournalEntry extends StatelessWidget {
-  final Recipe currentRecipe;
-  final DocumentSnapshot data;
   JournalEntry(Recipe currentEntry, DocumentSnapshot data)
       : this.currentRecipe = currentEntry,
         this.data = data;
+
+  final Recipe currentRecipe;
+  final DocumentSnapshot data;
+
+  Widget _buildLabel(String text) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+      child: ListTile(
+        title: Text(
+          "$text",
+          style: Styles.entryLabelsText,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFormattedTextName(String text) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(0.0, 0, 0, 0),
+      child: Text('$text'),
+    );
+  }
+
+  Widget _buildFormattedText(String text) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(26.0, 0, 0, 0),
+      child: Text('$text'),
+    );
+  }
+
+  Widget _buildFormattedTextField(String text) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+      child: Text('$text'),
+    );
+  }
+
+  Widget _buildSteps() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0),
+      child: Row(
+        children: <Widget>[
+          Flexible(
+            flex: 2,
+            child: Column(
+              children: <Widget>[
+                ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    final currentNum = index + 1;
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.max,
+                      children: <Widget>[
+                        ListTile(
+                          leading: Text(currentNum.toString()),
+                          title: Text(currentRecipe.steps[index]),
+                        ),
+                        Divider()
+                      ],
+                    );
+                  },
+                  itemCount: currentRecipe.steps.length,
+                )
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -137,75 +207,6 @@ class JournalEntry extends StatelessWidget {
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-    );
-  }
-
-  Widget _buildLabel(String text) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-      child: ListTile(
-        title: Text(
-          "$text",
-          style: Styles.entryLabelsText,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildFormattedTextName(String text) {
-    return Padding(
-      padding: EdgeInsets.fromLTRB(0.0, 0, 0, 0),
-      child: Text('$text'),
-    );
-  }
-
-  Widget _buildFormattedText(String text) {
-    return Padding(
-      padding: EdgeInsets.fromLTRB(26.0, 0, 0, 0),
-      child: Text('$text'),
-    );
-  }
-
-  Widget _buildFormattedTextField(String text) {
-    return Padding(
-      padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-      child: Text('$text'),
-    );
-  }
-
-  Widget _buildSteps() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0),
-      child: Row(
-        children: <Widget>[
-          Flexible(
-            flex: 2,
-            child: Column(
-              children: <Widget>[
-                ListView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    final currentNum = index + 1;
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      mainAxisSize: MainAxisSize.max,
-                      children: <Widget>[
-                        ListTile(
-                          leading: Text(currentNum.toString()),
-                          title: Text(currentRecipe.steps[index]),
-                        ),
-                        Divider()
-                      ],
-                    );
-                  },
-                  itemCount: currentRecipe.steps.length,
-                )
-              ],
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

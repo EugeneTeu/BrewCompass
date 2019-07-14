@@ -7,22 +7,21 @@ import '../styles.dart';
 import 'dart:io' show Platform;
 
 class ElapsedTime {
-  final int hundreds;
-  final int seconds;
-  final int minutes;
-
   ElapsedTime({
     this.hundreds,
     this.seconds,
     this.minutes,
   });
+
+  final int hundreds;
+  final int minutes;
+  final int seconds;
 }
 
 class Dependencies {
-
-  final List<ValueChanged<ElapsedTime>> timerListeners = <ValueChanged<ElapsedTime>>[];
-  final TextStyle textStyle = const TextStyle(fontSize: 90.0, fontFamily: "Bebas Neue");
   final Stopwatch stopwatch = new Stopwatch();
+  final TextStyle textStyle = const TextStyle(fontSize: 90.0, fontFamily: "Bebas Neue");
+  final List<ValueChanged<ElapsedTime>> timerListeners = <ValueChanged<ElapsedTime>>[];
   final int timerMillisecondsRefreshRate = 30;
 }
 
@@ -98,6 +97,7 @@ class TimerPageState extends State<TimerPage> {
 
 class TimerText extends StatefulWidget {
   TimerText({this.dependencies});
+
   final Dependencies dependencies;
 
   TimerTextState createState() => new TimerTextState(dependencies: dependencies);
@@ -105,21 +105,22 @@ class TimerText extends StatefulWidget {
 
 class TimerTextState extends State<TimerText> {
   TimerTextState({this.dependencies});
-  final Dependencies dependencies;
-  Timer timer;
-  int milliseconds;
 
-  @override
-  void initState() {
-    timer = new Timer.periodic(new Duration(milliseconds: dependencies.timerMillisecondsRefreshRate), callback);
-    super.initState();
-  }
+  final Dependencies dependencies;
+  int milliseconds;
+  Timer timer;
 
   @override
   void dispose() {
     timer?.cancel();
     timer = null;
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    timer = new Timer.periodic(new Duration(milliseconds: dependencies.timerMillisecondsRefreshRate), callback);
+    super.initState();
   }
 
   void callback(Timer timer) {
@@ -166,6 +167,7 @@ class TimerTextState extends State<TimerText> {
 
 class MinutesAndSeconds extends StatefulWidget {
   MinutesAndSeconds({this.dependencies});
+
   final Dependencies dependencies;
 
   MinutesAndSecondsState createState() => new MinutesAndSecondsState(dependencies: dependencies);
@@ -173,8 +175,8 @@ class MinutesAndSeconds extends StatefulWidget {
 
 class MinutesAndSecondsState extends State<MinutesAndSeconds> {
   MinutesAndSecondsState({this.dependencies});
-  final Dependencies dependencies;
 
+  final Dependencies dependencies;
   int minutes = 0;
   int seconds = 0;
 
@@ -203,6 +205,7 @@ class MinutesAndSecondsState extends State<MinutesAndSeconds> {
 
 class Hundreds extends StatefulWidget {
   Hundreds({this.dependencies});
+
   final Dependencies dependencies;
 
   HundredsState createState() => new HundredsState(dependencies: dependencies);
@@ -210,8 +213,8 @@ class Hundreds extends StatefulWidget {
 
 class HundredsState extends State<Hundreds> {
   HundredsState({this.dependencies});
-  final Dependencies dependencies;
 
+  final Dependencies dependencies;
   int hundreds = 0;
 
   @override

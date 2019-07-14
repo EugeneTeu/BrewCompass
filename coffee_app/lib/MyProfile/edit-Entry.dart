@@ -12,6 +12,7 @@ class EditEntry extends StatefulWidget {
   EditEntry(this.data);
 
   DocumentSnapshot data;
+
   @override
   State<StatefulWidget> createState() {
     return _EditEntryState(data);
@@ -20,21 +21,9 @@ class EditEntry extends StatefulWidget {
 
 class _EditEntryState extends State<EditEntry> {
   _EditEntryState(data) : this.currentData = data;
-  DocumentSnapshot currentData;
-  Recipe recipe;
 
-  GlobalKey<FormState> _key = GlobalKey();
-
-  int id;
-  bool isShared = false;
-  String date;
   String beanName;
   String brewer;
-  List<StepData> steps = [];
-  String tastingNotes;
-  String userId = '';
-  String displayName = '';
-
   final List<String> coffeeBrewers = [
     "V60",
     "Kalita Wave",
@@ -46,6 +35,18 @@ class _EditEntryState extends State<EditEntry> {
     "Others(Filter)",
     "Others(Espresso)"
   ];
+
+  DocumentSnapshot currentData;
+  String date;
+  String displayName = '';
+  int id;
+  bool isShared = false;
+  Recipe recipe;
+  List<StepData> steps = [];
+  String tastingNotes;
+  String userId = '';
+
+  GlobalKey<FormState> _key = GlobalKey();
 
   @override
   void initState() {
@@ -67,90 +68,6 @@ class _EditEntryState extends State<EditEntry> {
     var temp = new List<String>.from(step);
     List<StepData> result = StepData().convertToListOfStepData(temp);
     return result;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    Widget shareButton = _buildShareButton();
-
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        //remove backbutton
-        automaticallyImplyLeading: false,
-        centerTitle: true,
-        title: Text("Edit Current Entry"),
-        actions: <Widget>[
-          MaterialButton(
-            child: Icon(Icons.close),
-            onPressed: () => Navigator.pop(context),
-          )
-        ],
-      ),
-      body: GestureDetector(
-        onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
-        child: Container(
-          child: Form(
-            key: _key,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(8.0, 20.0, 8.0, 40.0),
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    _buildLabel("Date Of Entry"),
-                    Row(
-                      //need to wrap widget in expanded here to give the child widget a size parameter
-                      children: <Widget>[
-                        //Flexible(flex: 1, child: _buildInputFieldNum()),
-                        Flexible(
-                          flex: 1,
-                          child: _buildInputFieldDate(),
-                        ),
-                      ],
-                    ),
-                    Divider(),
-                    _buildLabel("Name Of Bean"),
-                    _buildInputFieldBeanName(),
-                    Divider(),
-                    _buildLabel("Brewer Used"),
-                    _buildInputFieldBrewer(),
-                    Divider(),
-                    _buildLabel("Taste log"),
-                    Row(
-                      children: <Widget>[
-                        Flexible(
-                            flex: 2, child: _buildInputFieldTastingNotes()),
-                        Flexible(
-                            flex: 1,
-                            child: MaterialButton(
-                              color: Theme.of(context).primaryColor,
-                              child: Text("Reference"),
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            BrewGuideChart()));
-                              },
-                            )),
-                      ],
-                    ),
-                    Divider(),
-                    _buildLabel("Steps"),
-                    _buildSteps(),
-                    Divider(),
-                    shareButton,
-                    _buildSubmitButton(),
-                    Divider(),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
   }
 
   Widget _buildShareButton() {
@@ -230,23 +147,6 @@ class _EditEntryState extends State<EditEntry> {
     );
   }
 
- /* Widget _buildInputFieldBrewer() {
-    return Padding(
-      child: ListTile(
-        leading: Icon(OpenIconicIcons.beaker),
-            title: TextFormField(
-          style: Styles.createEntryText,
-          decoration: new InputDecoration(hintText: "Enter brewer"),
-          initialValue: brewer,
-          keyboardType: TextInputType.text,
-          validator: (value) => value.isEmpty ? "field cant be empty" : null,
-          onSaved: (value) => this.brewer = value,
-        ),
-      ),
-      padding: EdgeInsets.all(20.0),
-    );
-  }*/
-
   Widget _buildInputFieldBrewer() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -292,7 +192,6 @@ class _EditEntryState extends State<EditEntry> {
       ),
     );
   }
-
 
   Widget _buildInputFieldTastingNotes() {
     return Padding(
@@ -397,5 +296,106 @@ class _EditEntryState extends State<EditEntry> {
       });
       print("edited successfully!");
     });
+  }
+
+ /* Widget _buildInputFieldBrewer() {
+    return Padding(
+      child: ListTile(
+        leading: Icon(OpenIconicIcons.beaker),
+            title: TextFormField(
+          style: Styles.createEntryText,
+          decoration: new InputDecoration(hintText: "Enter brewer"),
+          initialValue: brewer,
+          keyboardType: TextInputType.text,
+          validator: (value) => value.isEmpty ? "field cant be empty" : null,
+          onSaved: (value) => this.brewer = value,
+        ),
+      ),
+      padding: EdgeInsets.all(20.0),
+    );
+  }*/
+
+  @override
+  Widget build(BuildContext context) {
+    Widget shareButton = _buildShareButton();
+
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        //remove backbutton
+        automaticallyImplyLeading: false,
+        centerTitle: true,
+        title: Text("Edit Current Entry"),
+        actions: <Widget>[
+          MaterialButton(
+            child: Icon(Icons.close),
+            onPressed: () => Navigator.pop(context),
+          )
+        ],
+      ),
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
+        child: Container(
+          child: Form(
+            key: _key,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(8.0, 20.0, 8.0, 40.0),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    _buildLabel("Date Of Entry"),
+                    Row(
+                      //need to wrap widget in expanded here to give the child widget a size parameter
+                      children: <Widget>[
+                        //Flexible(flex: 1, child: _buildInputFieldNum()),
+                        Flexible(
+                          flex: 1,
+                          child: _buildInputFieldDate(),
+                        ),
+                      ],
+                    ),
+                    Divider(),
+                    _buildLabel("Name Of Bean"),
+                    _buildInputFieldBeanName(),
+                    Divider(),
+                    _buildLabel("Brewer Used"),
+                    _buildInputFieldBrewer(),
+                    Divider(),
+                    _buildLabel("Taste log"),
+                    Row(
+                      children: <Widget>[
+                        Flexible(
+                            flex: 2, child: _buildInputFieldTastingNotes()),
+                        Flexible(
+                            flex: 1,
+                            child: MaterialButton(
+                              color: Theme.of(context).primaryColor,
+                              child: Text("Reference"),
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            BrewGuideChart()));
+                              },
+                            )),
+                      ],
+                    ),
+                    Divider(),
+                    _buildLabel("Steps"),
+                    _buildSteps(),
+                    Divider(),
+                    shareButton,
+                    _buildSubmitButton(),
+                    Divider(),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

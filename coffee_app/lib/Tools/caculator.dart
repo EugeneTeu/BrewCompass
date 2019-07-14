@@ -10,20 +10,22 @@ class MyCalcPage extends StatefulWidget {
   MyCalcPage({Key key, this.title}) : super(key: key);
 
   final String title;
+
   @override
   _MyCalcPageState createState() => _MyCalcPageState();
 }
 
 class _MyCalcPageState extends State<MyCalcPage> {
-  final TextStyle textStyle =
-      const TextStyle(fontSize: 90.0, fontFamily: "Bebas Neue");
-  final TextStyle _calcFont = Styles.calcFont;
-
-  String output = "0";
-  String _output = "0";
   double num1 = 0.0;
   double num2 = 0.0;
   String operand = "";
+  String output = "0";
+  final TextStyle textStyle =
+      const TextStyle(fontSize: 90.0, fontFamily: "Bebas Neue");
+
+
+  final TextStyle _calcFont = Styles.calcFont;
+  String _output = "0";
 
   _buttonPressed(String num) {
     if (num == "C") {
@@ -91,7 +93,6 @@ class _MyCalcPageState extends State<MyCalcPage> {
       color: Colors.grey[400],
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
