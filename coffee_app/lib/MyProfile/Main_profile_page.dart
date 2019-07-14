@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coffee_app/MyProfile/Past_Brews.dart';
 import 'package:coffee_app/MyProfile/Recipe.dart';
@@ -28,8 +27,9 @@ class _Profile extends State<Profile> {
   String numberOfBrews = "loading..";
   String title;
   String userId;
+  FirebaseUser currentUser;
 
-  File _image;
+  File _image = AssetImage('assets/BrewCompass-icon-1.png') as File;
 
   @override
   void didChangeDependencies() {
@@ -50,6 +50,7 @@ class _Profile extends State<Profile> {
   Future<FirebaseUser> _fetchUser() async {
     var auth = AuthProvider.of(context).auth;
     FirebaseUser user = await auth.getUser();
+    currentUser = user;
     return user;
   }
 
@@ -87,13 +88,19 @@ class _Profile extends State<Profile> {
     });
   }
 
-  Future<void> _refreshCounts() async{
+  Future<void> _refreshCounts() async {
     setState(() {
       _countBrew();
     });
   }
 
   Widget _buildProfilePage(BuildContext context) {
+
+    
+    NetworkImage userImage;
+    if(currentUser.photoUrl != null) {
+     userImage = NetworkImage(currentUser.photoUrl);
+    }
     return Scaffold(
       body: Stack(fit: StackFit.expand, children: <Widget>[
         Image(
@@ -116,17 +123,16 @@ class _Profile extends State<Profile> {
                     Column(
                       children: <Widget>[
                         GestureDetector(
-                          onTap: () => _editProfileImage(context),
+                          onTap: () => _editProfileImage(context, userImage),
                           child: Container(
-                            height: 120.0,
-                            width: 120.0,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(62.5),
-                                image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: AssetImage(
-                                        'assets/BrewCompass-icon-1.png'))),
-                          ),
+                              height: 120.0,
+                              width: 120.0,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(62.5),
+                                  image: DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image: currentUser.photoUrl != null ?
+                                          userImage : AssetImage('assets/BrewCompass-icon-1.png') ))),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(4.0),
@@ -163,11 +169,13 @@ class _Profile extends State<Profile> {
             SizedBox(
               height: 20.0,
             ),
-            Expanded(child: PastBrews(onRefresh: () => _refreshCounts(),)),
+            Expanded(
+                child: PastBrews(
+              onRefresh: () => _refreshCounts(),
+            )),
           ],
         ),
       ]),
-      
     );
   }
 
@@ -194,9 +202,9 @@ class _Profile extends State<Profile> {
     );
   }
 
-  void _editProfileImage(BuildContext context) {
+  void _editProfileImage(BuildContext context, NetworkImage userImage) {
     var auth = AuthProvider.of(context).auth;
-    
+
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -206,7 +214,7 @@ class _Profile extends State<Profile> {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Image(
-                  image: AssetImage('assets/BrewCompass-icon-1.png'),
+                  image: userImage != null ? userImage : AssetImage('assets/BrewCompass-icon-1.png') ,
                 ),
                 Divider(),
                 Row(
@@ -220,9 +228,11 @@ class _Profile extends State<Profile> {
                       child: Text("Upload new picture"),
                       onPressed: () async {
                         await getImage();
-                        var url = auth.uploadProfilePic(_image);
+                        var url = await auth.uploadProfilePic(_image);
+                        UserUpdateInfo updateUser = UserUpdateInfo();
+                        updateUser.photoUrl = url;
+                        currentUser.updateProfile(updateUser);
                         //print("uploaded successfully");
-                        
                       },
                     )
                   ],
