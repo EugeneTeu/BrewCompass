@@ -7,16 +7,24 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 abstract class BaseAuth {
   Future<String> signInWithEmailAndPassword(String email, String password);
+
   Future<String> createUserWithEmailAndPassword(
       String email, String password, String _displayName);
+
   Future<String> currentUser();
+
   Future<FirebaseUser> getUser();
+
   Future<void> signOut();
+
   Future<String> uploadProfilePic(File file);
+
   Future<GoogleSignInAccount> getGoogleSignedInAccount(
       GoogleSignIn googleSignIn);
+
   Future<FirebaseUser> googleSignIntoFirebase(
       GoogleSignInAccount googleSignInAccount);
+
   FirebaseAuth get instance;
 }
 

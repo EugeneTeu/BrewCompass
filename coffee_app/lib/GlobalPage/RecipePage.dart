@@ -12,19 +12,19 @@ class RecipePage extends StatefulWidget {
 }
 
 class _RecipePageState extends State<RecipePage> {
-  /*implement this using stream builder first. 
-  to implement this via account version, we must find a way to access the 
-  instance of the firebase user when i call this statelesswidget, prob 
-  using future builder?
-  Would be something like FutureBuilder( future: (where i await theuser id) 
-  then we will pull the RecipePages based on this user uid. 
-  */
+  List<DocumentSnapshot> queryResults = [];
+  List<DocumentSnapshot> tempSearchedResults = [];
 
   TextEditingController _controller;
   FocusNode _focusNode;
   String _terms = '';
-  List<DocumentSnapshot> queryResults = [];
-  List<DocumentSnapshot> tempSearchedResults = [];
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   void initState() {
@@ -47,13 +47,6 @@ class _RecipePageState extends State<RecipePage> {
         tempSearchedResults.add(docs.documents[i]);
       });
     }
-  }
-
-  @override
-  void dispose() {
-    _focusNode.dispose();
-    _controller.dispose();
-    super.dispose();
   }
 
   void _onTextChanged() {
@@ -87,6 +80,7 @@ class _RecipePageState extends State<RecipePage> {
       });
     }
   }
+
   Widget _showLoading() {
     return Center(
       child: CircularProgressIndicator(
@@ -95,6 +89,57 @@ class _RecipePageState extends State<RecipePage> {
       ),
     );
   }
+
+  Widget _buildSearchBox() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 20.0),
+      child: SearchBar(
+        controller: _controller,
+        focusNode: _focusNode,
+      ),
+    );
+  }
+
+  /*implement this using stream builder first. 
+  to implement this via account version, we must find a way to access the 
+  instance of the firebase user when i call this statelesswidget, prob 
+  using future builder?
+  Would be something like FutureBuilder( future: (where i await theuser id) 
+  then we will pull the RecipePages based on this user uid. 
+  */
+
+  // // takes out the data from the stream
+  // Widget _buildRecipePage(BuildContext context) {
+  //   return StreamBuilder<QuerySnapshot>(
+  //     stream: Firestore.instance
+  //         .collection("testRecipes")
+  //         .where('isShared', isEqualTo: true)
+  //         .snapshots(),
+  //     builder: (context, snapshot) {
+  //       if (!snapshot.hasData) {
+  //         return LinearProgressIndicator();
+  //       }
+  //       return _buildRecipePageList(context, snapshot.data.documents);
+  //     },
+  //   );
+  // }
+
+  //returns the list view
+  // Widget _buildRecipePageList(
+  //     BuildContext context, List<DocumentSnapshot> snapshot) {
+  //   return ListView.builder(
+  //     shrinkWrap: true,
+  //     itemBuilder: (BuildContext context, int index) {
+  //       return _buildEachItem(context, snapshot[index], index, snapshot.length);
+  //     },
+  //     itemCount: snapshot.length,
+  //   );
+
+  /*
+    return ListView(
+      padding: EdgeInsets.only(top: 10.0),
+      children: snapshot.map((data) => _buildEachItem(context, data)).toList(),
+    );*/
 
   @override
   Widget build(BuildContext context) {
@@ -133,49 +178,6 @@ class _RecipePageState extends State<RecipePage> {
       ),
     );
   }
-
-  Widget _buildSearchBox() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 20.0),
-      child: SearchBar(
-        controller: _controller,
-        focusNode: _focusNode,
-      ),
-    );
-  }
-
-  // // takes out the data from the stream
-  // Widget _buildRecipePage(BuildContext context) {
-  //   return StreamBuilder<QuerySnapshot>(
-  //     stream: Firestore.instance
-  //         .collection("testRecipes")
-  //         .where('isShared', isEqualTo: true)
-  //         .snapshots(),
-  //     builder: (context, snapshot) {
-  //       if (!snapshot.hasData) {
-  //         return LinearProgressIndicator();
-  //       }
-  //       return _buildRecipePageList(context, snapshot.data.documents);
-  //     },
-  //   );
-  // }
-
-  //returns the list view
-  // Widget _buildRecipePageList(
-  //     BuildContext context, List<DocumentSnapshot> snapshot) {
-  //   return ListView.builder(
-  //     shrinkWrap: true,
-  //     itemBuilder: (BuildContext context, int index) {
-  //       return _buildEachItem(context, snapshot[index], index, snapshot.length);
-  //     },
-  //     itemCount: snapshot.length,
-  //   );
-
-  /*
-    return ListView(
-      padding: EdgeInsets.only(top: 10.0),
-      children: snapshot.map((data) => _buildEachItem(context, data)).toList(),
-    );*/
 }
 
 Widget _buildEachItem(BuildContext context, DocumentSnapshot currentEntry,

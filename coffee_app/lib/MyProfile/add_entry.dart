@@ -20,6 +20,8 @@ class AddNewEntry extends StatefulWidget {
 }
 
 class _AddNewEntryState extends State<AddNewEntry> {
+
+  
   final List<String> coffeeBrewers = [
     "V60",
     "Kalita Wave",
