@@ -59,18 +59,11 @@ class _PastBrewsState extends State<PastBrews> {
     });
   }
 
-  Stream<QuerySnapshot> newStream() {
-    return Firestore.instance
-        .collection("testRecipesv3")
-        .where('userId', isEqualTo: userId)
-        .snapshots();
-  }
-
   //takes out the data from the stream
   Widget _buildPastBrews(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
       stream: Firestore.instance
-          .collection("testRecipesv3")
+          .collection("testRecipesv4")
           .where('userId', isEqualTo: userId)
           .snapshots(),
       // stream: Firestore.instance.collection("testRecipes").snapshots(),

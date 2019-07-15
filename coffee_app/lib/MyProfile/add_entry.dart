@@ -34,6 +34,7 @@ class _AddNewEntryState extends State<AddNewEntry> {
     "Others(Espresso)"
   ];
   GlobalKey<FormState> _key = GlobalKey();
+  FirebaseUser user;
 
   //code to get firebase User
   Future<FirebaseUser> _fetchUser() async {
@@ -45,7 +46,7 @@ class _AddNewEntryState extends State<AddNewEntry> {
   //input here, might not need this method
   void _user() async {
     // final user = await _fetchUser();
-    final user = await _fetchUser();
+    user = await _fetchUser();
     setState(() {
       if (user.uid != null) {
         //name = uid.displayName;
@@ -77,6 +78,7 @@ class _AddNewEntryState extends State<AddNewEntry> {
   String tastingNotes;
   String userId = '';
   String displayName = ' ';
+  String userPhotoUrl = ' ';
 
   @override
   Widget build(BuildContext context) {
@@ -387,9 +389,9 @@ class _AddNewEntryState extends State<AddNewEntry> {
     });
     List<String> stepsString = StepData().convertToListOfStrings(steps);
     _key.currentState.save();
-
+    
     print('running test firebase transaction');
-    Firestore.instance.collection("testRecipesv3").add({
+    Firestore.instance.collection("testRecipesv4").add({
       'displayName': displayName,
       'isShared': isShared,
       'date': date,
@@ -398,6 +400,7 @@ class _AddNewEntryState extends State<AddNewEntry> {
       'steps': stepsString,
       'tastingNotes': tastingNotes,
       'userId': userId,
+      'userPhotoUrl': user.photoUrl,
     });
     print('after firebase transaction direct write');
 

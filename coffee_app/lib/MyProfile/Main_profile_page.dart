@@ -75,7 +75,7 @@ class _Profile extends State<Profile>{
   void _countBrew() async {
     List result = [];
     final QuerySnapshot temp =
-        await Firestore.instance.collection("testRecipesv3").getDocuments();
+        await Firestore.instance.collection("testRecipesv4").getDocuments();
     List<DocumentSnapshot> list = temp.documents;
     list.forEach((data) =>
         Recipe.fromSnapshot(data).userId == userId ? result.add(data) : {});

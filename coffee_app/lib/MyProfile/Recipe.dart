@@ -10,7 +10,8 @@ class Recipe {
     this.beanName = map['beanName'],
     this.steps = map['steps'],
     this.tastingNotes = map['tastingNotes'],
-    this.userId = map['userId'];
+    this.userId = map['userId'],
+    this.userPhotoUrl = map['userPhotoUrl'];
 
   Recipe.fromSnapshot(DocumentSnapshot snapshot) 
     : this.fromMap(snapshot.data, reference: snapshot.reference);
@@ -19,9 +20,9 @@ class Recipe {
   String brewer;
   String date;
   String displayName;
+  String userPhotoUrl;
   //int id;
   bool isShared;
-
   final DocumentReference reference;
   List steps;
   String tastingNotes;
@@ -42,6 +43,7 @@ class Recipe {
       'steps' : steps,
       'tasting Notes' : tastingNotes,
       'userId' : userId,
+      'userPhotoUrl' : userPhotoUrl,
     };
   }
 }
