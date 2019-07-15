@@ -11,19 +11,14 @@ class RecipePage extends StatefulWidget {
   State<StatefulWidget> createState() => _RecipePageState();
 }
 
-class _RecipePageState extends State<RecipePage> {
+class _RecipePageState extends State<RecipePage>
+  {
   List<DocumentSnapshot> queryResults = [];
   List<DocumentSnapshot> tempSearchedResults = [];
 
   TextEditingController _controller;
   FocusNode _focusNode;
   String _terms = '';
-
-
-
-
-
-
 
   @override
   void dispose() {
@@ -91,7 +86,6 @@ class _RecipePageState extends State<RecipePage> {
     return Center(
       child: CircularProgressIndicator(
         backgroundColor: Colors.white,
-        
       ),
     );
   }
@@ -106,75 +100,37 @@ class _RecipePageState extends State<RecipePage> {
     );
   }
 
-  /*implement this using stream builder first. 
-  to implement this via account version, we must find a way to access the 
-  instance of the firebase user when i call this statelesswidget, prob 
-  using future builder?
-  Would be something like FutureBuilder( future: (where i await theuser id) 
-  then we will pull the RecipePages based on this user uid. 
-  */
-
-  // // takes out the data from the stream
-  // Widget _buildRecipePage(BuildContext context) {
-  //   return StreamBuilder<QuerySnapshot>(
-  //     stream: Firestore.instance
-  //         .collection("testRecipes")
-  //         .where('isShared', isEqualTo: true)
-  //         .snapshots(),
-  //     builder: (context, snapshot) {
-  //       if (!snapshot.hasData) {
-  //         return LinearProgressIndicator();
-  //       }
-  //       return _buildRecipePageList(context, snapshot.data.documents);
-  //     },
-  //   );
-  // }
-
-  //returns the list view
-  // Widget _buildRecipePageList(
-  //     BuildContext context, List<DocumentSnapshot> snapshot) {
-  //   return ListView.builder(
-  //     shrinkWrap: true,
-  //     itemBuilder: (BuildContext context, int index) {
-  //       return _buildEachItem(context, snapshot[index], index, snapshot.length);
-  //     },
-  //     itemCount: snapshot.length,
-  //   );
-
-  /*
-    return ListView(
-      padding: EdgeInsets.only(top: 10.0),
-      children: snapshot.map((data) => _buildEachItem(context, data)).toList(),
-    );*/
-
   @override
   Widget build(BuildContext context) {
+    //super.build(context);
     return Scaffold(
       body: GestureDetector(
         onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
         child: Stack(
           fit: StackFit.expand,
           children: <Widget>[
-             Image(
-          image: new AssetImage("assets/globalPageBackground.jpg"),
-          fit: BoxFit.fitHeight,
-          color: Colors.black54,
-          colorBlendMode: BlendMode.darken,
-        ),
+            Image(
+              image: AssetImage("assets/globalPageBackground.jpg"),
+              fit: BoxFit.fitHeight,
+              color: Colors.black54,
+              colorBlendMode: BlendMode.darken,
+            ),
             Opacity(
               opacity: 0.95,
-                          child: Column(
+              child: Column(
                 children: <Widget>[
                   _buildSearchBox(),
                   Expanded(
-                    child: tempSearchedResults.length == 0 ? _showLoading() : ListView.builder(
-                      itemCount: tempSearchedResults.length,
-                      itemBuilder: (context, index) => _buildEachItem(
-                          context,
-                          tempSearchedResults[index],
-                          index,
-                          tempSearchedResults.length),
-                    ),
+                    child: tempSearchedResults.length == 0
+                        ? _showLoading()
+                        : ListView.builder(
+                            itemCount: tempSearchedResults.length,
+                            itemBuilder: (context, index) => _buildEachItem(
+                                context,
+                                tempSearchedResults[index],
+                                index,
+                                tempSearchedResults.length),
+                          ),
                   ),
                 ],
               ),
@@ -184,106 +140,106 @@ class _RecipePageState extends State<RecipePage> {
       ),
     );
   }
-}
 
-Widget _buildEachItem(BuildContext context, DocumentSnapshot currentEntry,
-    int index, int length) {
-  final last = index + 1 == length;
-  // final currentEntry = Recipe.fromSnapshot(data);
-  return Padding(
-    key: ValueKey(currentEntry['id']),
-    //add custom padding to last entry to accomdate floating action button
-    padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+  Widget _buildEachItem(BuildContext context, DocumentSnapshot currentEntry,
+      int index, int length) {
+    final last = index + 1 == length;
+    // final currentEntry = Recipe.fromSnapshot(data);
+    return Padding(
+      key: ValueKey(currentEntry['id']),
+      //add custom padding to last entry to accomdate floating action button
+      padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
 
-    child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(width: 1.0, color: Colors.black),
-          borderRadius: BorderRadius.circular(8.0),
-        ),
-        child: ListTile(
-            contentPadding:
-                EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-            leading: GestureDetector(
-              onTap: () {
-                _showLiked(context);
-              },
-              child: Container(
-                padding: EdgeInsets.only(right: 12.0),
-                decoration: new BoxDecoration(
-                    border: new Border(
-                        right:
-                            new BorderSide(width: 1.0, color: Colors.black45))),
-                child: Icon(Icons.star_border, color: Colors.black),
-              ),
-            ),
-            title: Text("Bean: " + currentEntry['beanName']),
-            subtitle: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text("Brewer: " + currentEntry['brewer']),
-                Text("Brewed by: " + currentEntry['displayName']),
-                Text("Brewed on: " + currentEntry['date']),
-              ],
-            ),
-            trailing: Container(
-              decoration: BoxDecoration(
-                //borderRadius: BorderRadius.circular(10.0),
-                border:
-                    Border(left: BorderSide(width: 1.0, color: Colors.black45)),
-              ),
-              //Border.all(width: 1.0, color: Colors.brown[300])),
-              child: Theme(
-                data: Theme.of(context).copyWith(
-                  primaryColor: Colors.brown[300],
+      child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border.all(width: 1.0, color: Colors.black),
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+          child: ListTile(
+              contentPadding:
+                  EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+              leading: GestureDetector(
+                onTap: () {
+                  _showLiked(context);
+                },
+                child: Container(
+                  padding: EdgeInsets.only(right: 12.0),
+                  decoration: BoxDecoration(
+                      border: Border(
+                          right:
+                              BorderSide(width: 1.0, color: Colors.black45))),
+                  child: Icon(Icons.star_border, color: Colors.black),
                 ),
-                child: MaterialButton(
-                  child: Column(
-                    children: <Widget>[
-                      SizedBox(height: 5.0),
-                      Icon(
-                        Icons.keyboard_arrow_right,
-                        color: Colors.brown[400],
-                      ),
-                      Text(
-                        "view",
-                        style: TextStyle(color: Colors.brown[400]),
-                      ),
-                    ],
+              ),
+              title: Text("Bean: " + currentEntry['beanName']),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text("Brewer: " + currentEntry['brewer']),
+                  Text("Brewed by: " + currentEntry['displayName']),
+                  Text("Brewed on: " + currentEntry['date']),
+                ],
+              ),
+              trailing: Container(
+                decoration: BoxDecoration(
+                  //borderRadius: BorderRadius.circular(10.0),
+                  border: Border(
+                      left: BorderSide(width: 1.0, color: Colors.black45)),
+                ),
+                //Border.all(width: 1.0, color: Colors.brown[300])),
+                child: Theme(
+                  data: Theme.of(context).copyWith(
+                    primaryColor: Colors.brown[300],
                   ),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ViewJournalEntry(
-                                Recipe.fromSnapshot(currentEntry),
-                                currentEntry)));
-                  },
+                  child: MaterialButton(
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(height: 5.0),
+                        Icon(
+                          Icons.keyboard_arrow_right,
+                          color: Colors.brown[400],
+                        ),
+                        Text(
+                          "view",
+                          style: TextStyle(color: Colors.brown[400]),
+                        ),
+                      ],
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ViewJournalEntry(
+                                  Recipe.fromSnapshot(currentEntry),
+                                  currentEntry)));
+                    },
+                  ),
                 ),
-              ),
-            ))),
-  );
-}
+              ))),
+    );
+  }
 
 //function to change icon to starred
-void _showLiked(BuildContext context) {
-  showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return CupertinoAlertDialog(
-          content: Text("You have starred this recipe!"),
-          actions: <Widget>[
-            CupertinoButton(
-              child: Text("Dismiss"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            )
-          ],
-        );
-      });
-}
+  void _showLiked(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return CupertinoAlertDialog(
+            content: Text("You have starred this recipe!"),
+            actions: <Widget>[
+              CupertinoButton(
+                child: Text("Dismiss"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        });
+  }
 
+}
 /*
   //actually build the listtile
   Widget _buildEachItem(

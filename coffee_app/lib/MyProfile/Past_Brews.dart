@@ -24,6 +24,7 @@ class PastBrews extends StatefulWidget {
 
 
 class _PastBrewsState extends State<PastBrews> {
+
  final snackBarDelete = SnackBar(
   content: Text("swipe down to refresh page"),
  duration: Duration(seconds: 5),
@@ -118,6 +119,7 @@ class _PastBrewsState extends State<PastBrews> {
       return RefreshIndicator(
         onRefresh: widget.onRefresh,
               child: ListView.builder(
+                addAutomaticKeepAlives: true,
           itemBuilder: (BuildContext context, int index) {
             return _buildEachItem(
                 context, snapshot[index], index, snapshot.length);
@@ -268,9 +270,7 @@ class _PastBrewsState extends State<PastBrews> {
             ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
-        
-        
-      
 
   }
+
 }

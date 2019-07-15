@@ -22,15 +22,15 @@ class Profile extends StatefulWidget {
   }
 }
 
-class _Profile extends State<Profile> {
+class _Profile extends State<Profile>{
   String name = "displayname";
   String numberOfBrews = "loading..";
   String title;
   String userId;
   FirebaseUser currentUser;
 
-  File _image = AssetImage('assets/BrewCompass-icon-1.png') as File;
-
+  File _image ;
+  AssetImage _stockImage = AssetImage('assets/BrewCompass-icon-1.png');
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -95,12 +95,11 @@ class _Profile extends State<Profile> {
   }
 
   Widget _buildProfilePage(BuildContext context) {
-
-    
     NetworkImage userImage;
     if(currentUser.photoUrl != null) {
      userImage = NetworkImage(currentUser.photoUrl);
     }
+    
     return Scaffold(
       body: Stack(fit: StackFit.expand, children: <Widget>[
         Image(
@@ -132,7 +131,7 @@ class _Profile extends State<Profile> {
                                   image: DecorationImage(
                                       fit: BoxFit.cover,
                                       image: currentUser.photoUrl != null ?
-                                          userImage : AssetImage('assets/BrewCompass-icon-1.png') ))),
+                                          userImage : _stockImage ))),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(4.0),
@@ -214,7 +213,7 @@ class _Profile extends State<Profile> {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Image(
-                  image: userImage != null ? userImage : AssetImage('assets/BrewCompass-icon-1.png') ,
+                  image: userImage != null ? userImage : _stockImage ,
                 ),
                 Divider(),
                 Row(
@@ -245,6 +244,7 @@ class _Profile extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
+    
     return FutureBuilder(
       future: _fetchUser(),
       builder: (BuildContext context, AsyncSnapshot<FirebaseUser> snapshot) {
@@ -264,4 +264,6 @@ class _Profile extends State<Profile> {
       },
     );
   }
+
+  
 }

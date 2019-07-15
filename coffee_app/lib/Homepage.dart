@@ -42,13 +42,13 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   //build the top bar here
-  Widget buildTopBar(BuildContext context) => new AppBar(
+  Widget buildTopBar(BuildContext context) => AppBar(
         centerTitle: true,
         title:
             Text("BrewCompass"),
         backgroundColor: Colors.white,
         actions: <Widget>[
-          new MaterialButton(
+           MaterialButton(
             child: Text("Logout"),
             onPressed: () {
               _signOut(context);
@@ -71,10 +71,25 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: buildTopBar(context),
-        body: PageView(
-            controller: _pageController,
-            children: <Widget>[_buildPageOptions()[_selectedPage]]),
+        appBar: AppBar(
+        centerTitle: true,
+        title:
+            Text("BrewCompass"),
+        backgroundColor: Colors.white,
+        actions: <Widget>[
+           MaterialButton(
+            child: Text("Logout"),
+            onPressed: () {
+              _signOut(context);
+            },
+          )
+        ],
+      ),
+        body:IndexedStack(
+            index: _selectedPage,
+            children: _buildPageOptions(), 
+            //<Widget>[_buildPageOptions()[_selectedPage]]
+            ),
         bottomNavigationBar: (Platform.isAndroid)
             ? BottomNavigationBar(
                 backgroundColor: Colors.brown[200],
@@ -123,6 +138,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ]));
   }
+ 
 }
 
 //legacy code

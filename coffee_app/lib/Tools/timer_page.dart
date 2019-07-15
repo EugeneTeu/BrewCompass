@@ -25,7 +25,7 @@ class Dependencies {
   final int timerMillisecondsRefreshRate = 30;
 }
 
-class TimerPage extends StatefulWidget {
+class TimerPage extends StatefulWidget  {
   TimerPage({Key key}) : super(key: key);
 
   TimerPageState createState() => new TimerPageState();
@@ -236,4 +236,6 @@ class HundredsState extends State<Hundreds> {
     String hundredsStr = (hundreds % 100).toString().padLeft(2, '0');
     return new Text(hundredsStr, style: dependencies.textStyle);
   }
+
+  
 }
