@@ -4,7 +4,7 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import '../styles.dart';
-import 'dart:io' show Platform;
+
 
 class MyCalcPage extends StatefulWidget {
   MyCalcPage({Key key, this.title}) : super(key: key);
@@ -83,7 +83,7 @@ class _MyCalcPageState extends State<MyCalcPage> {
     );
   }
 
-  Widget _buildIOSButton(String i) {
+  /*Widget _buildIOSButton(String i) {
     return CupertinoButton(
       child: Text(
         i,
@@ -92,7 +92,7 @@ class _MyCalcPageState extends State<MyCalcPage> {
       onPressed: () => _buttonPressed(i),
       color: Colors.grey[400],
     );
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {

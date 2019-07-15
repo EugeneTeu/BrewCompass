@@ -3,9 +3,9 @@ import 'package:coffee_app/MyProfile/Recipe.dart';
 import 'package:coffee_app/MyProfile/editSteps.dart';
 import 'package:coffee_app/misc/brew-guide.dart';
 import 'package:coffee_app/styles.dart';
-import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
+
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+
 import 'package:open_iconic_flutter/open_iconic_flutter.dart';
 
 class EditEntry extends StatefulWidget {
@@ -99,7 +99,7 @@ class _EditEntryState extends State<EditEntry> {
     );
   }
 
-  Widget _buildInputFieldNum() {
+  /*Widget _buildInputFieldNum() {
     return Padding(
       child: TextFormField(
         style: Styles.createEntryText,
@@ -111,13 +111,13 @@ class _EditEntryState extends State<EditEntry> {
       ),
       padding: EdgeInsets.all(20.0),
     );
-  }
+  }*/
 
   Widget _buildInputFieldDate() {
     return Padding(
       child: ListTile(
-          leading: Icon(OpenIconicIcons.calendar),
-          title: TextFormField(
+        leading: Icon(OpenIconicIcons.calendar),
+        title: TextFormField(
           style: Styles.createEntryText,
           decoration: new InputDecoration(hintText: "Enter date"),
           initialValue: date,
@@ -134,7 +134,7 @@ class _EditEntryState extends State<EditEntry> {
     return Padding(
       child: ListTile(
         leading: Icon(OpenIconicIcons.text),
-              title: TextFormField(
+        title: TextFormField(
           style: Styles.createEntryText,
           decoration: new InputDecoration(hintText: "Enter Bean Name"),
           initialValue: beanName,
@@ -158,9 +158,7 @@ class _EditEntryState extends State<EditEntry> {
               return InputDecorator(
                 decoration: InputDecoration(
                   labelText: "Select Brewer",
-                  
                 ),
-                
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton(
                     value: brewer,
@@ -253,7 +251,10 @@ class _EditEntryState extends State<EditEntry> {
           Flexible(
             flex: 1,
             child: MaterialButton(
-              child: Icon(Icons.add_box, color: Colors.brown[400],),
+              child: Icon(
+                Icons.add_box,
+                color: Colors.brown[400],
+              ),
               onPressed: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => EditSteps(steps)));
@@ -298,7 +299,7 @@ class _EditEntryState extends State<EditEntry> {
     });
   }
 
- /* Widget _buildInputFieldBrewer() {
+  /* Widget _buildInputFieldBrewer() {
     return Padding(
       child: ListTile(
         leading: Icon(OpenIconicIcons.beaker),

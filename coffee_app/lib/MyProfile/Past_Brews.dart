@@ -5,12 +5,10 @@ import 'package:coffee_app/MyProfile/Journal_entry.dart';
 import 'package:coffee_app/MyProfile/Recipe.dart';
 import 'package:coffee_app/MyProfile/add_entry.dart';
 import 'package:coffee_app/auth_provider.dart';
-import 'package:coffee_app/GlobalPage/view-Entry.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:open_iconic_flutter/open_iconic_flutter.dart';
 import 'package:uuid/uuid.dart';
 
 class PastBrews extends StatefulWidget {

@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coffee_app/MyProfile/Past_Brews.dart';
 import 'package:coffee_app/MyProfile/Recipe.dart';
-import 'package:coffee_app/MyProfile/add_entry.dart';
 import 'package:coffee_app/auth_provider.dart';
 import 'package:coffee_app/styles.dart';
 
@@ -12,8 +11,7 @@ import 'package:flutter/widgets.dart';
 import 'package:image_picker_modern/image_picker_modern.dart';
 import 'dart:io' show File, Platform;
 
-import 'package:uuid/uuid.dart';
-import 'dart:math';
+
 
 class Profile extends StatefulWidget {
   @override
@@ -126,12 +124,15 @@ class _Profile extends State<Profile>{
                           child: Container(
                               height: 120.0,
                               width: 120.0,
-                              decoration: BoxDecoration(
+                              /*decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(62.5),
                                   image: DecorationImage(
                                       fit: BoxFit.cover,
                                       image: currentUser.photoUrl != null ?
-                                          userImage : _stockImage ))),
+                                          userImage : _stockImage ))
+                                          */
+                                          child: CircleAvatar(backgroundImage:  currentUser.photoUrl != null ?
+                                          userImage : _stockImage ,),),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(4.0),
@@ -212,8 +213,11 @@ class _Profile extends State<Profile>{
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                Image(
-                  image: userImage != null ? userImage : _stockImage ,
+                Container(
+                  width: MediaQuery.of(context).size.width/4,
+                  child: Image(
+                    image: userImage != null ? userImage : _stockImage ,
+                  ),
                 ),
                 Divider(),
                 Row(

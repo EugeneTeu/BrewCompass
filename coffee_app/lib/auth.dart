@@ -46,7 +46,7 @@ class Auth implements BaseAuth {
     UserUpdateInfo updateUser = UserUpdateInfo();
     updateUser.displayName = _displayName;
     user.updateProfile(updateUser);
-  
+
     //DocumentReference ref = Firestore.instance.collection('users').document(user.uid);
     //ref.setData({'email': user.email});
     return user.uid;
@@ -54,24 +54,25 @@ class Auth implements BaseAuth {
 
   //check what auth status is with fire base
   Future<String> currentUser() async {
-    try {
-      FirebaseUser user = await _instance.currentUser();
-      return user.uid;
-    } catch (e) {}
+    FirebaseUser user = await _instance.currentUser();
+    return user.uid;
   }
 
   Future<String> uploadProfilePic(File file) async {
     var randomno = Random(25);
-    var imageId = randomno.nextInt(5000).toString();
+    //var imageId = randomno.nextInt(5000).toString();
     String user = "userPictures";
-    StorageReference ref =
-        FirebaseStorage.instance.ref().child(user).child("profilepics/${randomno.nextInt(5000).toString()}.jpg");
+    StorageReference ref = FirebaseStorage.instance
+        .ref()
+        .child(user)
+        .child("profilepics/${randomno.nextInt(5000).toString()}.jpg");
     print(ref);
     StorageUploadTask uploadTask = ref.putFile(file);
     return await (await uploadTask.onComplete).ref.getDownloadURL();
   }
 
-  Future<GoogleSignInAccount> getGoogleSignedInAccount(GoogleSignIn googleSignIn) async {
+  Future<GoogleSignInAccount> getGoogleSignedInAccount(
+      GoogleSignIn googleSignIn) async {
     GoogleSignInAccount account = googleSignIn.currentUser;
     if (account == null) {
       account = await googleSignIn.signInSilently();
@@ -79,15 +80,16 @@ class Auth implements BaseAuth {
     return account;
   }
 
-  Future<FirebaseUser> googleSignIntoFirebase(GoogleSignInAccount googleSignInAccount) async {
-     GoogleSignInAuthentication googleAuth =
-      await googleSignInAccount.authentication;
-      print(googleAuth.accessToken);
-      final AuthCredential credential = GoogleAuthProvider.getCredential(
+  Future<FirebaseUser> googleSignIntoFirebase(
+      GoogleSignInAccount googleSignInAccount) async {
+    GoogleSignInAuthentication googleAuth =
+        await googleSignInAccount.authentication;
+    print(googleAuth.accessToken);
+    final AuthCredential credential = GoogleAuthProvider.getCredential(
       accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken,
     );
-  return await _instance.signInWithCredential(credential);
+    return await _instance.signInWithCredential(credential);
   }
 
   Future<FirebaseUser> getUser() async {

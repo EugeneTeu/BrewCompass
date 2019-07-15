@@ -1,7 +1,6 @@
 import 'package:coffee_app/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'auth.dart';
 import 'Homepage.dart';
 import 'login_page.dart';
 

@@ -8,7 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:intl/intl.dart';
-import 'dart:io' show Platform;
+
 
 import 'package:open_iconic_flutter/open_iconic_flutter.dart';
 
@@ -67,9 +67,7 @@ class _AddNewEntryState extends State<AddNewEntry> {
     super.initState();
   }
 
-  //id for now is manually entered, need to enable indexing by firebase
-  //edit entry flow: take in a form for inputs, push recipe object to database by calling runTransaction
-  //TODO: add validator to the fields, add dropdown menu to switches
+
   int id;
   bool isShared = false;
   String date;
@@ -430,7 +428,7 @@ class _AddNewEntryState extends State<AddNewEntry> {
   }
   */
 
-    void _showErrorWhenSubmitting(NoSuchMethodError e) {
+    /*void _showErrorWhenSubmitting(NoSuchMethodError e) {
       showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -448,6 +446,6 @@ class _AddNewEntryState extends State<AddNewEntry> {
               );
             }
           });
-    }
+    }*/
   }
 }

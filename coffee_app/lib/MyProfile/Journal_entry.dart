@@ -1,11 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coffee_app/MyProfile/Recipe.dart';
 import 'package:coffee_app/MyProfile/edit-Entry.dart';
-import 'package:coffee_app/misc/brew-guide.dart';
 import 'package:flutter/material.dart';
 import 'package:open_iconic_flutter/open_iconic_flutter.dart';
 
-import '../styles.dart';
 
 class JournalEntry extends StatelessWidget {
   JournalEntry(Recipe currentEntry, DocumentSnapshot data)
@@ -15,7 +13,7 @@ class JournalEntry extends StatelessWidget {
   final Recipe currentRecipe;
   final DocumentSnapshot data;
 
-  Widget _buildLabel(String text) {
+  /*Widget _buildLabel(String text) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
       child: ListTile(
@@ -46,7 +44,7 @@ class JournalEntry extends StatelessWidget {
       padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
       child: Text('$text'),
     );
-  }
+  }*/
 
   Widget _buildSteps() {
     return Padding(

@@ -155,7 +155,7 @@ class _LoginPageState extends State<LoginPage> {
                 )
               ],
             );
-          } else if (Platform.isIOS) {
+          } else {
             return CupertinoAlertDialog(
               title: Text("Error signing in"),
               content: Text(e.code),
@@ -166,7 +166,7 @@ class _LoginPageState extends State<LoginPage> {
                 )
               ],
             );
-          }
+          } 
         });
   }
 

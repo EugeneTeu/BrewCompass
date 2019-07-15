@@ -143,7 +143,7 @@ class _RecipePageState extends State<RecipePage>
 
   Widget _buildEachItem(BuildContext context, DocumentSnapshot currentEntry,
       int index, int length) {
-    final last = index + 1 == length;
+    //final last = index + 1 == length;
     // final currentEntry = Recipe.fromSnapshot(data);
     return Padding(
       key: ValueKey(currentEntry['id']),

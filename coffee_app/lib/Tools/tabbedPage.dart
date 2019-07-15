@@ -13,7 +13,7 @@ class TabbedPage extends StatefulWidget {
   TabbedPageState createState () => TabbedPageState();
 }
 
-class TabbedPageState extends State<TabbedPage> with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
+class TabbedPageState extends State<TabbedPage> with SingleTickerProviderStateMixin {
   //wrapping tabs into a tabBar
   final TabBar toolBar = new TabBar(
     
@@ -59,6 +59,5 @@ class TabbedPageState extends State<TabbedPage> with SingleTickerProviderStateMi
             );
   }
 
-  @override
-  bool get wantKeepAlive => true;
+ 
 }
