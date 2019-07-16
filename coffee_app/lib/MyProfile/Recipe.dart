@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Recipe {
+
+  Recipe(this.reference);
+
   Recipe.fromMap(Map<String, dynamic> map, {this.reference}) 
     : /*this.id = map['id'],*/
     this.displayName = map['displayName'],
