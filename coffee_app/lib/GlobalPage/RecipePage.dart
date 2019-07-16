@@ -14,7 +14,7 @@ class RecipePage extends StatefulWidget {
 }
 
 class _RecipePageState extends State<RecipePage> {
-  Set<DocumentSnapshot> setResults = HashSet() ;
+  //Set<DocumentSnapshot> setResults = HashSet();
   List<DocumentSnapshot> queryResults = [];
   List<DocumentSnapshot> tempSearchedResults = [];
 
@@ -44,7 +44,6 @@ class _RecipePageState extends State<RecipePage> {
     // print('init state ran@@@@@@@@@@@@@@@');
   }
 
-
 /*
   _onEntryAdded(Event event) {
     setState(() {
@@ -63,9 +62,17 @@ class _RecipePageState extends State<RecipePage> {
   }*/
 
   Future<void> refreshDb() async {
-   setState(() {
-     this.build(context);
-   });
+       QuerySnapshot newDocs = await Firestore.instance
+        .collection('testRecipesv4')
+        .where('isShared', isEqualTo: true)
+        .getDocuments();
+
+    setState(() {
+      this.queryResults = [];
+      this.tempSearchedResults = [];
+      queryResults.addAll(newDocs.documents);
+      tempSearchedResults.addAll(newDocs.documents);
+    });
   }
 
   void _fetchQueryResults() async {
@@ -73,15 +80,11 @@ class _RecipePageState extends State<RecipePage> {
         .collection('testRecipesv4')
         .where('isShared', isEqualTo: true)
         .getDocuments();
-  
-
+    //this.setResults = HashSet.from(docs.documents);
     for (int i = 0; i < docs.documents.length; ++i) {
       setState(() {
-        if (!setResults.contains(docs.documents[i])) {
-          setResults.add(docs.documents[i]);
-          queryResults.add(docs.documents[i]);
-          tempSearchedResults.add(docs.documents[i]);
-        }
+        queryResults.add(docs.documents[i]);
+        tempSearchedResults.add(docs.documents[i]);
       });
     }
   }
