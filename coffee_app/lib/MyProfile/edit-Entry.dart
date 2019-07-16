@@ -274,7 +274,7 @@ class _EditEntryState extends State<EditEntry> {
     List<String> stepsString = StepData().convertToListOfStrings(steps);
     _key.currentState.save();
     Firestore.instance
-        .collection("testRecipesv3")
+        .collection("testRecipesv4")
         .document(widget.data.documentID)
         .delete()
         .catchError((e) {
@@ -282,7 +282,7 @@ class _EditEntryState extends State<EditEntry> {
     });
     Firestore.instance.runTransaction((Transaction transaction) async {
       CollectionReference reference =
-          Firestore.instance.collection('testRecipesv3');
+          Firestore.instance.collection('testRecipesv4');
       await reference.add({
         /*'id': id,*/
         // all recipes are created private by default

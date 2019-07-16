@@ -186,7 +186,7 @@ class JournalEntry extends StatelessWidget {
                           child: Icon(Icons.check_circle_outline),
                           onPressed: () {
                             Firestore.instance
-                                .collection("testRecipesv3")
+                                .collection("testRecipesv4")
                                 .document(data.documentID)
                                 .delete()
                                 .catchError((e) {

@@ -147,7 +147,7 @@ class _PastBrewsState extends State<PastBrews> {
               Scaffold.of(context).showSnackBar(snackBarDelete);
               setState(() {
                 Firestore.instance
-                    .collection("testRecipesv3")
+                    .collection("testRecipesv4")
                     .document(data.documentID)
                     .delete()
                     .catchError((e) {
@@ -156,7 +156,7 @@ class _PastBrewsState extends State<PastBrews> {
                
               }
               );
-            widget.onRefresh;
+            
             } catch (e) {
               print("danggity");
             }
