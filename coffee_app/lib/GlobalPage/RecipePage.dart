@@ -1,4 +1,7 @@
 import 'package:coffee_app/GlobalPage/sortingConditionsEnum.dart';
+import 'dart:collection';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coffee_app/MyProfile/Recipe.dart';
 import 'package:coffee_app/GlobalPage/search_bar.dart';
 import 'package:coffee_app/GlobalPage/view-Entry.dart';
@@ -15,6 +18,7 @@ class RecipePage extends StatefulWidget {
 }
 
 class _RecipePageState extends State<RecipePage> {
+  //Set<DocumentSnapshot> setResults = HashSet();
   List<DocumentSnapshot> queryResults = [];
   List<DocumentSnapshot> tempSearchedResults = [];
 
@@ -22,11 +26,17 @@ class _RecipePageState extends State<RecipePage> {
   FocusNode _focusNode;
   String _terms = '';
   SortingConditions sortingCondition = SortingConditions.beanName;
+  //FirebaseUser currentUser;
+  //DatabaseReference globalrepo;
+  //var sub1,sub2,sub3;
 
   @override
   void dispose() {
     _focusNode.dispose();
     _controller.dispose();
+    // sub1.cancel();
+    // sub2.cancel();
+    // sub3.cancel();
     super.dispose();
   }
 
@@ -38,12 +48,43 @@ class _RecipePageState extends State<RecipePage> {
     _fetchQueryResults();
   }
 
-  void _fetchQueryResults() async {
-    final QuerySnapshot docs = await Firestore.instance
+/*
+  _onEntryAdded(Event event) {
+    setState(() {
+      _fetchQueryResults();
+    });
+  }
+   _onEntryModified(Event event) {
+    setState(() {
+      _fetchQueryResults();
+    });
+  }
+   _onEntryDeleted(Event event) {
+    setState(() {
+      _fetchQueryResults();
+    });
+  }*/
+
+  Future<void> refreshDb() async {
+       QuerySnapshot newDocs = await Firestore.instance
         .collection('testRecipesv4')
         .where('isShared', isEqualTo: true)
         .getDocuments();
 
+    setState(() {
+      this.queryResults = [];
+      this.tempSearchedResults = [];
+      queryResults.addAll(newDocs.documents);
+      tempSearchedResults.addAll(newDocs.documents);
+    });
+  }
+
+  void _fetchQueryResults() async {
+    QuerySnapshot docs = await Firestore.instance
+        .collection('testRecipesv4')
+        .where('isShared', isEqualTo: true)
+        .getDocuments();
+    //this.setResults = HashSet.from(docs.documents);
     for (int i = 0; i < docs.documents.length; ++i) {
       setState(() {
         queryResults.add(docs.documents[i]);
@@ -108,7 +149,7 @@ class _RecipePageState extends State<RecipePage> {
     String dd = date.substring(0, 2);
     String mm = date.substring(3, 5);
     String yyyy = date.substring(6, 10);
-    print("from $date to ${yyyy}${mm}${dd}");
+    // print("from $date to ${yyyy}${mm}${dd}");
     return "$yyyy$mm$dd";
   }
 
@@ -186,16 +227,19 @@ class _RecipePageState extends State<RecipePage> {
                 children: <Widget>[
                   _buildSearchBox(),
                   Expanded(
-                    child: tempSearchedResults.length == 0
-                        ? _showLoading()
-                        : ListView.builder(
-                            itemCount: tempSearchedResults.length,
-                            itemBuilder: (context, index) => _buildEachItem(
-                                context,
-                                tempSearchedResults[index],
-                                index,
-                                tempSearchedResults.length),
-                          ),
+                    child: RefreshIndicator(
+                      onRefresh: () => refreshDb(),
+                      child: tempSearchedResults.length == 0
+                          ? _showLoading()
+                          : ListView.builder(
+                              itemCount: tempSearchedResults.length,
+                              itemBuilder: (context, index) => _buildEachItem(
+                                  context,
+                                  tempSearchedResults[index],
+                                  index,
+                                  tempSearchedResults.length),
+                            ),
+                    ),
                   ),
                 ],
               ),
@@ -310,132 +354,3 @@ class _RecipePageState extends State<RecipePage> {
         });
   }
 }
-/*
-  //actually build the listtile
-  Widget _buildEachItem(
-      BuildContext context, DocumentSnapshot data, int index, int length) {
-    final last = index + 1 == length;
-    final currentEntry = Recipe.fromSnapshot(data);
-    return Padding(
-      key: ValueKey(currentEntry.id),
-      //add custom padding to last entry to accomdate floating action button
-      padding: !last
-          ? EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0)
-          : EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 70),
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey),
-          borderRadius: BorderRadius.circular(5.0),
-        ),
-        child: ListTile(
-            contentPadding:
-                EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-            leading: Container(
-              padding: EdgeInsets.only(right: 12.0),
-              decoration: new BoxDecoration(
-                  border: new Border(
-                      right:
-                          new BorderSide(width: 1.0, color: Colors.black45))),
-              child: Icon(Icons.book, color: Colors.black),
-            ),
-            title: Text("Bean: " + currentEntry.beanName),
-            subtitle: Text(currentEntry.brewer),
-            trailing: Container(
-              child: IconButton(
-                icon: Icon(Icons.library_books),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              ViewJournalEntry(currentEntry, data)));
-                },
-              ),
-            )),
-      ),
-    );
-  }
-  */
-
-/* 
-// previous hard coded global repo recipe page.
-import 'package:flutter/material.dart';
-import '../styles.dart';
-import './search_bar.dart';
-
-class RecipePage extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() => RecipePageState();
-}
-
-class RecipePageState extends State<RecipePage> {
-  
-  TextEditingController _controller;
-  FocusNode _focusNode;
-  String _terms = '';
-
-   @override
-  void initState() {
-    super.initState();
-    _controller = TextEditingController()..addListener(_onTextChanged);
-    _focusNode = FocusNode();
-  }
-
-  @override
-  void dispose() {
-    _focusNode.dispose();
-    _controller.dispose();
-    super.dispose();
-  }
-
-  void _onTextChanged() {
-    setState(() {
-      _terms = _controller.text;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: 
-        const BoxDecoration(
-        color: Styles.scaffoldBackground,
-      ),
-      child: new Column(
-        children: <Widget>[
-      
-          Expanded(
-            child: _buildBody(),)
-        ],
-      ),
-    );
-  }
-
-  Widget _buildBody() {
-    return ListView.builder(
-      padding: const EdgeInsets.all(5.0),
-      itemBuilder: (context, i) {
-        return _buildRow(i);
-      },);
-  }
-
-   Widget _buildRow(int i) {
-    return new ListTile(
-      title: new Text("Coffee Recipe " + i.toString() ),
-    );
-  }
-
-   Widget _buildSearchBox() {
-    return Padding(
-      padding: const EdgeInsets.all(8),
-      child: SearchBar(
-        controller: _controller,
-        focusNode: _focusNode,
-        
-      ),
-    );
-  }     
-
-
-}
-*/

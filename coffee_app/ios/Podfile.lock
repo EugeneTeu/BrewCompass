@@ -155,7 +155,7 @@ PODS:
     - nanopb (~> 0.3)
   - gRPC-Core/Interface (1.21.0)
   - GTMSessionFetcher/Core (1.2.2)
-  - image_picker_modern (0.0.1):
+  - image_picker (0.0.1):
     - Flutter
   - leveldb-library (1.20)
   - nanopb (0.3.901):
@@ -174,7 +174,7 @@ DEPENDENCIES:
   - Flutter (from `.symlinks/flutter/ios`)
   - flutter_facebook_login (from `.symlinks/plugins/flutter_facebook_login/ios`)
   - google_sign_in (from `.symlinks/plugins/google_sign_in/ios`)
-  - image_picker_modern (from `.symlinks/plugins/image_picker_modern/ios`)
+  - image_picker (from `.symlinks/plugins/image_picker/ios`)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -219,8 +219,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_facebook_login/ios"
   google_sign_in:
     :path: ".symlinks/plugins/google_sign_in/ios"
-  image_picker_modern:
-    :path: ".symlinks/plugins/image_picker_modern/ios"
+  image_picker:
+    :path: ".symlinks/plugins/image_picker/ios"
 
 SPEC CHECKSUMS:
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
@@ -229,7 +229,7 @@ SPEC CHECKSUMS:
   FBSDKCoreKit: f442aa96179cc9b382bb4abeb7e340a47cca8f91
   FBSDKLoginKit: c3079d9a4db27c492287b1eed7a4272b28cf8a59
   Firebase: 8432d732974498afd5987e9001a05f90f1a3d625
-  firebase_auth: 3b8e685dbf2519d315265f3d2283da3fd0711ee3
+  firebase_auth: 2d39369065cdec7c1af37607a1484e1f161feed9
   firebase_core: 44f31f51532812598f0f9f4af0caa705b9edfc19
   firebase_database: 3b672d70a667701be3758e08a47b272e99569329
   firebase_storage: ad2e96fb734b0254a42adba43f9aafb77de84d0a
@@ -251,7 +251,7 @@ SPEC CHECKSUMS:
   "gRPC-C++": 9dfe7b44821e7b3e44aacad2af29d2c21f7cde83
   gRPC-Core: c9aef9a261a1247e881b18059b84d597293c9947
   GTMSessionFetcher: 61bb0f61a4cb560030f1222021178008a5727a23
-  image_picker_modern: 40bc7d164e23451a0417e302e514746a2b81c269
+  image_picker: 16e5fec1fbc87fd3b297c53e4048521eaf17cd06
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   Protobuf: 3f617b9a6e73605565086864c9bc26b2bf2dd5a3

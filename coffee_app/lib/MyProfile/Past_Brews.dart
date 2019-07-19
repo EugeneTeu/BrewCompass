@@ -21,10 +21,7 @@ class PastBrews extends StatefulWidget {
 }
 
 class _PastBrewsState extends State<PastBrews> {
-  final snackBarDelete = SnackBar(
-    content: Text("swipe down to refresh page"),
-    duration: Duration(seconds: 5),
-  );
+  Recipe documentToDelete;
 
   String userId;
   Uuid uuid = new Uuid();
@@ -119,18 +116,26 @@ class _PastBrewsState extends State<PastBrews> {
     if (snapshot.length == 0) {
       return RefreshIndicator(
         onRefresh: widget.onRefresh,
-              child: SingleChildScrollView(
-                physics: AlwaysScrollableScrollPhysics(),
-                child: Column(
+        child: SingleChildScrollView(
+          physics: AlwaysScrollableScrollPhysics(),
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
-              SizedBox(height: 80.0,),
-              Center(child: Text("Your brew journal is currently empty! Start Brewing!")),
-              SizedBox(height: 80.0,),
+              SizedBox(
+                height: 80.0,
+              ),
+              Center(
+                  child: Text(
+                      "Your brew journal is currently empty! Start Brewing!")),
+              SizedBox(
+                height: 80.0,
+              ),
               Center(child: Text("Start logging now!")),
-              SizedBox(height: 80.0,),
+              SizedBox(
+                height: 80.0,
+              ),
             ],
           ),
         ),
@@ -138,8 +143,8 @@ class _PastBrewsState extends State<PastBrews> {
     } else {
       return RefreshIndicator(
         onRefresh: widget.onRefresh,
-              child: ListView.builder(
-                addAutomaticKeepAlives: true,
+        child: ListView.builder(
+          addAutomaticKeepAlives: true,
           itemBuilder: (BuildContext context, int index) {
             return _buildEachItem(
                 context, snapshot[index], index, snapshot.length);
@@ -171,19 +176,46 @@ class _PastBrewsState extends State<PastBrews> {
           ),
           //unique key
           key: Key(uuid.v4()),
-          onDismissed: (direction) {
+          onDismissed: (direction) async {
+            await Firestore.instance
+                .collection("testRecipesv4")
+                .document(data.documentID)
+                .get()
+                .then((data) {
+              this.documentToDelete = Recipe.fromSnapshot(data);
+            });
             try {
-              Scaffold.of(context).showSnackBar(snackBarDelete);
               setState(() {
                 Firestore.instance
-                    .collection("testRecipesv3")
+                    .collection("testRecipesv4")
                     .document(data.documentID)
                     .delete()
                     .catchError((e) {
                   print(e);
                 });
               });
-              widget.onRefresh;
+              Scaffold.of(context).showSnackBar(SnackBar(
+                content: Text("swipe down to refresh page"),
+                duration: Duration(seconds: 20),
+                behavior: SnackBarBehavior.fixed,
+                action: SnackBarAction(
+                  label: "Undo",
+                  onPressed: () {
+                    Firestore.instance.collection("testRecipesv4").add({
+                      'displayName': documentToDelete.displayName,
+                      'isShared': documentToDelete.isShared,
+                      'date': documentToDelete.date,
+                      'beanName': documentToDelete.beanName,
+                      'brewer': documentToDelete.brewer,
+                      'steps': documentToDelete.steps,
+                      'tastingNotes': documentToDelete.tastingNotes,
+                      'userId': documentToDelete.userId,
+                      'userPhotoUrl': documentToDelete.userPhotoUrl,
+                    });
+                    print("undo pressed");
+                  },
+                ),
+              ));
             } catch (e) {
               print("danggity");
             }
