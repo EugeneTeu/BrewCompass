@@ -11,14 +11,14 @@ class RecipePage extends StatefulWidget {
   State<StatefulWidget> createState() => _RecipePageState();
 }
 
-class _RecipePageState extends State<RecipePage>
-  {
+class _RecipePageState extends State<RecipePage> {
   List<DocumentSnapshot> queryResults = [];
   List<DocumentSnapshot> tempSearchedResults = [];
 
   TextEditingController _controller;
   FocusNode _focusNode;
   String _terms = '';
+  SortingConditions sortingCondition = SortingConditions.beanName;
 
   @override
   void dispose() {
@@ -33,7 +33,6 @@ class _RecipePageState extends State<RecipePage>
     _controller = TextEditingController()..addListener(_onTextChanged);
     _focusNode = FocusNode();
     _fetchQueryResults();
-    // print('init state ran@@@@@@@@@@@@@@@');
   }
 
   void _fetchQueryResults() async {
@@ -100,6 +99,75 @@ class _RecipePageState extends State<RecipePage>
     );
   }
 
+  void _changesortingConditionition() {
+    if (sortingCondition == SortingConditions.beanName) {
+      setState(() {
+        tempSearchedResults.sort((a, b) =>
+            a["beanName"].toLowerCase().compareTo(b["beanName"].toLowerCase()));
+      });
+    } else if (sortingCondition == SortingConditions.brewer) {
+      setState(() {
+        tempSearchedResults.sort((a, b) =>
+            a["brewer"].toLowerCase().compareTo(b["brewer"].toLowerCase()));
+      });
+    } else if (sortingCondition == SortingConditions.date) {
+      setState(() {
+        tempSearchedResults
+            .sort((a, b) => a["beanName"].compareTo(b["beanName"]));
+      });
+    } else {
+      print("ERROR: invalid sorting condition, switch case fall through");
+    }
+
+    // always rotate the sorting condition on click
+    _nextSortingCondition();
+
+    /*
+    switch (sortingCondition) {
+      case SortingConditions.beanName: {
+        setState(() {
+          tempSearchedResults.sort((a, b) => a["beanName"].compareTo(b["beanName"]));
+        });
+      }
+      break;
+
+      case SortingConditions.brewer: {
+        setState(() {
+          tempSearchedResults.sort((a, b) => a["brewer"].compareTo(b["brewer"]));
+        });
+      }
+      break;
+
+      case SortingConditions.date: {
+        setState(() {
+          tempSearchedResults.sort((a, b) => a["beanName"].compareTo(b["beanName"]));
+        });
+      }
+      break;   
+
+      default: {
+        print("ERROR: invalid sorting condition, switch case fall through");
+      }
+    }
+    */
+  }
+
+  void _nextSortingCondition() {
+    if (sortingCondition == SortingConditions.beanName) {
+      setState(() {
+        sortingCondition = SortingConditions.brewer;
+      });
+    } else if (sortingCondition == SortingConditions.brewer) {
+      setState(() {
+        sortingCondition = SortingConditions.date;
+      });
+    } else if (sortingCondition == SortingConditions.date) {
+      setState(() {
+        sortingCondition = SortingConditions.beanName;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     //super.build(context);
@@ -138,6 +206,10 @@ class _RecipePageState extends State<RecipePage>
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton.extended(
+          onPressed: () => _changesortingConditionition(),
+          icon: Icon(Icons.reorder),
+          label: Text(sortingCondition.toString())),
     );
   }
 
@@ -238,7 +310,6 @@ class _RecipePageState extends State<RecipePage>
           );
         });
   }
-
 }
 /*
   //actually build the listtile
@@ -369,3 +440,5 @@ class RecipePageState extends State<RecipePage> {
 
 }
 */
+
+enum SortingConditions { beanName, brewer, date }

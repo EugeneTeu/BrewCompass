@@ -20,13 +20,11 @@ class PastBrews extends StatefulWidget {
   State<StatefulWidget> createState() => _PastBrewsState();
 }
 
-
 class _PastBrewsState extends State<PastBrews> {
-
- final snackBarDelete = SnackBar(
-  content: Text("swipe down to refresh page"),
- duration: Duration(seconds: 5),
-);
+  final snackBarDelete = SnackBar(
+    content: Text("swipe down to refresh page"),
+    duration: Duration(seconds: 5),
+  );
 
   String userId;
   Uuid uuid = new Uuid();
@@ -83,6 +81,37 @@ class _PastBrewsState extends State<PastBrews> {
       },
     );
   }
+
+  // List<String> ls = ["1", "2", "3", "4", "5", "6"];
+
+  // void _swapItems(int a, int b) {
+  //   String temp;
+  //   temp = ls[a];
+  //   ls[a] = ls[b];
+  //   ls[b] = temp;
+  // }
+
+  // Widget _buildPastBrewsList(
+  //     BuildContext context, List<DocumentSnapshot> snapshot) {
+  //   return ReorderableListView(
+  //     // children: ls.map((item) => ListTile(
+  //     //   title: Text(item.toString()),
+  //     //   key: ValueKey(item),
+  //     // )).toList(),
+  //     children: <Widget>[
+  //       for (final item in ls)
+  //         ListTile(
+  //           title: Text(item), 
+  //           key: ValueKey(item)
+  //         ),
+  //     ],
+  //     onReorder: (oldIndex, newIndex) {
+  //       setState(() {
+  //         _swapItems(oldIndex, newIndex);
+  //       });
+  //     },
+  //   );
+  // }
 
   //returns the list view
   Widget _buildPastBrewsList(
@@ -153,14 +182,11 @@ class _PastBrewsState extends State<PastBrews> {
                     .catchError((e) {
                   print(e);
                 });
-               
-              }
-              );
-            widget.onRefresh;
+              });
+              widget.onRefresh;
             } catch (e) {
               print("danggity");
             }
-       
           },
           child: ListTile(
               contentPadding:
@@ -215,27 +241,30 @@ class _PastBrewsState extends State<PastBrews> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          leading: IconButton(
-              icon: Icon(
-                Icons.sort,
-                color: Colors.black,
-              ),
-              onPressed: () {
-                print("future filter button");
-              },),
-          title: Text(
-            "Journal",
-            style: TextStyle(color: Colors.black, ),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        leading: IconButton(
+          icon: Icon(
+            Icons.sort,
+            color: Colors.black,
           ),
-          bottom: PreferredSize(
-            preferredSize: Size.fromHeight(2.0),
-            child: Container(color: Colors.brown[400], height: 2.0),
+          onPressed: () {
+            print("future filter button");
+          },
+        ),
+        title: Text(
+          "Journal",
+          style: TextStyle(
+            color: Colors.black,
           ),
         ),
-        body: _buildPastBrews(context),
-        floatingActionButton: (Platform.isAndroid)
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(2.0),
+          child: Container(color: Colors.brown[400], height: 2.0),
+        ),
+      ),
+      body: _buildPastBrews(context),
+      floatingActionButton: (Platform.isAndroid)
           ? FloatingActionButton.extended(
               icon: Icon(Icons.add),
               label: Text("New Entry"),
@@ -261,7 +290,5 @@ class _PastBrewsState extends State<PastBrews> {
             ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
-
   }
-
 }
