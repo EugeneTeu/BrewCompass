@@ -99,10 +99,27 @@ class _RecipePageState extends State<RecipePage> {
     );
   }
 
+  String _changeDateFormatFromDDMMYYYYToYYYYMMDD(String date) {
+    // change date format from DD-MM-YYYY to YYYY-MM-DD
+    // for lexicographical comparison
+    String dd = date.substring(0, 2);
+    String mm = date.substring(3, 5);
+    String yyyy = date.substring(6, 10);
+    print("from $date to ${yyyy}${mm}${dd}");
+    return "$yyyy$mm$dd";
+  }
+
+  int _compareDate(String first, String second) {
+    // don't forget to comvert date format first!
+    String a = _changeDateFormatFromDDMMYYYYToYYYYMMDD(first);
+    String b = _changeDateFormatFromDDMMYYYYToYYYYMMDD(second);
+    return a.compareTo(b);
+  }
+
   void _changesortingConditionition() {
     // always rotate the sorting condition on click
     _nextSortingCondition();
-    
+
     if (sortingCondition == SortingConditions.beanName) {
       setState(() {
         tempSearchedResults.sort((a, b) =>
@@ -115,8 +132,9 @@ class _RecipePageState extends State<RecipePage> {
       });
     } else if (sortingCondition == SortingConditions.date) {
       setState(() {
+        // sorts in reverse chronological order
         tempSearchedResults
-            .sort((a, b) => a["beanName"].compareTo(b["beanName"]));
+            .sort((a, b) => _compareDate(b["date"], a["date"]));
       });
     } else {
       print("ERROR: invalid sorting condition, switch case fall through");
