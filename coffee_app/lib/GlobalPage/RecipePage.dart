@@ -207,6 +207,7 @@ class _RecipePageState extends State<RecipePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
+        heroTag: null,
           onPressed: () => _changesortingConditionition(),
           icon: Icon(Icons.reorder),
           label: Text(sortingCondition.toString())),
