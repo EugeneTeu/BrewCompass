@@ -1,5 +1,6 @@
 import 'package:coffee_app/Tools/caculator.dart';
 import 'package:coffee_app/Tools/stopwatch.dart';
+import 'package:coffee_app/styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -15,34 +16,34 @@ class TabbedPage extends StatefulWidget {
 
 class TabbedPageState extends State<TabbedPage> with SingleTickerProviderStateMixin {
   //wrapping tabs into a tabBar
-  final TabBar toolBar = new TabBar(
+  TabBar toolBar = new TabBar(
     
     unselectedLabelColor: Colors.black38,
     indicator: UnderlineTabIndicator(
       borderSide: BorderSide(color: Colors.blueGrey, width: 2.0),
       insets: EdgeInsets.fromLTRB(0.0, 40.0, 0.0, 0.0)
     ),
-    indicatorColor: Colors.blueGrey,
+    indicatorColor: Colors.brown[400],
     tabs: <Tab>[
-      new Tab(text: 'Convertor'),
-      new Tab(text: 'StopWatch'),
-      new Tab(text: 'Calculator'),
+      Tab(child: Text("Convertor", style: Styles.utilityTabBarText,)),
+      Tab(child: Text("StopWatch", style: Styles.utilityTabBarText,)),
+      Tab(child: Text("Calculator", style: Styles.utilityTabBarText,)),
     ]);
 
   @override
   Widget build(BuildContext context){
-    return new DefaultTabController(
+    return DefaultTabController(
             length: 3,
             child: Scaffold(
-              appBar: new PreferredSize(
+              appBar:  PreferredSize(
                 preferredSize: toolBar.preferredSize,
-                child: new Container(
+                child:  Container(
                   padding: EdgeInsets.all(0.0),
-                  child: new Card(
-                    shape: new ContinuousRectangleBorder(borderRadius: new BorderRadius.horizontal()),
+                  child: Card(
+                    shape:  ContinuousRectangleBorder(borderRadius:  BorderRadius.horizontal()),
                     margin: EdgeInsets.all(0.0),
                     elevation: 0.0,
-                    color: Colors.white70,
+                    color: Colors.white,
                     child: toolBar,
                     ),
                 )),

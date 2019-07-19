@@ -5,6 +5,7 @@ import 'package:coffee_app/MyProfile/Journal_entry.dart';
 import 'package:coffee_app/MyProfile/Recipe.dart';
 import 'package:coffee_app/MyProfile/add_entry.dart';
 import 'package:coffee_app/auth_provider.dart';
+import 'package:coffee_app/styles.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -98,7 +99,7 @@ class _PastBrewsState extends State<PastBrews> {
   //     children: <Widget>[
   //       for (final item in ls)
   //         ListTile(
-  //           title: Text(item), 
+  //           title: Text(item),
   //           key: ValueKey(item)
   //         ),
   //     ],
@@ -212,7 +213,6 @@ class _PastBrewsState extends State<PastBrews> {
                       'userId': documentToDelete.userId,
                       'userPhotoUrl': documentToDelete.userPhotoUrl,
                     });
-                    print("undo pressed");
                   },
                 ),
               ));
@@ -273,32 +273,39 @@ class _PastBrewsState extends State<PastBrews> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        leading: IconButton(
-          icon: Icon(
-            Icons.sort,
-            color: Colors.black,
+      backgroundColor: Theme.of(context).primaryColor,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(40.0),
+              child: AppBar(
+          elevation: 0.0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(50),
+            ),
           ),
-          onPressed: () {
-            print("future filter button");
-          },
-        ),
-        title: Text(
-          "Journal",
-          style: TextStyle(
-            color: Colors.black,
+          backgroundColor: Colors.white,
+          /*leading: IconButton(
+            icon: Icon(
+              Icons.sort,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              print("future filter button");
+            },
+          ),*/
+          title: Text(
+            "Journal",
+            style: Styles.mainAppBarText
           ),
-        ),
-        bottom: PreferredSize(
-          preferredSize: Size.fromHeight(2.0),
-          child: Container(color: Colors.brown[400], height: 2.0),
+           
         ),
       ),
-      body: _buildPastBrews(context),
+      body: Container(
+        color: Colors.white,
+        child: _buildPastBrews(context)),
       floatingActionButton: (Platform.isAndroid)
           ? FloatingActionButton.extended(
-            heroTag: null,
+              heroTag: null,
               icon: Icon(Icons.add),
               label: Text("New Entry"),
               onPressed: () {

@@ -12,8 +12,6 @@ import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io' show File, Platform;
 
-
-
 class Profile extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -21,14 +19,14 @@ class Profile extends StatefulWidget {
   }
 }
 
-class _Profile extends State<Profile>{
+class _Profile extends State<Profile> {
   String name = "displayname";
   String numberOfBrews = "loading..";
   String title;
   String userId;
   FirebaseUser currentUser;
 
-  File _image ;
+  File _image;
   AssetImage _stockImage = AssetImage('assets/BrewCompass-icon-1.png');
   @override
   void didChangeDependencies() {
@@ -95,80 +93,72 @@ class _Profile extends State<Profile>{
 
   Widget _buildProfilePage(BuildContext context) {
     NetworkImage userImage;
-    if(currentUser.photoUrl != null) {
-     userImage = NetworkImage(currentUser.photoUrl);
+    if (currentUser.photoUrl != null) {
+      userImage = NetworkImage(currentUser.photoUrl);
     }
-    
-    return Scaffold(
-      body: Stack(fit: StackFit.expand, children: <Widget>[
-        Image(
-          image: new AssetImage("assets/profilePage.jpg"),
+
+    return Container(
+      color: Theme.of(context).primaryColor,
+      child: Stack(fit: StackFit.expand, children: <Widget>[
+        /*Image(
+          image: AssetImage("assets/profilePage.jpg"),
           fit: BoxFit.fitHeight,
           color: Colors.black45,
           colorBlendMode: BlendMode.darken,
-        ),
+        ),*/
         Column(
           children: <Widget>[
-            SizedBox(
-              height: 10.0,
-            ),
+          
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                Column(
                   children: <Widget>[
-                    Column(
-                      children: <Widget>[
-                        GestureDetector(
-                          onTap: () => _editProfileImage(context, userImage),
-                          child: Container(
-                              height: 120.0,
-                              width: 120.0,
-                              /*decoration: BoxDecoration(
+                    GestureDetector(
+                      onTap: () => _editProfileImage(context, userImage),
+                      child: Container(
+                        height: 130.0,
+                        width: 130.0,
+                        /*decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(62.5),
                                   image: DecorationImage(
                                       fit: BoxFit.cover,
                                       image: currentUser.photoUrl != null ?
                                           userImage : _stockImage ))
                                           */
-                                          child: CircleAvatar(backgroundImage:  currentUser.photoUrl != null ?
-                                          userImage : _stockImage ,),),
+                        child: CircleAvatar(
+                          backgroundImage: currentUser.photoUrl != null
+                              ? userImage
+                              : _stockImage,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: Text(
-                            name,
-                            style: Styles.profileStyle,
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
                     Padding(
-                      padding: EdgeInsets.all(20.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: <Widget>[
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              _showNumOfBrews(),
-                              Text(
-                                'BREWS',
-                                style: Styles.profileStyle,
-                              )
-                            ],
-                          ),
-                        ],
+                      padding: const EdgeInsets.all(4.0),
+                      child: Text(
+                        name,
+                        style: Styles.profileStyle,
                       ),
                     ),
                   ],
                 ),
+                Padding(
+                  padding: EdgeInsets.all(4.0),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Text(
+                        'Number of Brews: ',
+                        style: Styles.profileStyle,
+                      ), 
+                      _showNumOfBrews(),
+                    ],
+                  ),
+                ),
               ],
             ),
             SizedBox(
-              height: 20.0,
+              height: 4.0,
             ),
             Expanded(
                 child: PastBrews(
@@ -215,9 +205,9 @@ class _Profile extends State<Profile>{
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Container(
-                  width: MediaQuery.of(context).size.width/4,
+                  width: MediaQuery.of(context).size.width / 4,
                   child: Image(
-                    image: userImage != null ? userImage : _stockImage ,
+                    image: userImage != null ? userImage : _stockImage,
                   ),
                 ),
                 Divider(),
@@ -249,7 +239,6 @@ class _Profile extends State<Profile>{
 
   @override
   Widget build(BuildContext context) {
-    
     return FutureBuilder(
       future: _fetchUser(),
       builder: (BuildContext context, AsyncSnapshot<FirebaseUser> snapshot) {
@@ -269,6 +258,4 @@ class _Profile extends State<Profile>{
       },
     );
   }
-
-  
 }

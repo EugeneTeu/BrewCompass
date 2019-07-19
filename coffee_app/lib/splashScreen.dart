@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:coffee_app/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -42,10 +43,10 @@ class _SplashScreenState extends State<SplashScreen> {
           new Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              new ConstrainedBox(
+               ConstrainedBox(
                 constraints: BoxConstraints.loose(Size.fromHeight(250.0)),
                 child: Image(
-                  image: new AssetImage('assets/coffeeCompass.png'),
+                  image: AssetImage('assets/coffeeCompass.png'),
                   fit: BoxFit.fitHeight,
                 ),
               ),
@@ -56,11 +57,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     alignment: Alignment.center,
                     child: Text(
                       "BrewCompass",
-                      style: TextStyle(
-                          fontFamily: "Montserrat",
-                          fontSize: 55.0,
-                          color: Colors.white70,
-                          fontStyle: FontStyle.italic),
+                      style: Styles.splashScreenTitleText,
                     ),
                   )
                 ],

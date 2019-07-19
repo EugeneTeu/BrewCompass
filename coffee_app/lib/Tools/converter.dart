@@ -26,6 +26,7 @@ class _MyConverter extends State<MyConverter> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
       resizeToAvoidBottomInset: false,
       body: GestureDetector(
         onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
@@ -46,9 +47,9 @@ class _MyConverter extends State<MyConverter> {
                         controller: _controllerTwo,
                         focusNode: _focusNodeTwo,
                         style: Styles.calcFont,
-                        decoration: new InputDecoration(
+                        decoration: InputDecoration(
                           hintText: "Enter Weight Of Beans",
-                          hintStyle: new TextStyle(fontSize: 15.0),
+                          hintStyle: TextStyle(fontSize: 15.0),
                         ),
                         keyboardType:
                             TextInputType.numberWithOptions(decimal: true),
@@ -65,9 +66,9 @@ class _MyConverter extends State<MyConverter> {
                         controller: _controller,
                         focusNode: _focusNode,
                         style: Styles.calcFont,
-                        decoration: new InputDecoration(
+                        decoration:  InputDecoration(
                             hintText: "Enter Desired Water Ratio 1 : ",
-                            hintStyle: new TextStyle(fontSize: 15.0)),
+                            hintStyle: TextStyle(fontSize: 15.0)),
                         keyboardType:
                             TextInputType.numberWithOptions(decimal: true),
                         validator: (value) =>

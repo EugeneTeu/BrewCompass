@@ -8,22 +8,44 @@ import 'package:flutter/widgets.dart';
 
 abstract class Styles {
   static const TextStyle calcFont = TextStyle(
-    fontWeight: FontWeight.w300,
-     fontSize: 22.0,
-     fontFamily: "OpenSans"
-     );
+      fontWeight: FontWeight.w300, fontSize: 22.0, fontFamily: "OpenSans");
 
   static const TextStyle createEntryText = TextStyle(
     color: Colors.black,
     fontFamily: "OpenSans",
-    
   );
 
+  static const TextStyle splashScreenTitleText = TextStyle(
+      fontFamily: "OpenSans",
+      fontSize: 55.0,
+      color: Colors.white70,
+      fontStyle: FontStyle.italic);
+
+  static const TextStyle drawerTitleText = TextStyle(
+      fontFamily: "OpenSans",
+      fontSize: 25.0,
+      color: Colors.white70,
+      fontStyle: FontStyle.italic);
+
+  static const TextStyle drawerSubtitleText = TextStyle(
+      fontFamily: "OpenSans",
+      fontSize: 20.0,
+      color: Colors.white54,
+      fontStyle: FontStyle.italic);
+
+  static const TextStyle mainAppBarText = TextStyle(
+      fontFamily: "OpenSans",
+      fontSize: 20.0,
+      color: Colors.black,
+      fontStyle: FontStyle.italic);
+    static const TextStyle utilityTabBarText = TextStyle(
+      fontFamily: "OpenSans",
+      fontSize: 15.0,
+      color: Colors.black,
+      fontStyle: FontStyle.italic);
+
   static const TextStyle entryLabelsText = TextStyle(
-    color: Colors.black,
-    fontFamily: "OpenSans",
-    fontWeight: FontWeight.w800
-  );
+      color: Colors.black, fontFamily: "OpenSans", fontWeight: FontWeight.w800);
 
   static const TextStyle loginText = TextStyle(
     color: Colors.white,
@@ -31,10 +53,10 @@ abstract class Styles {
   );
 
   static const Color productRowDivider = Color(0xFFD9D9D9);
-  static const TextStyle profileStyle =  TextStyle(
+  static const TextStyle profileStyle = TextStyle(
+    fontFamily: "OpenSans",
     fontSize: 20.0,
-    color: Colors.white,
-    
+    color: Colors.black,
   );
 
   static const Color scaffoldBackground = Color(0xfff0f0f0);
@@ -42,15 +64,14 @@ abstract class Styles {
   static const Color searchCursorColor = Color.fromRGBO(0, 122, 255, 1);
   static const Color searchIconColor = Color.fromRGBO(128, 128, 128, 1);
   static const TextStyle searchText = TextStyle(
-    color: Color.fromRGBO(0, 0, 0, 1),
-    fontSize: 14,
-    fontStyle: FontStyle.normal,
-    fontWeight: FontWeight.normal,
-  );
+      color: Color.fromRGBO(0, 0, 0, 1),
+      fontSize: 14,
+      fontStyle: FontStyle.normal,
+      fontWeight: FontWeight.normal,
+      fontFamily: "OpenSans");
 
-  static const TextStyle textStyle =  TextStyle(
-    fontSize: 90.0,
-     fontFamily: "OpenSans"
-     //"Bebas Neue"
-  );
+  static const TextStyle textStyle =
+      TextStyle(fontSize: 90.0, fontFamily: "OpenSans"
+          //"Bebas Neue"
+          );
 }

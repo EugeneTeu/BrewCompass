@@ -11,7 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
 class RecipePage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _RecipePageState();
@@ -66,7 +65,7 @@ class _RecipePageState extends State<RecipePage> {
   }*/
 
   Future<void> refreshDb() async {
-       QuerySnapshot newDocs = await Firestore.instance
+    QuerySnapshot newDocs = await Firestore.instance
         .collection('testRecipesv4')
         .where('isShared', isEqualTo: true)
         .getDocuments();
@@ -177,8 +176,7 @@ class _RecipePageState extends State<RecipePage> {
     } else if (sortingCondition == SortingConditions.date) {
       setState(() {
         // sorts in reverse chronological order
-        tempSearchedResults
-            .sort((a, b) => _compareDate(b["date"], a["date"]));
+        tempSearchedResults.sort((a, b) => _compareDate(b["date"], a["date"]));
       });
     } else {
       print("ERROR: invalid sorting condition, switch case fall through");
@@ -203,57 +201,56 @@ class _RecipePageState extends State<RecipePage> {
 
   String sortingConditionEnumToString(SortingConditions cond) {
     return cond.toString().substring(18);
-
   }
 
   @override
   Widget build(BuildContext context) {
     //super.build(context);
     return Scaffold(
-      body: GestureDetector(
-        onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
-        child: Stack(
-          fit: StackFit.expand,
-          children: <Widget>[
-            Image(
+        body: GestureDetector(
+          onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
+          child: Stack(
+            fit: StackFit.expand,
+            children: <Widget>[
+              /*Image(
               image: AssetImage("assets/globalPageBackground.jpg"),
               fit: BoxFit.fitHeight,
               color: Colors.black54,
               colorBlendMode: BlendMode.darken,
-            ),
-            Opacity(
-              opacity: 0.95,
-              child: Column(
-                children: <Widget>[
-                  _buildSearchBox(),
-                  Expanded(
-                    child: RefreshIndicator(
-                      onRefresh: () => refreshDb(),
-                      child: tempSearchedResults.length == 0
-                          ? _showLoading()
-                          : ListView.builder(
-                              itemCount: tempSearchedResults.length,
-                              itemBuilder: (context, index) => _buildEachItem(
-                                  context,
-                                  tempSearchedResults[index],
-                                  index,
-                                  tempSearchedResults.length),
-                            ),
+            ),*/
+              Opacity(
+                opacity: 0.95,
+                child: Column(
+                  children: <Widget>[
+                    _buildSearchBox(),
+                    Expanded(
+                      child: RefreshIndicator(
+                        onRefresh: () => refreshDb(),
+                        child: tempSearchedResults.length == 0
+                            ? _showLoading()
+                            : ListView.builder(
+                                itemCount: tempSearchedResults.length,
+                                itemBuilder: (context, index) => _buildEachItem(
+                                    context,
+                                    tempSearchedResults[index],
+                                    index,
+                                    tempSearchedResults.length),
+                              ),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        heroTag: null,
+        floatingActionButton: FloatingActionButton.extended(
+          heroTag: null,
           onPressed: () => _changesortingConditionition(),
           icon: Icon(Icons.reorder),
-          label: Text("sorting by: " + sortingConditionEnumToString(sortingCondition)),
-      )
-    );
+          label: Text(
+              "sorting by: " + sortingConditionEnumToString(sortingCondition)),
+        ));
   }
 
   Widget _buildEachItem(BuildContext context, DocumentSnapshot currentEntry,
@@ -263,27 +260,29 @@ class _RecipePageState extends State<RecipePage> {
     return Padding(
       key: ValueKey(currentEntry['id']),
       //add custom padding to last entry to accomdate floating action button
-      padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
 
       child: Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border.all(width: 1.0, color: Colors.black),
-            borderRadius: BorderRadius.circular(8.0),
-          ),
+        height: 150,
+        decoration: BoxDecoration(
+          color: Colors.brown[300],
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 10.0),
           child: ListTile(
               contentPadding:
-                  EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                  EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
               leading: GestureDetector(
                 onTap: () {
                   _showLiked(context);
                 },
                 child: Container(
+                  height: 150,
                   padding: EdgeInsets.only(right: 12.0),
                   decoration: BoxDecoration(
                       border: Border(
-                          right:
-                              BorderSide(width: 1.0, color: Colors.black45))),
+                          right: BorderSide(width: 1.0, color: Colors.black45))),
                   child: Icon(Icons.star_border, color: Colors.black),
                 ),
               ),
@@ -299,8 +298,8 @@ class _RecipePageState extends State<RecipePage> {
               trailing: Container(
                 decoration: BoxDecoration(
                   //borderRadius: BorderRadius.circular(10.0),
-                  border: Border(
-                      left: BorderSide(width: 1.0, color: Colors.black45)),
+                  border:
+                      Border(left: BorderSide(width: 1.0, color: Colors.black45)),
                 ),
                 //Border.all(width: 1.0, color: Colors.brown[300])),
                 child: Theme(
@@ -313,11 +312,11 @@ class _RecipePageState extends State<RecipePage> {
                         SizedBox(height: 5.0),
                         Icon(
                           Icons.keyboard_arrow_right,
-                          color: Colors.brown[400],
+                          color: Colors.black,
                         ),
                         Text(
                           "view",
-                          style: TextStyle(color: Colors.brown[400]),
+                          style: TextStyle(color: Colors.black),
                         ),
                       ],
                     ),
@@ -331,7 +330,9 @@ class _RecipePageState extends State<RecipePage> {
                     },
                   ),
                 ),
-              ))),
+              )),
+        ),
+      ),
     );
   }
 

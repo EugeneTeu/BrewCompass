@@ -1,11 +1,10 @@
 import 'package:coffee_app/MyProfile/Main_profile_page.dart';
 import 'package:coffee_app/auth_provider.dart';
 import 'package:coffee_app/GlobalPage/RecipePage.dart';
+import 'package:coffee_app/styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:coffee_app/Tools/tabbedPage.dart';
-import 'package:coffee_app/auth.dart';
-import 'package:coffee_app/bottom_navy_bar.dart';
 import 'package:open_iconic_flutter/open_iconic_flutter.dart';
 import 'dart:io' show Platform;
 
@@ -16,10 +15,6 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   @override
-
-
-
-  
   _MyHomePageState createState() => _MyHomePageState(onSignedOut);
 }
 
@@ -41,14 +36,24 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
+  Widget buildTopDrawer(BuildContext context) {
+    return AppBar(
+        leading: Drawer(
+      child: ListView(children: <Widget>[
+        ListTile(
+          title: Text("Logout"),
+        )
+      ]),
+    ));
+  }
+
   //build the top bar here
   Widget buildTopBar(BuildContext context) => AppBar(
         centerTitle: true,
-        title:
-            Text("BrewCompass"),
+        title: Text("BrewCompass"),
         backgroundColor: Colors.white,
         actions: <Widget>[
-           MaterialButton(
+          MaterialButton(
             child: Text("Logout"),
             onPressed: () {
               _signOut(context);
@@ -56,8 +61,6 @@ class _MyHomePageState extends State<MyHomePage> {
           )
         ],
       );
-
-  //get current user
 
   //list of main tabs here
   List<Widget> _buildPageOptions() => [
@@ -71,28 +74,69 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-        centerTitle: true,
-        title:
-            Text("BrewCompass"),
-        backgroundColor: Colors.white,
-        actions: <Widget>[
-           MaterialButton(
-            child: Text("Logout"),
-            onPressed: () {
-              _signOut(context);
-            },
-          )
-        ],
-      ),
-        body:IndexedStack(
-            index: _selectedPage,
-            children: _buildPageOptions(), 
-            //<Widget>[_buildPageOptions()[_selectedPage]]
+        drawer: Drawer(
+          child: ListView(children: <Widget>[
+            DrawerHeader(
+              child: Stack(children: <Widget>[
+                Positioned.fill(
+                    child: Center(
+                        child: Column(
+                  children: <Widget>[
+                    ConstrainedBox(
+                      constraints: BoxConstraints.loose(Size.fromHeight(70.0)),
+                      child: Image(
+                        image: AssetImage('assets/coffeeCompass.png'),
+                        fit: BoxFit.fitHeight,
+                      ),
+                    ),
+                    Text(
+                      "BrewCompass",
+                      style: Styles.drawerTitleText,
+                    ),
+                    Text(
+                      "For Coffee Geeks",
+                      style: Styles.drawerSubtitleText,
+                    )
+                  ],
+                )))
+              ]),
+              decoration: BoxDecoration(color: Colors.brown[400]),
             ),
+            ListTile(
+              title: Text("Logout"),
+              trailing: IconButton(
+                icon: Icon(OpenIconicIcons.accountLogout, color: Colors.black),
+                onPressed: () {
+                  try {
+                    _signOut(context);
+                  } catch (e) {}
+                },
+              ),
+            )
+          ]),
+        ),
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(40.0),
+                  child: AppBar(
+            iconTheme: IconThemeData(color: Colors.black),
+            elevation: 0.0,
+            title: Text(
+              "BrewCompass",
+              style: Styles.mainAppBarText,
+            ),
+            centerTitle: true,
+            actions: <Widget>[],
+          ),
+        ),
+        body: IndexedStack(
+          index: _selectedPage,
+          children: _buildPageOptions(),
+          //<Widget>[_buildPageOptions()[_selectedPage]]
+        ),
         bottomNavigationBar: (Platform.isAndroid)
             ? BottomNavigationBar(
-                backgroundColor: Colors.brown[200],
+                elevation: 0.0,
+                backgroundColor: Colors.white,
                 selectedItemColor: Colors.black,
                 onTap: (int index) {
                   setState(() {
@@ -115,7 +159,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ])
             : CupertinoTabBar(
-                backgroundColor: Colors.brown[200],
+                border: Border(),
+                iconSize: 24.0,
+                backgroundColor: Colors.white,
+                //inactiveColor: Colors.black,
                 activeColor: Colors.black,
                 currentIndex: _selectedPage,
                 onTap: (int index) {
@@ -138,7 +185,6 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ]));
   }
- 
 }
 
 //legacy code
