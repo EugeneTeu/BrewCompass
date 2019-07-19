@@ -266,6 +266,7 @@ class _PastBrewsState extends State<PastBrews> {
       body: _buildPastBrews(context),
       floatingActionButton: (Platform.isAndroid)
           ? FloatingActionButton.extended(
+            heroTag: null,
               icon: Icon(Icons.add),
               label: Text("New Entry"),
               onPressed: () {

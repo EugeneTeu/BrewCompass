@@ -100,6 +100,9 @@ class _RecipePageState extends State<RecipePage> {
   }
 
   void _changesortingConditionition() {
+    // always rotate the sorting condition on click
+    _nextSortingCondition();
+    
     if (sortingCondition == SortingConditions.beanName) {
       setState(() {
         tempSearchedResults.sort((a, b) =>
@@ -118,9 +121,6 @@ class _RecipePageState extends State<RecipePage> {
     } else {
       print("ERROR: invalid sorting condition, switch case fall through");
     }
-
-    // always rotate the sorting condition on click
-    _nextSortingCondition();
 
     /*
     switch (sortingCondition) {
@@ -168,6 +168,11 @@ class _RecipePageState extends State<RecipePage> {
     }
   }
 
+  String sortingConditionEnumToString(SortingConditions cond) {
+    return cond.toString().substring(18);
+
+  }
+
   @override
   Widget build(BuildContext context) {
     //super.build(context);
@@ -210,7 +215,8 @@ class _RecipePageState extends State<RecipePage> {
         heroTag: null,
           onPressed: () => _changesortingConditionition(),
           icon: Icon(Icons.reorder),
-          label: Text(sortingCondition.toString())),
+          label: Text(sortingConditionEnumToString(sortingCondition)),
+      )
     );
   }
 
