@@ -1,10 +1,13 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:coffee_app/GlobalPage/sortingConditionsEnum.dart';
 import 'package:coffee_app/MyProfile/Recipe.dart';
 import 'package:coffee_app/GlobalPage/search_bar.dart';
 import 'package:coffee_app/GlobalPage/view-Entry.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 
 class RecipePage extends StatefulWidget {
   @override
@@ -139,35 +142,6 @@ class _RecipePageState extends State<RecipePage> {
     } else {
       print("ERROR: invalid sorting condition, switch case fall through");
     }
-
-    /*
-    switch (sortingCondition) {
-      case SortingConditions.beanName: {
-        setState(() {
-          tempSearchedResults.sort((a, b) => a["beanName"].compareTo(b["beanName"]));
-        });
-      }
-      break;
-
-      case SortingConditions.brewer: {
-        setState(() {
-          tempSearchedResults.sort((a, b) => a["brewer"].compareTo(b["brewer"]));
-        });
-      }
-      break;
-
-      case SortingConditions.date: {
-        setState(() {
-          tempSearchedResults.sort((a, b) => a["beanName"].compareTo(b["beanName"]));
-        });
-      }
-      break;   
-
-      default: {
-        print("ERROR: invalid sorting condition, switch case fall through");
-      }
-    }
-    */
   }
 
   void _nextSortingCondition() {
@@ -233,7 +207,7 @@ class _RecipePageState extends State<RecipePage> {
         heroTag: null,
           onPressed: () => _changesortingConditionition(),
           icon: Icon(Icons.reorder),
-          label: Text(sortingConditionEnumToString(sortingCondition)),
+          label: Text("sorting by: " + sortingConditionEnumToString(sortingCondition)),
       )
     );
   }
@@ -465,5 +439,3 @@ class RecipePageState extends State<RecipePage> {
 
 }
 */
-
-enum SortingConditions { beanName, brewer, date }
