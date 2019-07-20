@@ -10,6 +10,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:open_iconic_flutter/open_iconic_flutter.dart';
 import 'package:uuid/uuid.dart';
 
 class PastBrews extends StatefulWidget {
@@ -320,7 +321,14 @@ class _PastBrewsState extends State<PastBrews> {
           : CupertinoButton(
               color: Colors.brown[500],
               minSize: 25.0,
-              child: Text("Add Entry"),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Text("Add Entry"),
+                  SizedBox(width: 5.0,),
+                  Icon(Icons.add, color: Colors.white,),
+                ],
+              ),
               onPressed: () {
                 Navigator.push(
                     context,

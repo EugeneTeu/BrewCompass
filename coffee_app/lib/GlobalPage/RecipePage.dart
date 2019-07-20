@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coffee_app/MyProfile/Recipe.dart';
 import 'package:coffee_app/GlobalPage/search_bar.dart';
 import 'package:coffee_app/GlobalPage/view-Entry.dart';
+import 'package:coffee_app/styles.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,12 +20,14 @@ class RecipePage extends StatefulWidget {
 class _RecipePageState extends State<RecipePage> {
   //Set<DocumentSnapshot> setResults = HashSet();
   List<DocumentSnapshot> queryResults = [];
+
+  SortingConditions sortingCondition = SortingConditions.beanName;
   List<DocumentSnapshot> tempSearchedResults = [];
 
   TextEditingController _controller;
   FocusNode _focusNode;
   String _terms = '';
-  SortingConditions sortingCondition = SortingConditions.beanName;
+
   //FirebaseUser currentUser;
   //DatabaseReference globalrepo;
   //var sub1,sub2,sub3;
@@ -46,23 +49,6 @@ class _RecipePageState extends State<RecipePage> {
     _focusNode = FocusNode();
     _fetchQueryResults();
   }
-
-/*
-  _onEntryAdded(Event event) {
-    setState(() {
-      _fetchQueryResults();
-    });
-  }
-   _onEntryModified(Event event) {
-    setState(() {
-      _fetchQueryResults();
-    });
-  }
-   _onEntryDeleted(Event event) {
-    setState(() {
-      _fetchQueryResults();
-    });
-  }*/
 
   Future<void> refreshDb() async {
     QuerySnapshot newDocs = await Firestore.instance
@@ -133,12 +119,9 @@ class _RecipePageState extends State<RecipePage> {
   }
 
   Widget _buildSearchBox() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 20.0),
-      child: SearchBar(
-        controller: _controller,
-        focusNode: _focusNode,
-      ),
+    return SearchBar(
+      controller: _controller,
+      focusNode: _focusNode,
     );
   }
 
@@ -203,56 +186,6 @@ class _RecipePageState extends State<RecipePage> {
     return cond.toString().substring(18);
   }
 
-  @override
-  Widget build(BuildContext context) {
-    //super.build(context);
-    return Scaffold(
-        body: GestureDetector(
-          onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
-          child: Stack(
-            fit: StackFit.expand,
-            children: <Widget>[
-              /*Image(
-              image: AssetImage("assets/globalPageBackground.jpg"),
-              fit: BoxFit.fitHeight,
-              color: Colors.black54,
-              colorBlendMode: BlendMode.darken,
-            ),*/
-              Opacity(
-                opacity: 0.95,
-                child: Column(
-                  children: <Widget>[
-                    _buildSearchBox(),
-                    Expanded(
-                      child: RefreshIndicator(
-                        onRefresh: () => refreshDb(),
-                        child: tempSearchedResults.length == 0
-                            ? _showLoading()
-                            : ListView.builder(
-                                itemCount: tempSearchedResults.length,
-                                itemBuilder: (context, index) => _buildEachItem(
-                                    context,
-                                    tempSearchedResults[index],
-                                    index,
-                                    tempSearchedResults.length),
-                              ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-        floatingActionButton: FloatingActionButton.extended(
-          heroTag: null,
-          onPressed: () => _changesortingConditionition(),
-          icon: Icon(Icons.reorder),
-          label: Text(
-              "sorting by: " + sortingConditionEnumToString(sortingCondition)),
-        ));
-  }
-
   Widget _buildEachItem(BuildContext context, DocumentSnapshot currentEntry,
       int index, int length) {
     //final last = index + 1 == length;
@@ -265,7 +198,7 @@ class _RecipePageState extends State<RecipePage> {
       child: Container(
         height: 150,
         decoration: BoxDecoration(
-          color: Colors.brown[300],
+          color: Theme.of(context).primaryColor,
           borderRadius: BorderRadius.circular(15.0),
         ),
         child: Padding(
@@ -282,7 +215,8 @@ class _RecipePageState extends State<RecipePage> {
                   padding: EdgeInsets.only(right: 12.0),
                   decoration: BoxDecoration(
                       border: Border(
-                          right: BorderSide(width: 1.0, color: Colors.black45))),
+                          right:
+                              BorderSide(width: 1.0, color: Colors.black45))),
                   child: Icon(Icons.star_border, color: Colors.black),
                 ),
               ),
@@ -298,8 +232,8 @@ class _RecipePageState extends State<RecipePage> {
               trailing: Container(
                 decoration: BoxDecoration(
                   //borderRadius: BorderRadius.circular(10.0),
-                  border:
-                      Border(left: BorderSide(width: 1.0, color: Colors.black45)),
+                  border: Border(
+                      left: BorderSide(width: 1.0, color: Colors.black45)),
                 ),
                 //Border.all(width: 1.0, color: Colors.brown[300])),
                 child: Theme(
@@ -353,5 +287,80 @@ class _RecipePageState extends State<RecipePage> {
             ],
           );
         });
+  }
+
+/*
+  _onEntryAdded(Event event) {
+    setState(() {
+      _fetchQueryResults();
+    });
+  }
+   _onEntryModified(Event event) {
+    setState(() {
+      _fetchQueryResults();
+    });
+  }
+   _onEntryDeleted(Event event) {
+    setState(() {
+      _fetchQueryResults();
+    });
+  }*/
+  Widget _buildSortButton(BuildContext context) {
+    return MaterialButton(
+      shape: StadiumBorder(),
+      elevation: 10.0,
+      color: Theme.of(context).accentColor,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Icon(Icons.reorder, color: Colors.white),
+          SizedBox(
+            width: 5.0,
+          ),
+          Text(sortingConditionEnumToString(sortingCondition), style: Styles.filterButton, ),
+        ],
+      ),
+      onPressed: () => _changesortingConditionition(),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    //super.build(context);
+    return Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Container(
+          child: GestureDetector(
+            onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
+            child: Column(
+              children: <Widget>[
+                _buildSearchBox(),
+                _buildSortButton(context),
+                Expanded(
+                  child: RefreshIndicator(
+                    onRefresh: () => refreshDb(),
+                    child: tempSearchedResults.length == 0
+                        ? _showLoading()
+                        : ListView.builder(
+                            itemCount: tempSearchedResults.length,
+                            itemBuilder: (context, index) => _buildEachItem(
+                                context,
+                                tempSearchedResults[index],
+                                index,
+                                tempSearchedResults.length),
+                          ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      /*  floatingActionButton: FloatingActionButton.extended(
+          heroTag: null,
+          onPressed: () => _changesortingConditionition(),
+          icon: Icon(Icons.reorder),
+          label: Text("sort " + sortingConditionEnumToString(sortingCondition)),
+        )*/
+        );
   }
 }

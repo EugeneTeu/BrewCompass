@@ -59,6 +59,18 @@ abstract class Styles {
     color: Colors.black,
   );
 
+   static const TextStyle profileInfoStyle = TextStyle(
+    fontFamily: "OpenSans",
+    fontSize: 13.0,
+    color: Colors.black87,
+  );
+
+  static const TextStyle filterButton = TextStyle(
+    fontFamily: "OpenSans",
+    fontSize: 15.0,
+    color: Colors.white,
+  );
+
   static const Color scaffoldBackground = Color(0xfff0f0f0);
   static const Color searchBackground = Color(0xffe0e0e0);
   static const Color searchCursorColor = Color.fromRGBO(0, 122, 255, 1);

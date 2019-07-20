@@ -100,7 +100,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ],
                 )))
               ]),
-              decoration: BoxDecoration(color: Colors.brown[400]),
+              decoration: BoxDecoration(color: Theme.of(context).primaryColor),
             ),
             ListTile(
               title: Text("Logout"),
@@ -117,7 +117,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(40.0),
-                  child: AppBar(
+          child: AppBar(
             iconTheme: IconThemeData(color: Colors.black),
             elevation: 0.0,
             title: Text(

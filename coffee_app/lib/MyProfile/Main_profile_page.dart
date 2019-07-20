@@ -108,24 +108,27 @@ class _Profile extends State<Profile> {
         ),*/
         Column(
           children: <Widget>[
-          
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+            SizedBox(
+              height: 10.0,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
+                SizedBox(width: 15.0,),
                 Column(
                   children: <Widget>[
                     GestureDetector(
                       onTap: () => _editProfileImage(context, userImage),
                       child: Container(
-                        height: 130.0,
-                        width: 130.0,
-                        /*decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(62.5),
-                                  image: DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: currentUser.photoUrl != null ?
-                                          userImage : _stockImage ))
-                                          */
+                        height: 90.0,
+                        width: 90.0,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: Theme.of(context).accentColor,
+                            width: 1.5,
+                          ),
+                        ),
                         child: CircleAvatar(
                           backgroundImage: currentUser.photoUrl != null
                               ? userImage
@@ -133,28 +136,30 @@ class _Profile extends State<Profile> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Text(
-                        name,
-                        style: Styles.profileStyle,
-                      ),
+                    SizedBox(
+                      height: 10.0,
+                    )
+                  ],
+                ),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      name,
+                      style: Styles.profileStyle,
+                    ),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    _showNumOfBrews(),
+                    Text(
+                      'Daily Brews',
+                      style: Styles.profileInfoStyle,
                     ),
                   ],
                 ),
-                Padding(
-                  padding: EdgeInsets.all(4.0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Text(
-                        'Number of Brews: ',
-                        style: Styles.profileStyle,
-                      ), 
-                      _showNumOfBrews(),
-                    ],
-                  ),
-                ),
+                SizedBox(width: 15.0,),
               ],
             ),
             SizedBox(
@@ -178,7 +183,7 @@ class _Profile extends State<Profile> {
     } else {
       return Text(
         numberOfBrews,
-        style: Styles.profileStyle,
+        style: Styles.profileInfoStyle,
       );
     }
   }
@@ -218,7 +223,7 @@ class _Profile extends State<Profile> {
                     cancelButton(context),
                     SizedBox(width: 5.0),
                     FlatButton(
-                      color: Colors.brown[300],
+                      color: Colors.brown[400],
                       child: Text("Upload new picture"),
                       onPressed: () async {
                         await getImage();

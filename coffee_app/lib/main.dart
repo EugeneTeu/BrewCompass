@@ -27,9 +27,10 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         theme: ThemeData(
           fontFamily: 'OpenSans',
-          accentColor: Colors.brown[400],
-          primaryColor: Colors.brown[500],
+          accentColor: Colors.brown[500],
+          primaryColor: Colors.brown[200],
           brightness: Brightness.light,
+          
           
         ),
         home: new RootPage(),
