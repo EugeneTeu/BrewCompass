@@ -136,7 +136,7 @@ class _PastBrewsState extends State<PastBrews> {
               ),
               Center(child: Text("Start logging now!")),
               SizedBox(
-                height: 80.0,
+                height: MediaQuery.of(context).size.height / 2.5,
               ),
             ],
           ),
@@ -146,6 +146,9 @@ class _PastBrewsState extends State<PastBrews> {
       return RefreshIndicator(
         onRefresh: widget.onRefresh,
         child: ListView.builder(
+          physics: (Platform.isAndroid)
+              ? ClampingScrollPhysics
+              : AlwaysScrollableScrollPhysics(),
           addAutomaticKeepAlives: true,
           itemBuilder: (BuildContext context, int index) {
             return _buildEachItem(
@@ -277,7 +280,7 @@ class _PastBrewsState extends State<PastBrews> {
       backgroundColor: Theme.of(context).primaryColor,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(40.0),
-              child: AppBar(
+        child: AppBar(
           elevation: 0.0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(
@@ -294,16 +297,10 @@ class _PastBrewsState extends State<PastBrews> {
               print("future filter button");
             },
           ),*/
-          title: Text(
-            "Journal",
-            style: Styles.mainAppBarText
-          ),
-           
+          title: Text("Journal", style: Styles.mainAppBarText),
         ),
       ),
-      body: Container(
-        color: Colors.white,
-        child: _buildPastBrews(context)),
+      body: Container(color: Colors.white, child: _buildPastBrews(context)),
       floatingActionButton: (Platform.isAndroid)
           ? FloatingActionButton.extended(
               heroTag: null,
@@ -325,8 +322,13 @@ class _PastBrewsState extends State<PastBrews> {
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Text("Add Entry"),
-                  SizedBox(width: 5.0,),
-                  Icon(Icons.add, color: Colors.white,),
+                  SizedBox(
+                    width: 5.0,
+                  ),
+                  Icon(
+                    Icons.add,
+                    color: Colors.white,
+                  ),
                 ],
               ),
               onPressed: () {

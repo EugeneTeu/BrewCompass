@@ -1,5 +1,7 @@
+import 'dart:io' show Platform;
+
 import 'package:coffee_app/GlobalPage/sortingConditionsEnum.dart';
-import 'dart:collection';
+
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coffee_app/MyProfile/Recipe.dart';
@@ -342,6 +344,7 @@ class _RecipePageState extends State<RecipePage> {
                     child: tempSearchedResults.length == 0
                         ? _showLoading()
                         : ListView.builder(
+                          physics: (Platform.isAndroid) ? ClampingScrollPhysics : BouncingScrollPhysics(),
                             itemCount: tempSearchedResults.length,
                             itemBuilder: (context, index) => _buildEachItem(
                                 context,

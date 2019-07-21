@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:math';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -43,6 +44,12 @@ class Auth implements BaseAuth {
       String email, String password, String _displayName) async {
     FirebaseUser user = await _instance.createUserWithEmailAndPassword(
         email: email, password: password);
+    Firestore.instance.collection("users").document(user.uid).setData({
+      "LikedRecipes": [
+      
+      ],
+    });
+    print("success");
     UserUpdateInfo updateUser = UserUpdateInfo();
     updateUser.displayName = _displayName;
     user.updateProfile(updateUser);
