@@ -19,7 +19,10 @@ class Profile extends StatefulWidget {
   }
 }
 
-class _Profile extends State<Profile> {
+class _Profile extends State<Profile> with SingleTickerProviderStateMixin{
+  AnimationController _myAnimationController;
+  Animation _myAnimation;
+
   String name = "displayname";
   String numberOfBrews = "loading..";
   String title;
@@ -39,6 +42,14 @@ class _Profile extends State<Profile> {
   @override
   void initState() {
     super.initState();
+    _myAnimationController = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 2),
+    );
+    _myAnimation = Tween(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(_myAnimationController);
     //_user();
     // _countBrew();
   }
@@ -92,86 +103,90 @@ class _Profile extends State<Profile> {
   }
 
   Widget _buildProfilePage(BuildContext context) {
+    _myAnimationController.forward();
     NetworkImage userImage;
     if (currentUser.photoUrl != null) {
       userImage = NetworkImage(currentUser.photoUrl);
     }
 
-    return Container(
-      color: Theme.of(context).primaryColor,
-      child: Stack(fit: StackFit.expand, children: <Widget>[
-        /*Image(
-          image: AssetImage("assets/profilePage.jpg"),
-          fit: BoxFit.fitHeight,
-          color: Colors.black45,
-          colorBlendMode: BlendMode.darken,
-        ),*/
-        Column(
-          children: <Widget>[
-            SizedBox(
-              height: 10.0,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                SizedBox(width: 15.0,),
-                Column(
-                  children: <Widget>[
-                    GestureDetector(
-                      onTap: () => _editProfileImage(context, userImage),
-                      child: Container(
-                        height: 90.0,
-                        width: 90.0,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: Theme.of(context).accentColor,
-                            width: 1.5,
+    return FadeTransition(
+      opacity: _myAnimation,
+          child: Container(
+        color: Theme.of(context).primaryColor,
+        child: Stack(fit: StackFit.expand, children: <Widget>[
+          /*Image(
+            image: AssetImage("assets/profilePage.jpg"),
+            fit: BoxFit.fitHeight,
+            color: Colors.black45,
+            colorBlendMode: BlendMode.darken,
+          ),*/
+          Column(
+            children: <Widget>[
+              SizedBox(
+                height: 10.0,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  SizedBox(width: 15.0,),
+                  Column(
+                    children: <Widget>[
+                      GestureDetector(
+                        onTap: () => _editProfileImage(context, userImage),
+                        child: Container(
+                          height: 90.0,
+                          width: 90.0,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: Theme.of(context).accentColor,
+                              width: 1.5,
+                            ),
+                          ),
+                          child: CircleAvatar(
+                            backgroundImage: currentUser.photoUrl != null
+                                ? userImage
+                                : _stockImage,
                           ),
                         ),
-                        child: CircleAvatar(
-                          backgroundImage: currentUser.photoUrl != null
-                              ? userImage
-                              : _stockImage,
-                        ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 10.0,
-                    )
-                  ],
-                ),
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      name,
-                      style: Styles.profileStyle,
-                    ),
-                    SizedBox(
-                      height: 10.0,
-                    ),
-                    _showNumOfBrews(),
-                    Text(
-                      'Daily Brews',
-                      style: Styles.profileInfoStyle,
-                    ),
-                  ],
-                ),
-                SizedBox(width: 15.0,),
-              ],
-            ),
-            SizedBox(
-              height: 4.0,
-            ),
-            Expanded(
-                child: PastBrews(
-              onRefresh: () => _refreshCounts(),
-            )),
-          ],
-        ),
-      ]),
+                      SizedBox(
+                        height: 10.0,
+                      )
+                    ],
+                  ),
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        name,
+                        style: Styles.profileStyle,
+                      ),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      _showNumOfBrews(),
+                      Text(
+                        'Daily Brews',
+                        style: Styles.profileInfoStyle,
+                      ),
+                    ],
+                  ),
+                  SizedBox(width: 15.0,),
+                ],
+              ),
+              SizedBox(
+                height: 4.0,
+              ),
+              Expanded(
+                  child: PastBrews(
+                onRefresh: () => _refreshCounts(),
+              )),
+            ],
+          ),
+        ]),
+      ),
     );
   }
 

@@ -45,9 +45,7 @@ class Auth implements BaseAuth {
     FirebaseUser user = await _instance.createUserWithEmailAndPassword(
         email: email, password: password);
     Firestore.instance.collection("users").document(user.uid).setData({
-      "LikedRecipes": [
-      
-      ],
+      "LikedRecipes": [],
     });
     print("success");
     UserUpdateInfo updateUser = UserUpdateInfo();
@@ -61,8 +59,12 @@ class Auth implements BaseAuth {
 
   //check what auth status is with fire base
   Future<String> currentUser() async {
-    FirebaseUser user = await _instance.currentUser();
-    return user.uid;
+    try {
+      FirebaseUser user = await _instance.currentUser();
+      return user.uid;
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   Future<String> uploadProfilePic(File file) async {
@@ -91,7 +93,7 @@ class Auth implements BaseAuth {
       GoogleSignInAccount googleSignInAccount) async {
     GoogleSignInAuthentication googleAuth =
         await googleSignInAccount.authentication;
-    print(googleAuth.accessToken);
+    //print(googleAuth.accessToken);
     final AuthCredential credential = GoogleAuthProvider.getCredential(
       accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken,
