@@ -48,6 +48,7 @@ class _LikeButtonState extends State<LikeButton> {
     });
     print('clicked');
 
+    // populating local with latest change
     QuerySnapshot docs =
         await Firestore.instance.collection('users').getDocuments();
 
@@ -57,5 +58,17 @@ class _LikeButtonState extends State<LikeButton> {
         print(likedRecipes.data);
       }
     }
+
+    List<String> likedListOfStrings = List<String>.from(likedRecipes.data['LikedRecipes']);
+    
+    if (widget.isLiked) {
+      // have to add this recipe to the liked recipes
+      likedListOfStrings.add(widget.documentID);
+    } else {
+      // remove this recipe from liked recipes
+      likedListOfStrings.remove(widget.documentID);
+      print(likedListOfStrings);
+    }
+
   }
 }
