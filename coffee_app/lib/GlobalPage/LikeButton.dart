@@ -55,7 +55,7 @@ class _LikeButtonState extends State<LikeButton> {
     for (int i = 0; i < docs.documents.length; ++i) {
       if (docs.documents[i].documentID == widget.userid) {
         likedRecipes = docs.documents[i];
-        print(likedRecipes.data);
+        // print(likedRecipes.data);
       }
     }
 
@@ -64,11 +64,16 @@ class _LikeButtonState extends State<LikeButton> {
     if (widget.isLiked) {
       // have to add this recipe to the liked recipes
       likedListOfStrings.add(widget.documentID);
+      print(likedListOfStrings);
     } else {
       // remove this recipe from liked recipes
       likedListOfStrings.remove(widget.documentID);
       print(likedListOfStrings);
     }
 
+    // Firestore.instance.collection('users').document(widget.documentID).delete();
+    // Firestore.instance.collection('users').add({'LikedRecipes' : likedListOfStrings});
+
+    Firestore.instance.collection('users').document(widget.userid).updateData({"LikedRecipes" : likedListOfStrings});
   }
 }
