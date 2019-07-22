@@ -376,8 +376,14 @@ class _RecipePageState extends State<RecipePage> {
         });
   }
 
+  bool isLikedRecipe(String documentID) {
+    return likedRecipes.data['LikedRecipes'].contains(documentID);
+  }
+
   Widget _buildLikeButton(String documentID) {
-    return LikeButton.unliked(documentID, localuserid);
+    return isLikedRecipe(documentID)
+        ? LikeButton.liked(documentID, localuserid)
+        : LikeButton.unliked(documentID, localuserid);
   }
 /*
   _onEntryAdded(Event event) {
