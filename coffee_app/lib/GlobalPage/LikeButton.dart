@@ -5,15 +5,14 @@ import 'package:flutter/material.dart';
 
 class LikeButton extends StatefulWidget {
   String documentID;
+  String userid;
   bool isLiked;
 
-  LikeButton.liked(String documentID) {
-    this.documentID = documentID;
+  LikeButton.liked(this.documentID, this.userid) {
     isLiked = true;
   }
 
-  LikeButton.unliked(String documentID) {
-    this.documentID = documentID;
+  LikeButton.unliked(this.documentID, this.userid) {
     isLiked = false;
   }
 
@@ -26,7 +25,10 @@ class _LikeButtonState extends State<LikeButton> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        print('liked!');
+        setState(() {
+          widget.isLiked = !widget.isLiked;
+        });
+        print('clicked');
       },
       child: Container(
         height: 150,
@@ -36,8 +38,8 @@ class _LikeButtonState extends State<LikeButton> {
                 right:
                     BorderSide(width: 1.0, color: Colors.black45))),
         child: widget.isLiked 
-            ? Icon(Icons.star_border, color: Colors.black)
-            : Icon(Icons.stars, color: Colors.black),
+            ? Icon(Icons.check_box, color: Colors.black)
+            : Icon(Icons.check_box_outline_blank, color: Colors.black),
       ),
     );
   }

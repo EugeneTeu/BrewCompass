@@ -37,7 +37,7 @@ class _RecipePageState extends State<RecipePage> {
 
   JsonEncoder encoder = JsonEncoder.withIndent('  ');
 
-  //FirebaseUser currentUser;
+  String localuserid;
   //DatabaseReference globalrepo;
   //var sub1,sub2,sub3;
 
@@ -80,6 +80,7 @@ class _RecipePageState extends State<RecipePage> {
   void _fetchLikedRecipes() async {
     var auth = AuthProvider.of(context).auth;
     String userid = await auth.currentUser();
+    localuserid = userid;
 
     QuerySnapshot docs = await Firestore.instance
         .collection('users')
@@ -376,7 +377,7 @@ class _RecipePageState extends State<RecipePage> {
   }
 
   Widget _buildLikeButton(String documentID) {
-    return LikeButton.unliked(documentID);
+    return LikeButton.unliked(documentID, localuserid);
   }
 /*
   _onEntryAdded(Event event) {
