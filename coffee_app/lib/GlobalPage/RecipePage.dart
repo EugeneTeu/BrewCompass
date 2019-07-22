@@ -57,11 +57,16 @@ class _RecipePageState extends State<RecipePage> {
     _controller = TextEditingController()..addListener(_onTextChanged);
     _focusNode = FocusNode();
     _fetchQueryResults();
+    // _fetchLikedRecipes();
+  }
+
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     _fetchLikedRecipes();
   }
 
   Future<void> refreshDb() async {
-    print('refreshing db');
+    // print('refreshing db');
     QuerySnapshot newDocs = await Firestore.instance
         .collection('testRecipesv4')
         .where('isShared', isEqualTo: true)
@@ -78,7 +83,7 @@ class _RecipePageState extends State<RecipePage> {
 
   // TODO: figure out when to refresh this later
   void _fetchLikedRecipes() async {
-    print('fetch liked recipes called');
+    // print('fetch liked recipes called');
     var auth = AuthProvider.of(context).auth;
     String userid = await auth.currentUser();
     localuserid = userid;
@@ -92,14 +97,14 @@ class _RecipePageState extends State<RecipePage> {
         setState(() {
           likedRecipes = docs.documents[i];
         });
-        print(likedRecipes.data);
+        // print(likedRecipes.data);
       }
       // print(encoder.convert(docs.documents[i].data));
     }
   }
 
   void _fetchQueryResults() async {
-    print("inside fetching query results");
+    // print("inside fetching query results");
     QuerySnapshot docs = await Firestore.instance
         .collection('testRecipesv4')
         .where('isShared', isEqualTo: true)
@@ -239,8 +244,8 @@ class _RecipePageState extends State<RecipePage> {
                     child: tempSearchedResults.length == 0
                         ? _showLoading()
                         : ListView.builder(
-                          // physics: (Platform.isAndroid) ? ClampingScrollPhysics : BouncingScrollPhysics(),
-                          physics: ClampingScrollPhysics(),
+                          physics: (Platform.isAndroid) ? ClampingScrollPhysics() : BouncingScrollPhysics(),
+                          // physics: ClampingScrollPhysics(),
                             itemCount: tempSearchedResults.length,
                             itemBuilder: (context, index) => _buildEachItem(
                                 context,

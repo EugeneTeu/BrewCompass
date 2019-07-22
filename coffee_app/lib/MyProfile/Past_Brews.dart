@@ -146,10 +146,10 @@ class _PastBrewsState extends State<PastBrews> {
       return RefreshIndicator(
         onRefresh: widget.onRefresh,
         child: ListView.builder(
-          // physics: (Platform.isAndroid)
-          //     ? ClampingScrollPhysics
-          //     : AlwaysScrollableScrollPhysics(),
-          physics: ClampingScrollPhysics(),
+          physics: (Platform.isAndroid)
+              ? ClampingScrollPhysics()
+              : AlwaysScrollableScrollPhysics(),
+          // physics: ClampingScrollPhysics(),
           addAutomaticKeepAlives: true,
           itemBuilder: (BuildContext context, int index) {
             return _buildEachItem(
