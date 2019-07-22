@@ -135,8 +135,8 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         bottomNavigationBar: (Platform.isAndroid)
             ? BottomNavigationBar(
-                elevation: 0.0,
-                backgroundColor: Colors.white,
+                elevation: 8.0,
+                backgroundColor: Colors.white70,
                 selectedItemColor: Colors.black,
                 onTap: (int index) {
                   setState(() {
@@ -159,9 +159,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ])
             : CupertinoTabBar(
-                border: Border(),
+                
                 iconSize: 24.0,
-                backgroundColor: Colors.white,
+                backgroundColor: Colors.white70,
                 //inactiveColor: Colors.black,
                 activeColor: Colors.black,
                 currentIndex: _selectedPage,

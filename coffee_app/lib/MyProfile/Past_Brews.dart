@@ -170,70 +170,67 @@ class _PastBrewsState extends State<PastBrews> {
       padding: !last
           ? EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0)
           : EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 120),
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey),
-          borderRadius: BorderRadius.circular(5.0),
+      child: Dismissible(
+        background: Container(
+          color: Colors.red,
         ),
-        child: Dismissible(
-          background: Container(
-            color: Colors.red,
-          ),
-          //unique key
-          key: Key(uuid.v4()),
-          onDismissed: (direction) async {
-            await Firestore.instance
-                .collection("testRecipesv4")
-                .document(data.documentID)
-                .get()
-                .then((data) {
-              this.documentToDelete = Recipe.fromSnapshot(data);
-            });
-            try {
-              setState(() {
-                Firestore.instance
-                    .collection("testRecipesv4")
-                    .document(data.documentID)
-                    .delete()
-                    .catchError((e) {
-                  print(e);
-                });
+        //unique key
+        key: Key(uuid.v4()),
+        onDismissed: (direction) async {
+          await Firestore.instance
+              .collection("testRecipesv4")
+              .document(data.documentID)
+              .get()
+              .then((data) {
+            this.documentToDelete = Recipe.fromSnapshot(data);
+          });
+          try {
+            setState(() {
+              Firestore.instance
+                  .collection("testRecipesv4")
+                  .document(data.documentID)
+                  .delete()
+                  .catchError((e) {
+                print(e);
               });
-              Scaffold.of(context).showSnackBar(SnackBar(
-                content: Text("swipe down to refresh page"),
-                duration: Duration(seconds: 20),
-                behavior: SnackBarBehavior.fixed,
-                action: SnackBarAction(
-                  label: "Undo",
-                  onPressed: () {
-                    Firestore.instance.collection("testRecipesv4").add({
-                      'displayName': documentToDelete.displayName,
-                      'isShared': documentToDelete.isShared,
-                      'date': documentToDelete.date,
-                      'beanName': documentToDelete.beanName,
-                      'brewer': documentToDelete.brewer,
-                      'steps': documentToDelete.steps,
-                      'tastingNotes': documentToDelete.tastingNotes,
-                      'userId': documentToDelete.userId,
-                      'userPhotoUrl': documentToDelete.userPhotoUrl,
-                    });
-                  },
-                ),
-              ));
-            } catch (e) {
-              print("danggity");
-            }
-          },
+            });
+            Scaffold.of(context).showSnackBar(SnackBar(
+              content: Text("swipe down to refresh page"),
+              duration: Duration(seconds: 20),
+              behavior: SnackBarBehavior.fixed,
+              action: SnackBarAction(
+                label: "Undo",
+                onPressed: () {
+                  Firestore.instance.collection("testRecipesv4").add({
+                    'displayName': documentToDelete.displayName,
+                    'isShared': documentToDelete.isShared,
+                    'date': documentToDelete.date,
+                    'beanName': documentToDelete.beanName,
+                    'brewer': documentToDelete.brewer,
+                    'steps': documentToDelete.steps,
+                    'tastingNotes': documentToDelete.tastingNotes,
+                    'userId': documentToDelete.userId,
+                    'userPhotoUrl': documentToDelete.userPhotoUrl,
+                  });
+                },
+              ),
+            ));
+          } catch (e) {
+            print("danggity");
+          }
+        },
+        child: Card(
+          elevation: 8.0,
           child: ListTile(
               contentPadding:
                   EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
               leading: Container(
+                height: 100.0,
                 padding: EdgeInsets.only(right: 12.0),
-                decoration: new BoxDecoration(
-                    border: new Border(
-                        right:
-                            new BorderSide(width: 1.0, color: Colors.black45))),
-                child: Icon(Icons.book, color: Colors.black),
+                decoration: BoxDecoration(
+                    border: Border(
+                        right: BorderSide(width: 1.0, color: Colors.black45))),
+                child: Icon(Icons.book, color: Theme.of(context).accentColor),
               ),
               title: Text("Bean: " + currentEntry.beanName),
               subtitle: Column(
@@ -247,17 +244,19 @@ class _PastBrewsState extends State<PastBrews> {
               trailing: Container(
                 decoration: BoxDecoration(
                     border: Border(
-                  left: BorderSide(width: 1.0, color: Colors.brown[400]),
+                  left: BorderSide(
+                      width: 1.0, color: Theme.of(context).accentColor),
                 )),
                 child: MaterialButton(
                   child: Column(
                     children: <Widget>[
                       Icon(
                         Icons.chevron_right,
-                        color: Colors.brown[300],
+                        color: Theme.of(context).accentColor,
                       ),
                       Text("View Entry",
-                          style: TextStyle(color: Colors.brown[400])),
+                          style:
+                              TextStyle(color: Theme.of(context).accentColor)),
                     ],
                   ),
                   onPressed: () {
@@ -279,9 +278,9 @@ class _PastBrewsState extends State<PastBrews> {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(40.0),
+        preferredSize: Size.fromHeight(50.0),
         child: AppBar(
-          elevation: 0.0,
+          elevation: 10.0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(
               top: Radius.circular(50),
@@ -297,7 +296,7 @@ class _PastBrewsState extends State<PastBrews> {
               print("future filter button");
             },
           ),*/
-          title: Text("Journal", style: Styles.mainAppBarText),
+          title: Text("Journal", style: Styles.subAppBarText),
         ),
       ),
       body: Container(color: Colors.white, child: _buildPastBrews(context)),

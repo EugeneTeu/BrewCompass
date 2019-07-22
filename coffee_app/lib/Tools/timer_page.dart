@@ -60,10 +60,10 @@ class TimerPageState extends State<TimerPage> {
     return (Platform.isAndroid) ? RaisedButton(
       shape: new RoundedRectangleBorder(
           borderRadius: new BorderRadius.circular(20)),
-      color: Colors.grey[400],
+      color: Theme.of(context).accentColor,
       child: new Text(text, style: roundTextStyle),
       onPressed: callback) : CupertinoButton(
-        color: Colors.grey[400],
+        color: Theme.of(context).accentColor,
       child: new Text(text, style: roundTextStyle),
       onPressed: callback);
   }

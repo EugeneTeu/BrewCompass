@@ -26,7 +26,6 @@ class _MyConverter extends State<MyConverter> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       resizeToAvoidBottomInset: false,
       body: GestureDetector(
         onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
@@ -46,7 +45,7 @@ class _MyConverter extends State<MyConverter> {
                       title: TextFormField(
                         controller: _controllerTwo,
                         focusNode: _focusNodeTwo,
-                        style: Styles.calcFont,
+                        style: Styles.convertorFont,
                         decoration: InputDecoration(
                           hintText: "Enter Weight Of Beans",
                           hintStyle: TextStyle(fontSize: 15.0),
@@ -65,8 +64,8 @@ class _MyConverter extends State<MyConverter> {
                       title: TextFormField(
                         controller: _controller,
                         focusNode: _focusNode,
-                        style: Styles.calcFont,
-                        decoration:  InputDecoration(
+                        style: Styles.convertorFont,
+                        decoration: InputDecoration(
                             hintText: "Enter Desired Water Ratio 1 : ",
                             hintStyle: TextStyle(fontSize: 15.0)),
                         keyboardType:
@@ -81,15 +80,15 @@ class _MyConverter extends State<MyConverter> {
                     ),
                     // Calculate and Clear button
                     ListTile(
-                      title: Text("Ratio", style: Styles.calcFont),
+                      title: Text("Ratio", style: Styles.convertorFont),
                       trailing: Text("$_ratio"),
                     ),
                     ListTile(
-                      title: Text("Water Weight", style: Styles.calcFont),
+                      title: Text("Water Weight", style: Styles.convertorFont),
                       trailing: Text("$_water"),
                     ),
                     ListTile(
-                      title: Text("Bean Weight", style: Styles.calcFont),
+                      title: Text("Bean Weight", style: Styles.convertorFont),
                       trailing: Text("$_beanWeight"),
                     ),
                     SizedBox(height: 20.0),
@@ -103,7 +102,7 @@ class _MyConverter extends State<MyConverter> {
                                 color: Colors.red,
                                 child: Text(
                                   "Clear",
-                                  style: Styles.calcFont,
+                                  style: Styles.convertorFont,
                                 ),
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(5.0)),
@@ -124,7 +123,7 @@ class _MyConverter extends State<MyConverter> {
                                 color: Colors.red,
                                 child: Text(
                                   "Clear",
-                                  style: Styles.calcFont,
+                                  style: Styles.convertorCalcFont,
                                 ),
                                 minSize: 25.0,
                                 onPressed: () {
@@ -144,7 +143,7 @@ class _MyConverter extends State<MyConverter> {
                             ? MaterialButton(
                                 child: Text(
                                   "Calculate",
-                                  style: Styles.calcFont,
+                                  style: Styles.convertorFont,
                                 ),
                                 color: Colors.grey,
                                 elevation: 10.0,
@@ -166,9 +165,9 @@ class _MyConverter extends State<MyConverter> {
                             : CupertinoButton(
                                 child: Text(
                                   "Calculate",
-                                  style: Styles.calcFont,
+                                  style: Styles.convertorCalcFont,
                                 ),
-                                color: Colors.blue,
+                                color: Theme.of(context).accentColor,
                                 minSize: 5.0,
                                 onPressed: () {
                                   final form = _formKey.currentState;

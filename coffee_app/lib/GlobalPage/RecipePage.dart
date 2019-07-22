@@ -2,7 +2,6 @@ import 'dart:io' show Platform;
 
 import 'package:coffee_app/GlobalPage/sortingConditionsEnum.dart';
 
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coffee_app/MyProfile/Recipe.dart';
 import 'package:coffee_app/GlobalPage/search_bar.dart';
@@ -195,79 +194,71 @@ class _RecipePageState extends State<RecipePage> {
     return Padding(
       key: ValueKey(currentEntry['id']),
       //add custom padding to last entry to accomdate floating action button
-      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
-
-      child: Container(
-        height: 150,
-        decoration: BoxDecoration(
-          color: Theme.of(context).primaryColor,
-          borderRadius: BorderRadius.circular(15.0),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 10.0),
-          child: ListTile(
-              contentPadding:
-                  EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-              leading: GestureDetector(
-                onTap: () {
-                  _showLiked(context);
-                },
-                child: Container(
-                  height: 150,
-                  padding: EdgeInsets.only(right: 12.0),
-                  decoration: BoxDecoration(
-                      border: Border(
-                          right:
-                              BorderSide(width: 1.0, color: Colors.black45))),
-                  child: Icon(Icons.star_border, color: Colors.black),
-                ),
-              ),
-              title: Text("Bean: " + currentEntry['beanName']),
-              subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text("Brewer: " + currentEntry['brewer']),
-                  Text("Brewed by: " + currentEntry['displayName']),
-                  Text("Brewed on: " + currentEntry['date']),
-                ],
-              ),
-              trailing: Container(
+      padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+      child: Card(
+        elevation: 8.0,
+              child: ListTile(
+            contentPadding:
+                EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+            leading: GestureDetector(
+              onTap: () {
+                _showLiked(context);
+              },
+              child: Container(
+                height: 150,
+                padding: EdgeInsets.only(right: 12.0),
                 decoration: BoxDecoration(
-                  //borderRadius: BorderRadius.circular(10.0),
-                  border: Border(
-                      left: BorderSide(width: 1.0, color: Colors.black45)),
+                    border: Border(
+                        right:
+                            BorderSide(width: 1.0, color: Colors.black45))),
+                child: Icon(Icons.star_border, color: Colors.black),
+              ),
+            ),
+            title: Text("Bean: " + currentEntry['beanName']),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text("Brewer: " + currentEntry['brewer']),
+                Text("Brewed by: " + currentEntry['displayName']),
+                Text("Brewed on: " + currentEntry['date']),
+              ],
+            ),
+            trailing: Container(
+              decoration: BoxDecoration(
+                //borderRadius: BorderRadius.circular(10.0),
+                border: Border(
+                    left: BorderSide(width: 1.0, color: Colors.black45)),
+              ),
+              //Border.all(width: 1.0, color: Colors.brown[300])),
+              child: Theme(
+                data: Theme.of(context).copyWith(
+                  primaryColor: Colors.brown[300],
                 ),
-                //Border.all(width: 1.0, color: Colors.brown[300])),
-                child: Theme(
-                  data: Theme.of(context).copyWith(
-                    primaryColor: Colors.brown[300],
+                child: MaterialButton(
+                  child: Column(
+                    children: <Widget>[
+                      SizedBox(height: 5.0),
+                      Icon(
+                        Icons.keyboard_arrow_right,
+                        color: Colors.black,
+                      ),
+                      Text(
+                        "view",
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    ],
                   ),
-                  child: MaterialButton(
-                    child: Column(
-                      children: <Widget>[
-                        SizedBox(height: 5.0),
-                        Icon(
-                          Icons.keyboard_arrow_right,
-                          color: Colors.black,
-                        ),
-                        Text(
-                          "view",
-                          style: TextStyle(color: Colors.black),
-                        ),
-                      ],
-                    ),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ViewJournalEntry(
-                                  Recipe.fromSnapshot(currentEntry),
-                                  currentEntry)));
-                    },
-                  ),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ViewJournalEntry(
+                                Recipe.fromSnapshot(currentEntry),
+                                currentEntry)));
+                  },
                 ),
-              )),
-        ),
+              ),
+            )),
       ),
     );
   }
@@ -319,7 +310,10 @@ class _RecipePageState extends State<RecipePage> {
           SizedBox(
             width: 5.0,
           ),
-          Text(sortingConditionEnumToString(sortingCondition), style: Styles.filterButton, ),
+          Text(
+            sortingConditionEnumToString(sortingCondition),
+            style: Styles.filterButton,
+          ),
         ],
       ),
       onPressed: () => _changesortingConditionition(),
@@ -330,40 +324,42 @@ class _RecipePageState extends State<RecipePage> {
   Widget build(BuildContext context) {
     //super.build(context);
     return Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Container(
-          child: GestureDetector(
-            onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
-            child: Column(
-              children: <Widget>[
-                _buildSearchBox(),
-                _buildSortButton(context),
-                Expanded(
-                  child: RefreshIndicator(
-                    onRefresh: () => refreshDb(),
-                    child: tempSearchedResults.length == 0
-                        ? _showLoading()
-                        : ListView.builder(
-                          physics: (Platform.isAndroid) ? ClampingScrollPhysics : BouncingScrollPhysics(),
-                            itemCount: tempSearchedResults.length,
-                            itemBuilder: (context, index) => _buildEachItem(
-                                context,
-                                tempSearchedResults[index],
-                                index,
-                                tempSearchedResults.length),
-                          ),
-                  ),
+      backgroundColor: Colors.transparent,
+      body: Container(
+        child: GestureDetector(
+          onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
+          child: Column(
+            children: <Widget>[
+              _buildSearchBox(),
+              _buildSortButton(context),
+              Expanded(
+                child: RefreshIndicator(
+                  onRefresh: () => refreshDb(),
+                  child: tempSearchedResults.length == 0
+                      ? _showLoading()
+                      : ListView.builder(
+                          physics: (Platform.isAndroid)
+                              ? ClampingScrollPhysics
+                              : BouncingScrollPhysics(),
+                          itemCount: tempSearchedResults.length,
+                          itemBuilder: (context, index) => _buildEachItem(
+                              context,
+                              tempSearchedResults[index],
+                              index,
+                              tempSearchedResults.length),
+                        ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
+      ),
       /*  floatingActionButton: FloatingActionButton.extended(
           heroTag: null,
           onPressed: () => _changesortingConditionition(),
           icon: Icon(Icons.reorder),
           label: Text("sort " + sortingConditionEnumToString(sortingCondition)),
         )*/
-        );
+    );
   }
 }

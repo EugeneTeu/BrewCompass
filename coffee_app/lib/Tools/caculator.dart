@@ -5,7 +5,6 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import '../styles.dart';
 
-
 class MyCalcPage extends StatefulWidget {
   MyCalcPage({Key key, this.title}) : super(key: key);
 
@@ -22,7 +21,6 @@ class _MyCalcPageState extends State<MyCalcPage> {
   String output = "0";
   final TextStyle textStyle =
       const TextStyle(fontSize: 90.0, fontFamily: "Bebas Neue");
-
 
   final TextStyle _calcFont = Styles.calcFont;
   String _output = "0";
@@ -74,10 +72,10 @@ class _MyCalcPageState extends State<MyCalcPage> {
     return new RaisedButton(
       child: Text(
         i,
-        style: _calcFont,
+        style: Styles.calcFont,
       ),
       onPressed: () => _buttonPressed(i),
-      color: Colors.grey[400],
+      color: Theme.of(context).accentColor,
       shape: new RoundedRectangleBorder(
           borderRadius: new BorderRadius.circular(20)),
     );
@@ -90,20 +88,20 @@ class _MyCalcPageState extends State<MyCalcPage> {
         style: _calcFont,
       ),
       onPressed: () => _buttonPressed(i),
-      color: Colors.grey[400],
+      color: Theme.of(context).accentColor,
     );
   }*/
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: new Container(
-      child: new Column(
+        body: Container(
+      child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            new Expanded(
-              child: new Column(
-                 mainAxisAlignment: MainAxisAlignment.center,
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
@@ -116,11 +114,11 @@ class _MyCalcPageState extends State<MyCalcPage> {
               ),
             ),
             Expanded(
-              child: new Column(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
-                children:  <Widget>[
+                children: <Widget>[
                   new Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
@@ -157,12 +155,12 @@ class _MyCalcPageState extends State<MyCalcPage> {
                       _buildAndroidButton("+"),
                     ],
                   ),
-                  new Container(
+                  Container(
                     padding: EdgeInsets.fromLTRB(10, 0.0, 10, 0.0),
-                    child: new Row(
+                    child: Row(
                       children: <Widget>[
-                        new Expanded(flex: 3, child: _buildAndroidButton("C")),
-                        new Expanded(child: _buildAndroidButton("="))
+                        Expanded(flex: 3, child: _buildAndroidButton("C")),
+                        Expanded(child: _buildAndroidButton("="))
                       ],
                     ),
                   )
