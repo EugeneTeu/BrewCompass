@@ -147,8 +147,9 @@ class _PastBrewsState extends State<PastBrews> {
         onRefresh: widget.onRefresh,
         child: ListView.builder(
           physics: (Platform.isAndroid)
-              ? ClampingScrollPhysics
+              ? ClampingScrollPhysics()
               : AlwaysScrollableScrollPhysics(),
+          // physics: ClampingScrollPhysics(),
           addAutomaticKeepAlives: true,
           itemBuilder: (BuildContext context, int index) {
             return _buildEachItem(
@@ -296,7 +297,8 @@ class _PastBrewsState extends State<PastBrews> {
               print("future filter button");
             },
           ),*/
-          title: Text("Journal", style: Styles.subAppBarText),
+          centerTitle: true,
+          title: Text("Journal", style: Styles.mainAppBarText),
         ),
       ),
       body: Container(color: Colors.white, child: _buildPastBrews(context)),
