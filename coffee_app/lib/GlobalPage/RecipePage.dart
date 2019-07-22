@@ -23,9 +23,11 @@ class RecipePage extends StatefulWidget {
 }
 
 class _RecipePageState extends State<RecipePage> {
+  JsonEncoder encoder = JsonEncoder.withIndent('  ');
+  DocumentSnapshot likedRecipes;
+  String localuserid;
   //Set<DocumentSnapshot> setResults = HashSet();
   List<DocumentSnapshot> queryResults = [];
-  DocumentSnapshot likedRecipes;
 
   SortingConditions sortingCondition = SortingConditions.beanName;
   List<DocumentSnapshot> tempSearchedResults = [];
@@ -34,9 +36,6 @@ class _RecipePageState extends State<RecipePage> {
   FocusNode _focusNode;
   String _terms = '';
 
-  JsonEncoder encoder = JsonEncoder.withIndent('  ');
-
-  String localuserid;
   //DatabaseReference globalrepo;
   //var sub1,sub2,sub3;
 
@@ -87,10 +86,9 @@ class _RecipePageState extends State<RecipePage> {
     String userid = await auth.currentUser();
     localuserid = userid;
 
-    QuerySnapshot docs = await Firestore.instance
-        .collection('users')
-        .getDocuments();
-    
+    QuerySnapshot docs =
+        await Firestore.instance.collection('users').getDocuments();
+
     for (int i = 0; i < docs.documents.length; ++i) {
       if (docs.documents[i].documentID == userid) {
         setState(() {
@@ -225,48 +223,6 @@ class _RecipePageState extends State<RecipePage> {
     return cond.toString().substring(18);
   }
 
-  @override
-  Widget build(BuildContext context) {
-    //super.build(context);
-    return Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Container(
-          child: GestureDetector(
-            onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
-            child: Column(
-              children: <Widget>[
-                _buildSearchBox(),
-                _buildSortButton(context),
-                Expanded(
-                  child: RefreshIndicator(
-                    onRefresh: () => refreshDb(),
-                    child: tempSearchedResults.length == 0
-                        ? _showLoading()
-                        : ListView.builder(
-                          physics: (Platform.isAndroid) ? ClampingScrollPhysics() : BouncingScrollPhysics(),
-                          // physics: ClampingScrollPhysics(),
-                            itemCount: tempSearchedResults.length,
-                            itemBuilder: (context, index) => _buildEachItem(
-                                context,
-                                tempSearchedResults[index],
-                                index,
-                                tempSearchedResults.length),
-                          ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      /*  floatingActionButton: FloatingActionButton.extended(
-          heroTag: null,
-          onPressed: () => _changesortingConditionition(),
-          icon: Icon(Icons.reorder),
-          label: Text("sort " + sortingConditionEnumToString(sortingCondition)),
-        )*/
-        );
-  }
-
   Widget _buildEachItem(BuildContext context, DocumentSnapshot currentEntry,
       int index, int length) {
     //final last = index + 1 == length;
@@ -277,23 +233,10 @@ class _RecipePageState extends State<RecipePage> {
       padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
       child: Card(
         elevation: 8.0,
-              child: ListTile(
+        child: ListTile(
             contentPadding:
                 EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-            leading: GestureDetector(
-              onTap: () {
-                _showLiked(context);
-              },
-              child: Container(
-                height: 150,
-                padding: EdgeInsets.only(right: 12.0),
-                decoration: BoxDecoration(
-                    border: Border(
-                        right:
-                            BorderSide(width: 1.0, color: Colors.black45))),
-                child: Icon(Icons.star_border, color: Colors.black),
-              ),
-            ),
+            leading: _buildLikeButton(currentEntry.documentID),
             title: Text("Bean: " + currentEntry['beanName']),
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -306,8 +249,8 @@ class _RecipePageState extends State<RecipePage> {
             trailing: Container(
               decoration: BoxDecoration(
                 //borderRadius: BorderRadius.circular(10.0),
-                border: Border(
-                    left: BorderSide(width: 1.0, color: Colors.black45)),
+                border:
+                    Border(left: BorderSide(width: 1.0, color: Colors.black45)),
               ),
               //Border.all(width: 1.0, color: Colors.brown[300])),
               child: Theme(
@@ -372,6 +315,7 @@ class _RecipePageState extends State<RecipePage> {
         ? LikeButton.liked(documentID, localuserid, _fetchLikedRecipes)
         : LikeButton.unliked(documentID, localuserid, _fetchLikedRecipes);
   }
+
 /*
   _onEntryAdded(Event event) {
     setState(() {
@@ -410,4 +354,47 @@ class _RecipePageState extends State<RecipePage> {
     );
   }
 
+  @override
+  Widget build(BuildContext context) {
+    //super.build(context);
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: Container(
+        child: GestureDetector(
+          onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
+          child: Column(
+            children: <Widget>[
+              _buildSearchBox(),
+              _buildSortButton(context),
+              Expanded(
+                child: RefreshIndicator(
+                  onRefresh: () => refreshDb(),
+                  child: tempSearchedResults.length == 0
+                      ? _showLoading()
+                      : ListView.builder(
+                          physics: (Platform.isAndroid)
+                              ? ClampingScrollPhysics()
+                              : BouncingScrollPhysics(),
+                          // physics: ClampingScrollPhysics(),
+                          itemCount: tempSearchedResults.length,
+                          itemBuilder: (context, index) => _buildEachItem(
+                              context,
+                              tempSearchedResults[index],
+                              index,
+                              tempSearchedResults.length),
+                        ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      /*  floatingActionButton: FloatingActionButton.extended(
+          heroTag: null,
+          onPressed: () => _changesortingConditionition(),
+          icon: Icon(Icons.reorder),
+          label: Text("sort " + sortingConditionEnumToString(sortingCondition)),
+        )*/
+    );
+  }
 }

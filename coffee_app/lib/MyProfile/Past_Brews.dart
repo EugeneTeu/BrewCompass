@@ -24,7 +24,6 @@ class PastBrews extends StatefulWidget {
 
 class _PastBrewsState extends State<PastBrews> {
   Recipe documentToDelete;
-
   String userId;
   Uuid uuid = new Uuid();
 
@@ -136,7 +135,7 @@ class _PastBrewsState extends State<PastBrews> {
               ),
               Center(child: Text("Start logging now!")),
               SizedBox(
-                height: MediaQuery.of(context).size.height / 2.5,
+                height: MediaQuery.of(context).size.height / 2,
               ),
             ],
           ),

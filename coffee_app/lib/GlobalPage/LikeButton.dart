@@ -37,8 +37,8 @@ class _LikeButtonState extends State<LikeButton> {
             border:
                 Border(right: BorderSide(width: 1.0, color: Colors.black45))),
         child: widget.isLiked
-            ? Icon(Icons.check_box, color: Colors.black)
-            : Icon(Icons.check_box_outline_blank, color: Colors.black),
+            ? Icon(Icons.star, color: Colors.black)
+            : Icon(Icons.star_border, color: Colors.black),
       ),
     );
   }
