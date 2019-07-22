@@ -7,12 +7,13 @@ class LikeButton extends StatefulWidget {
   String documentID;
   String userid;
   bool isLiked;
+  Function refreshLikedRecipes;
 
-  LikeButton.liked(this.documentID, this.userid) {
+  LikeButton.liked(this.documentID, this.userid, this.refreshLikedRecipes) {
     isLiked = true;
   }
 
-  LikeButton.unliked(this.documentID, this.userid) {
+  LikeButton.unliked(this.documentID, this.userid, this.refreshLikedRecipes) {
     isLiked = false;
   }
 
@@ -75,5 +76,7 @@ class _LikeButtonState extends State<LikeButton> {
     // Firestore.instance.collection('users').add({'LikedRecipes' : likedListOfStrings});
 
     Firestore.instance.collection('users').document(widget.userid).updateData({"LikedRecipes" : likedListOfStrings});
+
+    widget.refreshLikedRecipes();
   }
 }

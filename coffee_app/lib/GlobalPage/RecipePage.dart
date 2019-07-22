@@ -78,6 +78,7 @@ class _RecipePageState extends State<RecipePage> {
 
   // TODO: figure out when to refresh this later
   void _fetchLikedRecipes() async {
+    print('fetch liked recipes called');
     var auth = AuthProvider.of(context).auth;
     String userid = await auth.currentUser();
     localuserid = userid;
@@ -88,17 +89,12 @@ class _RecipePageState extends State<RecipePage> {
     
     for (int i = 0; i < docs.documents.length; ++i) {
       if (docs.documents[i].documentID == userid) {
-        likedRecipes = docs.documents[i];
+        setState(() {
+          likedRecipes = docs.documents[i];
+        });
         print(likedRecipes.data);
-        // print(encoder.convert(docs.documents[i].data));
-        // print('\n');
-        // print(docs.documents[i].data['LikedRecipes']);
-        // print('\n');
-        // print(docs.documents[i]);
-        // likedRecipes = docs.documents[i].data;
       }
       // print(encoder.convert(docs.documents[i].data));
-      // print(likedRecipes);
     }
   }
 
@@ -383,8 +379,8 @@ class _RecipePageState extends State<RecipePage> {
 
   Widget _buildLikeButton(String documentID) {
     return isLikedRecipe(documentID)
-        ? LikeButton.liked(documentID, localuserid)
-        : LikeButton.unliked(documentID, localuserid);
+        ? LikeButton.liked(documentID, localuserid, _fetchLikedRecipes)
+        : LikeButton.unliked(documentID, localuserid, _fetchLikedRecipes);
   }
 /*
   _onEntryAdded(Event event) {
