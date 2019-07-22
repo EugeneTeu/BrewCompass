@@ -1,5 +1,6 @@
 import 'dart:io' show Platform;
 
+import 'package:coffee_app/GlobalPage/LikeButton.dart';
 import 'package:coffee_app/GlobalPage/sortingConditionsEnum.dart';
 
 
@@ -9,6 +10,7 @@ import 'package:coffee_app/GlobalPage/search_bar.dart';
 import 'package:coffee_app/GlobalPage/view-Entry.dart';
 import 'package:coffee_app/styles.dart';
 import 'package:coffee_app/auth_provider.dart';
+import 'LikeButton.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -284,22 +286,25 @@ class _RecipePageState extends State<RecipePage> {
           child: ListTile(
               contentPadding:
                   EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-
+              
+              // -------my testing area-----------------------
+              leading: _buildLikeButton(currentEntry.documentID),
+              // ---------------------------------------------------------------------
               // build like button here
-              leading: GestureDetector(
-                onTap: () {
-                  _showLiked(context);
-                },
-                child: Container(
-                  height: 150,
-                  padding: EdgeInsets.only(right: 12.0),
-                  decoration: BoxDecoration(
-                      border: Border(
-                          right:
-                              BorderSide(width: 1.0, color: Colors.black45))),
-                  child: Icon(Icons.star_border, color: Colors.black),
-                ),
-              ),
+              // leading: GestureDetector(
+              //   onTap: () {
+              //     _showLiked(context);
+              //   },
+              //   child: Container(
+              //     height: 150,
+              //     padding: EdgeInsets.only(right: 12.0),
+              //     decoration: BoxDecoration(
+              //         border: Border(
+              //             right:
+              //                 BorderSide(width: 1.0, color: Colors.black45))),
+              //     child: Icon(Icons.star_border, color: Colors.black),
+              //   ),
+              // ),
               // --------------------------------------------
               title: Text("Bean: " + currentEntry['beanName']),
               subtitle: Column(
@@ -370,6 +375,9 @@ class _RecipePageState extends State<RecipePage> {
         });
   }
 
+  Widget _buildLikeButton(String documentID) {
+    return LikeButton.unliked(documentID);
+  }
 /*
   _onEntryAdded(Event event) {
     setState(() {
