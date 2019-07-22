@@ -344,7 +344,8 @@ class _RecipePageState extends State<RecipePage> {
                     child: tempSearchedResults.length == 0
                         ? _showLoading()
                         : ListView.builder(
-                          physics: (Platform.isAndroid) ? ClampingScrollPhysics : BouncingScrollPhysics(),
+                          // physics: (Platform.isAndroid) ? ClampingScrollPhysics : BouncingScrollPhysics(),
+                          physics: ClampingScrollPhysics(),
                             itemCount: tempSearchedResults.length,
                             itemBuilder: (context, index) => _buildEachItem(
                                 context,
