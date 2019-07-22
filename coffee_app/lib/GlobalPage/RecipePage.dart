@@ -8,11 +8,13 @@ import 'package:coffee_app/MyProfile/Recipe.dart';
 import 'package:coffee_app/GlobalPage/search_bar.dart';
 import 'package:coffee_app/GlobalPage/view-Entry.dart';
 import 'package:coffee_app/styles.dart';
+import 'package:coffee_app/auth_provider.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:convert';
 
 class RecipePage extends StatefulWidget {
   @override
@@ -22,6 +24,7 @@ class RecipePage extends StatefulWidget {
 class _RecipePageState extends State<RecipePage> {
   //Set<DocumentSnapshot> setResults = HashSet();
   List<DocumentSnapshot> queryResults = [];
+  DocumentSnapshot likedRecipes;
 
   SortingConditions sortingCondition = SortingConditions.beanName;
   List<DocumentSnapshot> tempSearchedResults = [];
@@ -29,6 +32,8 @@ class _RecipePageState extends State<RecipePage> {
   TextEditingController _controller;
   FocusNode _focusNode;
   String _terms = '';
+
+  JsonEncoder encoder = JsonEncoder.withIndent('  ');
 
   //FirebaseUser currentUser;
   //DatabaseReference globalrepo;
@@ -50,9 +55,11 @@ class _RecipePageState extends State<RecipePage> {
     _controller = TextEditingController()..addListener(_onTextChanged);
     _focusNode = FocusNode();
     _fetchQueryResults();
+    _fetchLikedRecipes();
   }
 
   Future<void> refreshDb() async {
+    print('refreshing db');
     QuerySnapshot newDocs = await Firestore.instance
         .collection('testRecipesv4')
         .where('isShared', isEqualTo: true)
@@ -64,9 +71,36 @@ class _RecipePageState extends State<RecipePage> {
       queryResults.addAll(newDocs.documents);
       tempSearchedResults.addAll(newDocs.documents);
     });
+    _fetchLikedRecipes();
+  }
+
+  // TODO: figure out when to refresh this later
+  void _fetchLikedRecipes() async {
+    var auth = AuthProvider.of(context).auth;
+    String userid = await auth.currentUser();
+
+    QuerySnapshot docs = await Firestore.instance
+        .collection('users')
+        .getDocuments();
+    
+    for (int i = 0; i < docs.documents.length; ++i) {
+      if (docs.documents[i].documentID == userid) {
+        likedRecipes = docs.documents[i];
+        print(likedRecipes.data);
+        // print(encoder.convert(docs.documents[i].data));
+        // print('\n');
+        // print(docs.documents[i].data['LikedRecipes']);
+        // print('\n');
+        // print(docs.documents[i]);
+        // likedRecipes = docs.documents[i].data;
+      }
+      // print(encoder.convert(docs.documents[i].data));
+      // print(likedRecipes);
+    }
   }
 
   void _fetchQueryResults() async {
+    print("inside fetching query results");
     QuerySnapshot docs = await Firestore.instance
         .collection('testRecipesv4')
         .where('isShared', isEqualTo: true)
@@ -188,6 +222,48 @@ class _RecipePageState extends State<RecipePage> {
     return cond.toString().substring(18);
   }
 
+  @override
+  Widget build(BuildContext context) {
+    //super.build(context);
+    return Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Container(
+          child: GestureDetector(
+            onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
+            child: Column(
+              children: <Widget>[
+                _buildSearchBox(),
+                _buildSortButton(context),
+                Expanded(
+                  child: RefreshIndicator(
+                    onRefresh: () => refreshDb(),
+                    child: tempSearchedResults.length == 0
+                        ? _showLoading()
+                        : ListView.builder(
+                          // physics: (Platform.isAndroid) ? ClampingScrollPhysics : BouncingScrollPhysics(),
+                          physics: ClampingScrollPhysics(),
+                            itemCount: tempSearchedResults.length,
+                            itemBuilder: (context, index) => _buildEachItem(
+                                context,
+                                tempSearchedResults[index],
+                                index,
+                                tempSearchedResults.length),
+                          ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      /*  floatingActionButton: FloatingActionButton.extended(
+          heroTag: null,
+          onPressed: () => _changesortingConditionition(),
+          icon: Icon(Icons.reorder),
+          label: Text("sort " + sortingConditionEnumToString(sortingCondition)),
+        )*/
+        );
+  }
+
   Widget _buildEachItem(BuildContext context, DocumentSnapshot currentEntry,
       int index, int length) {
     //final last = index + 1 == length;
@@ -208,6 +284,8 @@ class _RecipePageState extends State<RecipePage> {
           child: ListTile(
               contentPadding:
                   EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+
+              // build like button here
               leading: GestureDetector(
                 onTap: () {
                   _showLiked(context);
@@ -222,6 +300,7 @@ class _RecipePageState extends State<RecipePage> {
                   child: Icon(Icons.star_border, color: Colors.black),
                 ),
               ),
+              // --------------------------------------------
               title: Text("Bean: " + currentEntry['beanName']),
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -326,45 +405,4 @@ class _RecipePageState extends State<RecipePage> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    //super.build(context);
-    return Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Container(
-          child: GestureDetector(
-            onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
-            child: Column(
-              children: <Widget>[
-                _buildSearchBox(),
-                _buildSortButton(context),
-                Expanded(
-                  child: RefreshIndicator(
-                    onRefresh: () => refreshDb(),
-                    child: tempSearchedResults.length == 0
-                        ? _showLoading()
-                        : ListView.builder(
-                          // physics: (Platform.isAndroid) ? ClampingScrollPhysics : BouncingScrollPhysics(),
-                          physics: ClampingScrollPhysics(),
-                            itemCount: tempSearchedResults.length,
-                            itemBuilder: (context, index) => _buildEachItem(
-                                context,
-                                tempSearchedResults[index],
-                                index,
-                                tempSearchedResults.length),
-                          ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      /*  floatingActionButton: FloatingActionButton.extended(
-          heroTag: null,
-          onPressed: () => _changesortingConditionition(),
-          icon: Icon(Icons.reorder),
-          label: Text("sort " + sortingConditionEnumToString(sortingCondition)),
-        )*/
-        );
-  }
 }
