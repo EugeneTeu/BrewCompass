@@ -378,6 +378,7 @@ class _RecipePageState extends State<RecipePage> {
 
   bool isLikedRecipe(String documentID) {
     return likedRecipes.data['LikedRecipes'].contains(documentID);
+    // return true;
   }
 
   Widget _buildLikeButton(String documentID) {
