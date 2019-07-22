@@ -298,6 +298,7 @@ class _PastBrewsState extends State<PastBrews> {
               print("future filter button");
             },
           ),*/
+          centerTitle: true,
           title: Text("Journal", style: Styles.mainAppBarText),
         ),
       ),
