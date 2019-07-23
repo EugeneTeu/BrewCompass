@@ -78,16 +78,16 @@ class TimerPageState extends State<TimerPage> {
   }
 
   String formatMilliseconds(int milliseconds) {
-    final int hundreds = (milliseconds / 10).truncate();
-    final int seconds = (hundreds / 100).truncate();
-    final int minutes = (seconds / 60).truncate();
-
+    int hundreds = (milliseconds / 10).truncate();
+    int seconds = (hundreds / 100).truncate();
+    int minutes = (seconds / 60).truncate();
+    seconds = ((hundreds / 100).truncate()) % 60;
     // int ms = milliseconds % 100;
     // int totalSeconds = (milliseconds / 100).truncate();
     // int sec = totalSeconds % 60;
     // int mins = (totalSeconds / 60).truncate(); 
-    print("$milliseconds,$hundreds,$seconds,$minutes");
-    return "$minutes:$seconds.$hundreds";
+    // print("$milliseconds,$hundreds,$seconds,$minutes");
+    return "${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}.${hundreds.toString().substring(0,2).padLeft(2, '0')}";
   }
 
   List<int> lapTimes = [];
