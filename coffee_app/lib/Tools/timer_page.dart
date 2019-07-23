@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -20,12 +19,14 @@ class ElapsedTime {
 
 class Dependencies {
   final Stopwatch stopwatch = new Stopwatch();
-  final TextStyle textStyle = const TextStyle(fontSize: 90.0, fontFamily: "Bebas Neue");
-  final List<ValueChanged<ElapsedTime>> timerListeners = <ValueChanged<ElapsedTime>>[];
+  final TextStyle textStyle =
+      const TextStyle(fontSize: 90.0, fontFamily: "Bebas Neue");
+  final List<ValueChanged<ElapsedTime>> timerListeners =
+      <ValueChanged<ElapsedTime>>[];
   final int timerMillisecondsRefreshRate = 30;
 }
 
-class TimerPage extends StatefulWidget  {
+class TimerPage extends StatefulWidget {
   TimerPage({Key key}) : super(key: key);
 
   TimerPageState createState() => new TimerPageState();
@@ -57,30 +58,57 @@ class TimerPageState extends State<TimerPage> {
 
   Widget buildFloatingButton(String text, VoidCallback callback) {
     TextStyle roundTextStyle = Styles.calcFont;
-    return (Platform.isAndroid) ? RaisedButton(
-      shape: new RoundedRectangleBorder(
-          borderRadius: new BorderRadius.circular(20)),
-      color: Theme.of(context).accentColor,
-      child: new Text(text, style: roundTextStyle),
-      onPressed: callback) : CupertinoButton(
-        color: Theme.of(context).accentColor,
-      child: new Text(text, style: roundTextStyle),
-      onPressed: callback);
+    return (Platform.isAndroid)
+        ? RaisedButton(
+            shape: new RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(20)),
+            color: Theme.of(context).accentColor,
+            child: new Text(text, style: roundTextStyle),
+            onPressed: callback)
+        : CupertinoButton(
+            color: Theme.of(context).accentColor,
+            child: new Text(text, style: roundTextStyle),
+            onPressed: callback);
   }
 
-  Widget _buildLapTimes() {        
-    return Expanded(
-      // flex: 0,
-      child: new Padding(
-        padding: const EdgeInsets.symmetric(vertical: 30.0),
-        child: new Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  List<String> lapTimes = ["asdasd", "asdasdasd", "asdasdasd", "asdasdasd"];
+
+  Widget _buildLapTimes() {
+    return Container(
+      height: 100.0,
+      child: SingleChildScrollView(
+        padding: EdgeInsets.symmetric(horizontal: 10.0),
+        child: Column(
           children: <Widget>[
-            Text('asdasdas'),
+
           ],
         ),
       ),
     );
+    // return Expanded(
+    //   // flex: 0,
+    //   child: new Padding(
+    //     padding: const EdgeInsets.symmetric(vertical: 30.0),
+    //     child: new Row(
+    //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    //       children: <Widget>[
+    //         SingleChildScrollView(
+    //           child: Column(
+    //             children: <Widget>[
+    //               ListView.builder(
+    //                 shrinkWrap: true,
+    //                 itemCount: lapTimes.length,
+    //                 itemBuilder: (context, index) {
+    //                   return ListTile(title: Text(lapTimes[index]));
+    //                 },
+    //               ),
+    //             ],
+    //           ),
+    //         ),
+    //       ],
+    //     ),
+    //   ),
+    // );
   }
 
   @override
@@ -91,7 +119,7 @@ class TimerPageState extends State<TimerPage> {
       children: <Widget>[
         new Expanded(
           // flex: 0,
-          child: new TimerText(dependencies: dependencies),        
+          child: new TimerText(dependencies: dependencies),
         ),
         // lap times should go in here -----------
         _buildLapTimes(),
@@ -103,8 +131,12 @@ class TimerPageState extends State<TimerPage> {
             child: new Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                buildFloatingButton(dependencies.stopwatch.isRunning ? "lap" : "reset", leftButtonPressed),
-                buildFloatingButton(dependencies.stopwatch.isRunning ? "stop" : "start", rightButtonPressed),
+                buildFloatingButton(
+                    dependencies.stopwatch.isRunning ? "lap" : "reset",
+                    leftButtonPressed),
+                buildFloatingButton(
+                    dependencies.stopwatch.isRunning ? "stop" : "start",
+                    rightButtonPressed),
               ],
             ),
           ),
@@ -119,7 +151,8 @@ class TimerText extends StatefulWidget {
 
   final Dependencies dependencies;
 
-  TimerTextState createState() => new TimerTextState(dependencies: dependencies);
+  TimerTextState createState() =>
+      new TimerTextState(dependencies: dependencies);
 }
 
 class TimerTextState extends State<TimerText> {
@@ -138,7 +171,9 @@ class TimerTextState extends State<TimerText> {
 
   @override
   void initState() {
-    timer = new Timer.periodic(new Duration(milliseconds: dependencies.timerMillisecondsRefreshRate), callback);
+    timer = new Timer.periodic(
+        new Duration(milliseconds: dependencies.timerMillisecondsRefreshRate),
+        callback);
     super.initState();
   }
 
@@ -164,21 +199,21 @@ class TimerTextState extends State<TimerText> {
     return new Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-          new RepaintBoundary(
-            child: new SizedBox(
-              // if this is changed to a smaller value, like 72, 
-              // the bottom of the number gets cut off and idk why
-              height: 90.0,
-              child: new MinutesAndSeconds(dependencies: dependencies),
-            ),
+        new RepaintBoundary(
+          child: new SizedBox(
+            // if this is changed to a smaller value, like 72,
+            // the bottom of the number gets cut off and idk why
+            height: 90.0,
+            child: new MinutesAndSeconds(dependencies: dependencies),
           ),
-          new RepaintBoundary(
-            child: new SizedBox(
-              // this number too.
-              height: 90.0,
-              child: new Hundreds(dependencies: dependencies),
-            ),
+        ),
+        new RepaintBoundary(
+          child: new SizedBox(
+            // this number too.
+            height: 90.0,
+            child: new Hundreds(dependencies: dependencies),
           ),
+        ),
       ],
     );
   }
@@ -189,7 +224,8 @@ class MinutesAndSeconds extends StatefulWidget {
 
   final Dependencies dependencies;
 
-  MinutesAndSecondsState createState() => new MinutesAndSecondsState(dependencies: dependencies);
+  MinutesAndSecondsState createState() =>
+      new MinutesAndSecondsState(dependencies: dependencies);
 }
 
 class MinutesAndSecondsState extends State<MinutesAndSeconds> {
@@ -255,6 +291,4 @@ class HundredsState extends State<Hundreds> {
     String hundredsStr = (hundreds % 100).toString().padLeft(2, '0');
     return new Text(hundredsStr, style: dependencies.textStyle);
   }
-
-  
 }
