@@ -40,8 +40,14 @@ class TimerPageState extends State<TimerPage> {
       if (dependencies.stopwatch.isRunning) {
         // lap function: want to print this to the UI instead
         print("${dependencies.stopwatch.elapsedMilliseconds}");
+        setState(() {
+          lapTimes.insert(0, dependencies.stopwatch.elapsedMilliseconds); 
+        });
       } else {
         dependencies.stopwatch.reset();
+        setState(() {
+          lapTimes = [];
+        });
       }
     });
   }
@@ -71,44 +77,44 @@ class TimerPageState extends State<TimerPage> {
             onPressed: callback);
   }
 
-  List<String> lapTimes = ["asdasd", "asdasdasd", "asdasdasd", "asdasdasd"];
+  String formatMilliseconds(int milliseconds) {
+    final int hundreds = (milliseconds / 10).truncate();
+    final int seconds = (hundreds / 100).truncate();
+    final int minutes = (seconds / 60).truncate();
+
+    // int ms = milliseconds % 100;
+    // int totalSeconds = (milliseconds / 100).truncate();
+    // int sec = totalSeconds % 60;
+    // int mins = (totalSeconds / 60).truncate(); 
+    print("$milliseconds,$hundreds,$seconds,$minutes");
+    return "$minutes:$seconds.$hundreds";
+  }
+
+  List<int> lapTimes = [];
 
   Widget _buildLapTimes() {
     return Container(
       height: 100.0,
       child: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 10.0),
         child: Column(
           children: <Widget>[
-
+            ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: lapTimes.length,
+              itemBuilder: (context, index) {
+                return Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Text(formatMilliseconds(lapTimes[index])),
+                  ],
+                );
+              },
+            ),
           ],
         ),
       ),
     );
-    // return Expanded(
-    //   // flex: 0,
-    //   child: new Padding(
-    //     padding: const EdgeInsets.symmetric(vertical: 30.0),
-    //     child: new Row(
-    //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    //       children: <Widget>[
-    //         SingleChildScrollView(
-    //           child: Column(
-    //             children: <Widget>[
-    //               ListView.builder(
-    //                 shrinkWrap: true,
-    //                 itemCount: lapTimes.length,
-    //                 itemBuilder: (context, index) {
-    //                   return ListTile(title: Text(lapTimes[index]));
-    //                 },
-    //               ),
-    //             ],
-    //           ),
-    //         ),
-    //       ],
-    //     ),
-    //   ),
-    // );
   }
 
   @override
