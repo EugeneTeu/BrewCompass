@@ -82,11 +82,6 @@ class TimerPageState extends State<TimerPage> {
     int seconds = (hundreds / 100).truncate();
     int minutes = (seconds / 60).truncate();
     seconds = ((hundreds / 100).truncate()) % 60;
-    // int ms = milliseconds % 100;
-    // int totalSeconds = (milliseconds / 100).truncate();
-    // int sec = totalSeconds % 60;
-    // int mins = (totalSeconds / 60).truncate(); 
-    // print("$milliseconds,$hundreds,$seconds,$minutes");
     return "${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}.${hundreds.toString().substring(0,2).padLeft(2, '0')}";
   }
 
@@ -94,10 +89,11 @@ class TimerPageState extends State<TimerPage> {
 
   Widget _buildLapTimes() {
     return Container(
-      height: 100.0,
+      height: 200.0,
       child: SingleChildScrollView(
         child: Column(
           children: <Widget>[
+            Text('remove me later: you can scroll the lap times'),
             ListView.builder(
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
@@ -127,9 +123,7 @@ class TimerPageState extends State<TimerPage> {
           // flex: 0,
           child: new TimerText(dependencies: dependencies),
         ),
-        // lap times should go in here -----------
         _buildLapTimes(),
-        // ---------------------------------
         new Expanded(
           // flex: 0,
           child: new Padding(
@@ -207,8 +201,6 @@ class TimerTextState extends State<TimerText> {
       children: <Widget>[
         new RepaintBoundary(
           child: new SizedBox(
-            // if this is changed to a smaller value, like 72,
-            // the bottom of the number gets cut off and idk why
             height: 90.0,
             child: new MinutesAndSeconds(dependencies: dependencies),
           ),
