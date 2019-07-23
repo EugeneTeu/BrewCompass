@@ -63,12 +63,19 @@ class _LikeButtonState extends State<LikeButton> {
     List<String> likedListOfStrings = List<String>.from(likedRecipes.data['LikedRecipes']);
     
     if (widget.isLiked) {
-      // have to add this recipe to the liked recipes
-      likedListOfStrings.add(widget.documentID);
+      //add this recipe only if it is not already liked to the liked recipes
+      // this checks prevents race conditions 
+      if (!likedListOfStrings.contains(widget.documentID)) {
+        likedListOfStrings.add(widget.documentID);
+      }
+
       print(likedListOfStrings);
     } else {
-      // remove this recipe from liked recipes
-      likedListOfStrings.remove(widget.documentID);
+      // remove all instances of this recipe from liked recipes
+      // regardless of how many instances there are (should be at most 1)
+      while (likedListOfStrings.contains(widget.documentID)) {
+        likedListOfStrings.remove(widget.documentID);
+      }
       print(likedListOfStrings);
     }
 
