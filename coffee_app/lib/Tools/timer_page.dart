@@ -68,17 +68,36 @@ class TimerPageState extends State<TimerPage> {
       onPressed: callback);
   }
 
+  Widget _buildLapTimes() {        
+    return Expanded(
+      // flex: 0,
+      child: new Padding(
+        padding: const EdgeInsets.symmetric(vertical: 30.0),
+        child: new Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Text('asdasdas'),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Column(
-      //crossAxisAlignment: CrossAxisAlignment.stretch,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         new Expanded(
+          // flex: 0,
           child: new TimerText(dependencies: dependencies),        
         ),
-        // lap times should go in here
+        // lap times should go in here -----------
+        _buildLapTimes(),
+        // ---------------------------------
         new Expanded(
-          flex: 0,
+          // flex: 0,
           child: new Padding(
             padding: const EdgeInsets.symmetric(vertical: 30.0),
             child: new Row(
