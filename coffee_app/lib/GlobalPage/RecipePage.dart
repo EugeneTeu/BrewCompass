@@ -9,6 +9,7 @@ import 'package:coffee_app/GlobalPage/search_bar.dart';
 import 'package:coffee_app/GlobalPage/view-Entry.dart';
 import 'package:coffee_app/styles.dart';
 import 'package:coffee_app/auth_provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'LikeButton.dart';
 
 import 'package:flutter/cupertino.dart';
@@ -79,15 +80,32 @@ class _RecipePageState extends State<RecipePage> {
     _fetchLikedRecipes();
   }
 
+  void _fetchDocuments() async {
+
+  }
+
   // TODO: figure out when to refresh this later
   void _fetchLikedRecipes() async {
-    // print('fetch liked recipes called');
+    //print('fetch liked recipes called');
     var auth = AuthProvider.of(context).auth;
     String userid = await auth.currentUser();
+    //print(userid);
     localuserid = userid;
+    QuerySnapshot docs;
+    
+    docs = await Firestore.instance.collection('users').getDocuments();
+    var created = false;
+    for (int i = 0 ; i < docs.documents.length; ++i) {
+      if (docs.documents[i].documentID == userid) {
+        created = true;
+      }
+    }
 
-    QuerySnapshot docs =
-        await Firestore.instance.collection('users').getDocuments();
+    if (created == false) {
+      print("#test");
+      await AuthProvider.of(context).auth.createLikedArray(userid);
+      docs = await Firestore.instance.collection('users').getDocuments();
+    } 
 
     for (int i = 0; i < docs.documents.length; ++i) {
       if (docs.documents[i].documentID == userid) {
@@ -101,7 +119,7 @@ class _RecipePageState extends State<RecipePage> {
   }
 
   void _fetchQueryResults() async {
-    // print("inside fetching query results");
+    //print("inside fetching query results");
     QuerySnapshot docs = await Firestore.instance
         .collection('testRecipesv4')
         .where('isShared', isEqualTo: true)

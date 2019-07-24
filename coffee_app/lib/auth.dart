@@ -27,6 +27,8 @@ abstract class BaseAuth {
       GoogleSignInAccount googleSignInAccount);
 
   FirebaseAuth get instance;
+
+  Future<void> createLikedArray(String userUid);
 }
 
 class Auth implements BaseAuth {
@@ -111,5 +113,12 @@ class Auth implements BaseAuth {
 
   FirebaseAuth get instance {
     return _instance;
+  }
+
+  Future<void> createLikedArray(String userUid) async{
+    Firestore.instance.collection("users").document(userUid).setData({
+      "LikedRecipes": [],
+    });
+    //print("got here");
   }
 }
