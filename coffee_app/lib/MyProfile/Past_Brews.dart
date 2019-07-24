@@ -297,7 +297,7 @@ class _PastBrewsState extends State<PastBrews> {
             },
           ),*/
           centerTitle: true,
-          title: Text("Journal", style: Styles.mainAppBarText),
+          title: Text("Journal", style: Styles.subAppBarText),
         ),
       ),
       body: Container(color: Colors.white, child: _buildPastBrews(context)),

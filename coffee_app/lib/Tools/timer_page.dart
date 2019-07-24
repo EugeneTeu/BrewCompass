@@ -21,6 +21,8 @@ class Dependencies {
   final Stopwatch stopwatch = new Stopwatch();
   final TextStyle textStyle =
       const TextStyle(fontSize: 90.0, fontFamily: "Bebas Neue");
+  final TextStyle textStyleLap =
+      const TextStyle(fontSize: 30.0, fontFamily: "Bebas Neue");
   final List<ValueChanged<ElapsedTime>> timerListeners =
       <ValueChanged<ElapsedTime>>[];
   final int timerMillisecondsRefreshRate = 30;
@@ -41,7 +43,7 @@ class TimerPageState extends State<TimerPage> {
         // lap function: want to print this to the UI instead
         print("${dependencies.stopwatch.elapsedMilliseconds}");
         setState(() {
-          lapTimes.insert(0, dependencies.stopwatch.elapsedMilliseconds); 
+          lapTimes.insert(0, dependencies.stopwatch.elapsedMilliseconds);
         });
       } else {
         dependencies.stopwatch.reset();
@@ -82,32 +84,57 @@ class TimerPageState extends State<TimerPage> {
     int seconds = (hundreds / 100).truncate();
     int minutes = (seconds / 60).truncate();
     seconds = ((hundreds / 100).truncate()) % 60;
-    return "${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}.${hundreds.toString().substring(0,2).padLeft(2, '0')}";
+    return "${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}.${hundreds.toString().substring(0, 2).padLeft(2, '0')}";
   }
 
   List<int> lapTimes = [];
 
   Widget _buildLapTimes() {
-    return Container(
-      height: 200.0,
-      child: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Text('remove me later: you can scroll the lap times'),
-            ListView.builder(
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: lapTimes.length,
-              itemBuilder: (context, index) {
-                return Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Text(formatMilliseconds(lapTimes[index])),
-                  ],
-                );
-              },
-            ),
-          ],
+    return Card(
+      color: Colors.white70,
+      elevation: 8.0,
+          child: Container(
+        
+        //decoration: BoxDecoration(border: Border(bottom:BorderSide(color: Theme.of(context).accentColor), top: BorderSide(color: Theme.of(context).accentColor))),
+        height: 200.0,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: lapTimes.length,
+                itemBuilder: (context, index) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                          width: MediaQuery.of(context).size.width / 1.5,
+                          decoration: BoxDecoration(
+                              border: Border(
+                                  bottom: BorderSide(
+                                      color: Theme.of(context).accentColor,
+                                      width: 5.0))),
+                          child: Center(
+                            child: ListTile(
+                              leading: Text(
+                                "Lap " + index.toString() + ": ",
+                                style: dependencies.textStyleLap,
+                              ),
+                              title: Text(
+                                formatMilliseconds(lapTimes[index]),
+                                style: dependencies.textStyleLap,
+                              ),
+                            ),
+                          )),
+                    ],
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
