@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'dart:io';
-import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:uuid/uuid.dart';
 
 abstract class BaseAuth {
   Future<String> signInWithEmailAndPassword(String email, String password);
@@ -17,6 +17,8 @@ abstract class BaseAuth {
   Future<FirebaseUser> getUser();
 
   Future<void> signOut();
+
+  Future<void> deleteOldProfilePic(String userPhotoUrl);
 
   Future<String> uploadProfilePic(File file);
 
@@ -70,17 +72,24 @@ class Auth implements BaseAuth {
   }
 
   Future<String> uploadProfilePic(File file) async {
-    var randomno = Random(25);
+    //var randomno = Random();
     //var imageId = randomno.nextInt(5000).toString();
+    var uuid = new Uuid();
     String user = "userPictures";
     StorageReference ref = FirebaseStorage.instance
         .ref()
         .child(user)
-        .child("profilepics/${randomno.nextInt(5000).toString()}.jpg");
+        .child("profilepics/${uuid.v4().toString()}.jpg");
     print(ref);
     StorageUploadTask uploadTask = ref.putFile(file);
     return await (await uploadTask.onComplete).ref.getDownloadURL();
   }
+
+  Future<void> deleteOldProfilePic(String userPhotoUrl) async{
+    StorageReference ref = await FirebaseStorage.instance.getReferenceFromUrl(userPhotoUrl);
+    ref.delete();
+    print("delete Success");
+ }
 
   Future<GoogleSignInAccount> getGoogleSignedInAccount(
       GoogleSignIn googleSignIn) async {
@@ -115,7 +124,7 @@ class Auth implements BaseAuth {
     return _instance;
   }
 
-  Future<void> createLikedArray(String userUid) async{
+  Future<void> createLikedArray(String userUid) async {
     Firestore.instance.collection("users").document(userUid).setData({
       "LikedRecipes": [],
     });

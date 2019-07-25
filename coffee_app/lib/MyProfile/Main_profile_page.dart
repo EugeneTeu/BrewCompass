@@ -19,7 +19,7 @@ class Profile extends StatefulWidget {
   }
 }
 
-class _Profile extends State<Profile> with SingleTickerProviderStateMixin{
+class _Profile extends State<Profile> with SingleTickerProviderStateMixin {
   AnimationController _myAnimationController;
   Animation _myAnimation;
 
@@ -111,7 +111,7 @@ class _Profile extends State<Profile> with SingleTickerProviderStateMixin{
 
     return FadeTransition(
       opacity: _myAnimation,
-          child: Container(
+      child: Container(
         color: Theme.of(context).primaryColor,
         child: Stack(fit: StackFit.expand, children: <Widget>[
           /*Image(
@@ -128,7 +128,9 @@ class _Profile extends State<Profile> with SingleTickerProviderStateMixin{
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  SizedBox(width: 15.0,),
+                  SizedBox(
+                    width: 15.0,
+                  ),
                   Column(
                     children: <Widget>[
                       GestureDetector(
@@ -173,7 +175,9 @@ class _Profile extends State<Profile> with SingleTickerProviderStateMixin{
                       ),
                     ],
                   ),
-                  SizedBox(width: 15.0,),
+                  SizedBox(
+                    width: 15.0,
+                  ),
                 ],
               ),
               SizedBox(
@@ -242,11 +246,18 @@ class _Profile extends State<Profile> with SingleTickerProviderStateMixin{
                       child: Text("Upload new picture"),
                       onPressed: () async {
                         await getImage();
+                        var oldUrl = currentUser.photoUrl;
+                        if (oldUrl != null) {
+                          await auth.deleteOldProfilePic(oldUrl);
+                        }
                         var url = await auth.uploadProfilePic(_image);
+                        
+
                         UserUpdateInfo updateUser = UserUpdateInfo();
                         updateUser.photoUrl = url;
                         currentUser.updateProfile(updateUser);
                         //print("uploaded successfully");
+                        Navigator.of(context).pop();
                       },
                     )
                   ],
@@ -256,6 +267,8 @@ class _Profile extends State<Profile> with SingleTickerProviderStateMixin{
           );
         });
   }
+
+  
 
   @override
   Widget build(BuildContext context) {
