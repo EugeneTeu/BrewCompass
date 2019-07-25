@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:coffee_app/MyProfile/Favourite_Brews.dart';
 import 'package:coffee_app/MyProfile/Past_Brews.dart';
 import 'package:coffee_app/MyProfile/Recipe.dart';
 import 'package:coffee_app/auth_provider.dart';
@@ -22,6 +23,8 @@ class Profile extends StatefulWidget {
 class _Profile extends State<Profile> with SingleTickerProviderStateMixin {
   AnimationController _myAnimationController;
   Animation _myAnimation;
+
+  bool _showJournal = true;
 
   String name = "displayname";
   String numberOfBrews = "loading..";
@@ -184,9 +187,9 @@ class _Profile extends State<Profile> with SingleTickerProviderStateMixin {
                 height: 4.0,
               ),
               Expanded(
-                  child: PastBrews(
-                onRefresh: () => _refreshCounts(),
-              )),
+                  child: (_showJournal ? 
+                  PastBrews(onRefresh: () => _refreshCounts()) : FavouriteBrews() ),
+              ),
             ],
           ),
         ]),
@@ -246,12 +249,22 @@ class _Profile extends State<Profile> with SingleTickerProviderStateMixin {
                       child: Text("Upload new picture"),
                       onPressed: () async {
                         await getImage();
+                        //print("Test");
                         var oldUrl = currentUser.photoUrl;
+                        //print("Test2");
                         if (oldUrl != null) {
-                          await auth.deleteOldProfilePic(oldUrl);
+                          RegExp exp =
+                              new RegExp(r"https://graph.facebook.com");
+                          if (exp.firstMatch(oldUrl) == null) {
+                            await auth.deleteOldProfilePic(oldUrl);
+                          } else {
+                            //print("oh No");
+                          }
+                          //print(oldUrl);
+                          //await auth.deleteOldProfilePic(oldUrl);
                         }
+                        //print("Test3");
                         var url = await auth.uploadProfilePic(_image);
-                        
 
                         UserUpdateInfo updateUser = UserUpdateInfo();
                         updateUser.photoUrl = url;
@@ -267,8 +280,6 @@ class _Profile extends State<Profile> with SingleTickerProviderStateMixin {
           );
         });
   }
-
-  
 
   @override
   Widget build(BuildContext context) {
