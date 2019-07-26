@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coffee_app/auth_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class FavouriteBrews extends StatefulWidget {
@@ -12,11 +14,29 @@ class FavouriteBrews extends StatefulWidget {
 
 class _FavouriteBrewsState extends State<FavouriteBrews> {
 
+   List<DocumentSnapshot> queryResults = [];
+   DocumentSnapshot likedRecipes;
+
   String userId;
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     _user();
+    _fetchQueryResults();
+  }
+
+  void _fetchQueryResults() async {
+    //print("inside fetching query results");
+    QuerySnapshot docs = await Firestore.instance
+        .collection('testRecipesv4')
+        .where('isShared', isEqualTo: true)
+        .getDocuments();
+    //this.setResults = HashSet.from(docs.documents);
+    for (int i = 0; i < docs.documents.length; ++i) {
+      setState(() {
+        queryResults.add(docs.documents[i]);
+      });
+    }
   }
 
   @override
@@ -40,11 +60,11 @@ class _FavouriteBrewsState extends State<FavouriteBrews> {
       } else {}
     });
   }
+
   
   @override
   Widget build(BuildContext context) {
     
-    // TODO: implement build
     return StreamBuilder<DocumentSnapshot>(
       stream: Firestore.instance.collection("users").document(this.userId).snapshots(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {

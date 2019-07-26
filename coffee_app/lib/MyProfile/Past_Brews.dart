@@ -273,6 +273,42 @@ class _PastBrewsState extends State<PastBrews> {
     );
   }
 
+  void _showLiked(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return CupertinoAlertDialog(
+            content: Text("You have switched to liked recipes!"),
+            actions: <Widget>[
+              CupertinoButton(
+                child: Text("Dismiss"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        });
+  }
+
+  void _showPersonal(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return CupertinoAlertDialog(
+            content: Text("You have switched to your own recipes!"),
+            actions: <Widget>[
+              CupertinoButton(
+                child: Text("Dismiss"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -297,7 +333,34 @@ class _PastBrewsState extends State<PastBrews> {
             },
           ),*/
           centerTitle: true,
-          title: Text("Journal", style: Styles.subAppBarText),
+          title: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                GestureDetector(
+                    onTap: () {
+                      Scaffold.of(context).showSnackBar(SnackBar(
+                        backgroundColor: Theme.of(context).primaryColor,
+                        content: Text(
+                          "swipe down to refresh page",
+                          style: Styles.profileInfoStyle,
+                        ),
+                        duration: Duration(milliseconds: 600),
+                        behavior: SnackBarBehavior.fixed,
+                      ));
+                    },
+                    child: Text("Journal", style: Styles.subAppBarText)),
+                    SizedBox(width: 10.0,),
+                IconButton(
+                  icon: Icon(
+                    OpenIconicIcons.book,
+                    color: Colors.black,
+                  ),
+                  onPressed: () {
+                    _showLiked(context);
+                  },
+                ),
+              ]),
         ),
       ),
       body: Container(color: Colors.white, child: _buildPastBrews(context)),
