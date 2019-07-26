@@ -304,7 +304,7 @@ class _RecipePageState extends State<RecipePage> {
     );
   }
 
-//function to change icon to starred
+
   void _showLiked(BuildContext context) {
     showDialog(
         context: context,

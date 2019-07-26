@@ -24,11 +24,52 @@ class LikeButton extends StatefulWidget {
 class _LikeButtonState extends State<LikeButton> {
   DocumentSnapshot likedRecipes;
 
+  //function to show dialog
+  void _showLiked(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return CupertinoAlertDialog(
+            content: Text("You have liked this recipe!"),
+            actions: <Widget>[
+              CupertinoButton(
+                child: Text("Dismiss"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        });
+  }
+  void _showUnLiked(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return CupertinoAlertDialog(
+            content: Text("You have unliked this recipe!"),
+            actions: <Widget>[
+              CupertinoButton(
+                child: Text("Dismiss"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         _toggleLikeStatus();
+        if(widget.isLiked) {
+        _showLiked(context);
+        } else {
+          _showUnLiked(context);
+        }
       },
       child: Container(
         height: 150,
@@ -60,11 +101,12 @@ class _LikeButtonState extends State<LikeButton> {
       }
     }
 
-    List<String> likedListOfStrings = List<String>.from(likedRecipes.data['LikedRecipes']);
-    
+    List<String> likedListOfStrings =
+        List<String>.from(likedRecipes.data['LikedRecipes']);
+
     if (widget.isLiked) {
       //add this recipe only if it is not already liked to the liked recipes
-      // this checks prevents race conditions 
+      // this checks prevents race conditions
       if (!likedListOfStrings.contains(widget.documentID)) {
         likedListOfStrings.add(widget.documentID);
       }
@@ -82,7 +124,10 @@ class _LikeButtonState extends State<LikeButton> {
     // Firestore.instance.collection('users').document(widget.documentID).delete();
     // Firestore.instance.collection('users').add({'LikedRecipes' : likedListOfStrings});
 
-    Firestore.instance.collection('users').document(widget.userid).updateData({"LikedRecipes" : likedListOfStrings});
+    Firestore.instance
+        .collection('users')
+        .document(widget.userid)
+        .updateData({"LikedRecipes": likedListOfStrings});
 
     widget.refreshLikedRecipes();
   }
