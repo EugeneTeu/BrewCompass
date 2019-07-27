@@ -39,7 +39,7 @@ dependencies:
   image_picker: ^0.6.0+16
   photo_view: 0.4.2
   flutter_facebook_login: 1.2.0
-  progress_hud_v2: 2.0.0
+  
   
 
 
