@@ -6,7 +6,9 @@ buildscript {
 
     dependencies {
         classpath 'com.android.tools.build:gradle:3.4.2'
-        classpath 'com.google.gms:google-services:3.2.1'   // new
+        // classpath 'com.google.gms:google-services:3.2.1'   // new
+        // modifying... hope it doesn't break building process
+        classpath 'com.google.gms:google-services:4.2.0'   // new
     }
 }
 
