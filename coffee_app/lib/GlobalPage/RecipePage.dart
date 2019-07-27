@@ -295,7 +295,7 @@ class _RecipePageState extends State<RecipePage> {
                         MaterialPageRoute(
                             builder: (context) => ViewJournalEntry(
                                 Recipe.fromSnapshot(currentEntry),
-                                currentEntry)));
+                                )));
                   },
                 ),
               ),

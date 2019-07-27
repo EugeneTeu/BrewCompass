@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:open_iconic_flutter/open_iconic_flutter.dart';
 
 class ViewJournalEntry extends StatelessWidget {
-  ViewJournalEntry(Recipe currentEntry, DocumentSnapshot data)
-      : this.currentRecipe = currentEntry,
-        this.data = data;
+  ViewJournalEntry(Recipe currentEntry)
+      : this.currentRecipe = currentEntry;
+    
 
   final Recipe currentRecipe;
-  final DocumentSnapshot data;
+  
 
   Widget _buildSteps() {
     return Padding(

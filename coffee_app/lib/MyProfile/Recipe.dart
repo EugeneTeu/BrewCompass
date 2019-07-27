@@ -49,4 +49,16 @@ class Recipe {
       'userPhotoUrl' : userPhotoUrl,
     };
   }
+
+  Recipe.dummyRecipe() :
+    this.beanName = "This recipe has been deleted/removed by its owner",
+    this.brewer = "Na",
+    this.date = "Na",
+    this.displayName = "Na",
+    this.isShared = false,
+    reference = null,
+    this.steps = [],
+    this.tastingNotes = "Na",
+    this.userId = "Na";
+  
 }

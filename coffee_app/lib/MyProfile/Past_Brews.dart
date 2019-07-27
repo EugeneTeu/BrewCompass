@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:coffee_app/MyProfile/Favourite_Brews.dart';
 import 'package:coffee_app/MyProfile/Journal_entry.dart';
 import 'package:coffee_app/MyProfile/Recipe.dart';
 import 'package:coffee_app/MyProfile/add_entry.dart';
@@ -26,6 +27,8 @@ class _PastBrewsState extends State<PastBrews> {
   Recipe documentToDelete;
   String userId;
   Uuid uuid = new Uuid();
+
+  bool showPastBrew = true;
 
   @override
   void didChangeDependencies() {
@@ -278,7 +281,7 @@ class _PastBrewsState extends State<PastBrews> {
         context: context,
         builder: (BuildContext context) {
           return CupertinoAlertDialog(
-            content: Text("You have switched to liked recipes!"),
+            content: Text("You have switched to your liked recipes!"),
             actions: <Widget>[
               CupertinoButton(
                 child: Text("Dismiss"),
@@ -345,26 +348,42 @@ class _PastBrewsState extends State<PastBrews> {
                           "swipe down to refresh page",
                           style: Styles.profileInfoStyle,
                         ),
-                        duration: Duration(milliseconds: 600),
+                        duration: Duration(milliseconds: 800),
                         behavior: SnackBarBehavior.fixed,
                       ));
                     },
-                    child: Text("Journal", style: Styles.subAppBarText)),
-                    SizedBox(width: 10.0,),
+                    child: showPastBrew
+                        ? Text("Journal", style: Styles.subAppBarText)
+                        : Text("Liked Recipes", style: Styles.subAppBarText)),
+                SizedBox(
+                  width: 10.0,
+                ),
                 IconButton(
                   icon: Icon(
                     OpenIconicIcons.book,
                     color: Colors.black,
                   ),
                   onPressed: () {
-                    _showLiked(context);
+                    if (showPastBrew) {
+                      _showLiked(context);
+                    } else {
+                      _showPersonal(context);
+                    }
+                    setState(() {
+                      showPastBrew = !showPastBrew;
+                    });
+                    
+                   
+
                   },
                 ),
               ]),
         ),
       ),
-      body: Container(color: Colors.white, child: _buildPastBrews(context)),
-      floatingActionButton: (Platform.isAndroid)
+      body: Container(
+        color: Colors.white, 
+        child: showPastBrew ? _buildPastBrews(context): FavouriteBrews()),
+        floatingActionButton: (Platform.isAndroid)
           ? FloatingActionButton.extended(
               heroTag: null,
               icon: Icon(Icons.add),
