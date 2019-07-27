@@ -17,13 +17,11 @@ Flutter is used as the front-end combined with Firebase as the backend.
 
 The following packages/dependencies are built used by this app
 ```
-# --- Eugene's dependencies ---
 firebase_auth: ^0.11.1
 firebase_database: ^3.0.2
 cloud_firestore: ^0.12.7
 firebase_storage: ^3.0.3
 google_sign_in: ^4.0.4
-# -------------------------
 uuid: 2.0.1
 random_string: ^0.0.2
 provider: ^3.0.0+1
