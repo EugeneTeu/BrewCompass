@@ -7,9 +7,19 @@ We hope that this allows users to focus on creating that perfect cup of coffee!
 
 ## Getting Started
 
-These instructions will teach you how to use the app to brew coffee
+These instructions will teach you how to use the app. 
 
-coming soon!
+Clone the above repo in ur local directory.
+Make sure flutter is installed. Follow these steps to install [it](https://flutter.dev/docs/get-started/install/)
+
+Launch an emulator/simulator or connect ur device to your machine.
+
+Run the following command
+```
+flutter run 
+```
+
+enjoy!
 
 ## Built With
 
