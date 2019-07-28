@@ -9,10 +9,10 @@ We hope that this allows users to focus on creating that perfect cup of coffee!
 
 These instructions will teach you how to use the app. 
 
-Clone the above repo in ur local directory.
+Clone the above repo in your local directory.
 Make sure flutter is installed. Follow these steps to install [it](https://flutter.dev/docs/get-started/install/)
 
-Launch an emulator/simulator or connect ur device to your machine.
+Launch an emulator/simulator or connect your device to your machine.
 
 Run the following command
 ```
