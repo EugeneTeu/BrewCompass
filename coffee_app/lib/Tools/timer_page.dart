@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -37,14 +39,21 @@ class TimerPage extends StatefulWidget {
 class TimerPageState extends State<TimerPage> {
   final Dependencies dependencies = new Dependencies();
 
+  void p() {
+    for (int i = 0; i < lapTimes.length; ++i) {
+      print("ms: ${lapTimes[i]}, formatted: ${formatMilliseconds(lapTimes[i])}");
+    }
+  }
+
   void leftButtonPressed() {
     setState(() {
       if (dependencies.stopwatch.isRunning) {
         // lap function: want to print this to the UI instead
-        print("${dependencies.stopwatch.elapsedMilliseconds}");
+        // print("${dependencies.stopwatch.elapsedMilliseconds}");
         setState(() {
           lapTimes.insert(0, dependencies.stopwatch.elapsedMilliseconds);
         });
+        // p();
       } else {
         dependencies.stopwatch.reset();
         setState(() {
@@ -80,10 +89,17 @@ class TimerPageState extends State<TimerPage> {
   }
 
   String formatMilliseconds(int milliseconds) {
+    print("@@@@@@@@@@@@");
+    print("formatting $milliseconds");
     int hundreds = (milliseconds / 10).truncate();
+    print("hundreds: $hundreds");
     int seconds = (hundreds / 100).truncate();
+    print("seconds first: $seconds");
     int minutes = (seconds / 60).truncate();
+    print("minutes: $minutes");
     seconds = ((hundreds / 100).truncate()) % 60;
+    print("seconds mod 60: $seconds");
+    print("returning: ${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}.${hundreds.toString().substring(0, 2).padLeft(2, '0')}");
     return "${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}.${hundreds.toString().substring(0, 2).padLeft(2, '0')}";
   }
 
@@ -120,7 +136,8 @@ class TimerPageState extends State<TimerPage> {
                           child: Center(
                             child: ListTile(
                               leading: Text(
-                                "Lap " + index.toString() + ": ",
+                                //hjkjlklkj
+                                "Lap " + (lapTimes.length - index).toString() + ": ",
                                 style: dependencies.textStyleLap,
                               ),
                               title: Text(
