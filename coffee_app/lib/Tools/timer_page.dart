@@ -121,7 +121,6 @@ class TimerPageState extends State<TimerPage> {
                           child: Center(
                             child: ListTile(
                               leading: Text(
-                                //hjkjlklkj
                                 "Lap " + (lapTimes.length - index).toString() + ": ",
                                 style: dependencies.textStyleLap,
                               ),
