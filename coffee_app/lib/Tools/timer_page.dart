@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -39,21 +40,13 @@ class TimerPage extends StatefulWidget {
 class TimerPageState extends State<TimerPage> {
   final Dependencies dependencies = new Dependencies();
 
-  void p() {
-    for (int i = 0; i < lapTimes.length; ++i) {
-      print("ms: ${lapTimes[i]}, formatted: ${formatMilliseconds(lapTimes[i])}");
-    }
-  }
-
   void leftButtonPressed() {
     setState(() {
       if (dependencies.stopwatch.isRunning) {
-        // lap function: want to print this to the UI instead
-        // print("${dependencies.stopwatch.elapsedMilliseconds}");
+        // Lap button functionality goes here
         setState(() {
           lapTimes.insert(0, dependencies.stopwatch.elapsedMilliseconds);
         });
-        // p();
       } else {
         dependencies.stopwatch.reset();
         setState(() {
@@ -89,18 +82,12 @@ class TimerPageState extends State<TimerPage> {
   }
 
   String formatMilliseconds(int milliseconds) {
-    print("@@@@@@@@@@@@");
-    print("formatting $milliseconds");
-    int hundreds = (milliseconds / 10).truncate();
-    print("hundreds: $hundreds");
-    int seconds = (hundreds / 100).truncate();
-    print("seconds first: $seconds");
-    int minutes = (seconds / 60).truncate();
-    print("minutes: $minutes");
-    seconds = ((hundreds / 100).truncate()) % 60;
-    print("seconds mod 60: $seconds");
-    print("returning: ${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}.${hundreds.toString().substring(0, 2).padLeft(2, '0')}");
-    return "${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}.${hundreds.toString().substring(0, 2).padLeft(2, '0')}";
+    int centiseconds = (milliseconds / 10).truncate();
+    int displayHundreds = centiseconds % 100;
+    int totalseconds = (centiseconds / 100).truncate();
+    int displaySeconds = totalseconds % 60;
+    int displayMinutes = (totalseconds / 60).truncate();
+    return "${displayMinutes.toString().padLeft(2, '0')}:${displaySeconds.toString().padLeft(2, '0')}.${displayHundreds.toString().padLeft(2, '0')}";
   }
 
   List<int> lapTimes = [];
@@ -110,8 +97,6 @@ class TimerPageState extends State<TimerPage> {
       color: Colors.white70,
       elevation: 8.0,
           child: Container(
-        
-        //decoration: BoxDecoration(border: Border(bottom:BorderSide(color: Theme.of(context).accentColor), top: BorderSide(color: Theme.of(context).accentColor))),
         height: 200.0,
         child: SingleChildScrollView(
           child: Column(
