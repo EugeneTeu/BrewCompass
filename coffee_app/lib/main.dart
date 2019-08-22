@@ -13,17 +13,22 @@ void main() {
   return runApp(
       new MaterialApp(
         debugShowCheckedModeBanner: false,
+
         home: new SplashScreen(), routes: <String, WidgetBuilder>{
-    '/HomeScreen': (BuildContext context) => new MyApp(),
+    '/HomeScreen': (BuildContext context) => new MyApp(
+      
+    ),
   }));
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    
     return AuthProvider(
       auth:Auth(),
           child: MaterialApp(
+            debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
           fontFamily: 'OpenSans',

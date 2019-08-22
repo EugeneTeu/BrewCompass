@@ -5,6 +5,8 @@ BrewCompass aims to create a social media for coffee lovers and at the same time
 
 We hope that this allows users to focus on creating that perfect cup of coffee!
 
+![Alt text](/assets/loginScreen.png?raw=true "Optional Title")
+![Alt text](/assets/screen-journalPage.png?raw=true "Optional Title")
 ## Getting Started
 
 These instructions will teach you how to use the app. 
