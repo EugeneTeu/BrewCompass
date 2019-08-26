@@ -12,7 +12,7 @@ import 'package:flutter/widgets.dart';
 
 class FavouriteBrews extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() {
+  _FavouriteBrewsState createState() {
     return _FavouriteBrewsState();
   }
 }
@@ -102,6 +102,7 @@ class _FavouriteBrewsState extends State<FavouriteBrews> {
       );
     } else {
       return ListView.builder(
+        reverse: true,
         physics: (Platform.isAndroid)
               ? ClampingScrollPhysics()
               : AlwaysScrollableScrollPhysics(),
@@ -129,9 +130,9 @@ class _FavouriteBrewsState extends State<FavouriteBrews> {
   }
 
   Widget _buildEachItem(BuildContext context, Recipe currentEntry, int index, int length) {
-
+     final last = index + 1 == length;
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0) ,
+      padding: !last ? EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0) : EdgeInsets.fromLTRB(20, 15, 20, 60.0) ,
       child: Card(
             elevation: 8.0,
             child: ListTile(

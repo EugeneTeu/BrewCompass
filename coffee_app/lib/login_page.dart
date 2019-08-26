@@ -38,7 +38,7 @@ class _LoginPageState extends State<LoginPage> {
   String _password;
 
   // storing user locally so we can delete facebook's user cache
-  // TODO: inline this into logout function
+ 
   // FirebaseUser firebaseUser;
 
   bool validateAndSave() {
